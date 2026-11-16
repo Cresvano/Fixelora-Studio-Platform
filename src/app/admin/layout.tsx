@@ -3,6 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { ThemeToggle } from "@/components/shared/ThemeToggle";
 import {
@@ -17,7 +18,8 @@ import {
   ShieldCheck,
   HardDrive,
   Menu,
-  X
+  X,
+  LogOut
 } from "lucide-react";
 
 const ADMIN_LINKS = [
@@ -36,7 +38,23 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
+  const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = React.useState(false);
+
+  // If on login page, render clean without admin sidebar/topbar
+  if (pathname === "/admin/login") {
+    return <>{children}</>;
+  }
+
+  const handleLogout = async () => {
+    try {
+      await fetch("/api/admin/logout", { method: "POST" });
+      router.push("/admin/login");
+      router.refresh();
+    } catch (err) {
+      router.push("/admin/login");
+    }
+  };
 
   return (
     <div className="min-h-screen flex bg-background text-foreground">
@@ -123,13 +141,24 @@ export default function AdminLayout({
             </p>
           </div>
 
-          <Link
-            href="/"
-            className="flex items-center justify-between px-3 py-2 rounded-lg text-xs text-muted-foreground hover:text-foreground hover:bg-muted/40 transition-colors"
-          >
-            <span>Live Public Site</span>
-            <ExternalLink className="w-3.5 h-3.5" />
-          </Link>
+          <div className="flex items-center justify-between pt-1">
+            <Link
+              href="/"
+              className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs text-muted-foreground hover:text-foreground hover:bg-muted/40 transition-colors"
+            >
+              <span>Live Site</span>
+              <ExternalLink className="w-3.5 h-3.5" />
+            </Link>
+
+            <button
+              onClick={handleLogout}
+              className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 transition-colors"
+              title="Lock Admin Session"
+            >
+              <LogOut className="w-3.5 h-3.5" />
+              <span>Lock</span>
+            </button>
+          </div>
         </div>
       </aside>
 

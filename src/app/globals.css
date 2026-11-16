@@ -5,25 +5,25 @@
 @layer base {
   :root {
     --background: 45 20% 98%;
-    --foreground: 240 6% 8%;
+    --foreground: 240 10% 5%;
     --card: 0 0% 100%;
-    --card-foreground: 240 6% 8%;
+    --card-foreground: 240 10% 5%;
     --popover: 0 0% 100%;
-    --popover-foreground: 240 6% 8%;
-    --primary: 42 70% 48%;
+    --popover-foreground: 240 10% 5%;
+    --primary: 42 75% 42%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 45 15% 94%;
-    --secondary-foreground: 240 6% 12%;
-    --muted: 45 15% 94%;
-    --muted-foreground: 240 4% 45%;
-    --accent: 42 70% 48%;
+    --secondary: 45 15% 92%;
+    --secondary-foreground: 240 8% 10%;
+    --muted: 45 15% 92%;
+    --muted-foreground: 240 6% 30%; /* High-contrast dark charcoal for light mode readability */
+    --accent: 42 75% 42%;
     --accent-foreground: 0 0% 100%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
-    --border: 45 12% 88%;
-    --input: 45 12% 88%;
-    --ring: 42 70% 48%;
-    --radius: 0.5rem;
+    --border: 45 15% 84%;
+    --input: 45 15% 84%;
+    --ring: 42 75% 42%;
+    --radius: 0.6rem;
   }
 
   .dark {
@@ -35,16 +35,16 @@
     --popover-foreground: 45 15% 96%;
     --primary: 43 72% 52%;
     --primary-foreground: 240 6% 3.5%;
-    --secondary: 240 5% 11%;
+    --secondary: 240 5% 12%;
     --secondary-foreground: 45 15% 96%;
-    --muted: 240 5% 11%;
-    --muted-foreground: 240 4% 60%;
+    --muted: 240 5% 12%;
+    --muted-foreground: 240 4% 68%; /* High-contrast clear silver for dark mode */
     --accent: 43 72% 52%;
     --accent-foreground: 240 6% 3.5%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
-    --border: 240 5% 15%;
-    --input: 240 5% 15%;
+    --border: 240 5% 16%;
+    --input: 240 5% 16%;
     --ring: 43 72% 52%;
   }
 }
@@ -54,7 +54,13 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground antialiased selection:bg-gold-500/20 selection:text-gold-300;
+    @apply bg-background text-foreground antialiased selection:bg-gold-500/25 selection:text-gold-400 font-sans text-base;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply text-foreground font-bold tracking-tight;
+  }
+  p {
+    @apply text-foreground/80;
   }
 }
 
@@ -66,13 +72,20 @@
 .gold-gradient-text {
   background: linear-gradient(135deg, #FFF0C2 0%, #D4AF37 50%, #9B7B1E 100%);
   -webkit-background-clip: text;
+  -webkit-fill-color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+.dark .gold-gradient-text {
+  background: linear-gradient(135deg, #FFF5D6 0%, #F3C866 50%, #B89425 100%);
+  -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .gold-border-glow {
-  box-shadow: 0 0 25px -5px rgba(212, 175, 55, 0.15);
+  box-shadow: 0 0 25px -5px rgba(212, 175, 55, 0.2);
 }
 
 .cinematic-vignette {
-  background: radial-gradient(circle at center, transparent 30%, rgba(0, 0, 0, 0.75) 100%);
+  background: radial-gradient(circle at center, transparent 30%, rgba(0, 0, 0, 0.8) 100%);
 }

@@ -36,6 +36,43 @@ export interface Project {
   createdAt: string;
 }
 
+export interface ServiceFAQ {
+  question: string;
+  answer: string;
+}
+
+export interface PrimaryService {
+  id: string;
+  slug: string;
+  title: string;
+  tagline: string;
+  shortDescription: string;
+  detailedOverview: string;
+  subServices: string[];
+  deliverables: string[];
+  productionProcess: { step: string; phase: string; detail: string }[];
+  industryUseCases: { industry: string; application: string }[];
+  timeline: string;
+  associatedProjectSlugs: string[];
+  heroImage: string;
+  videoPreviewUrl?: string;
+  faqs: ServiceFAQ[];
+}
+
+export interface AdditionalService {
+  id: string;
+  title: string;
+  description: string;
+  deliverables: string;
+}
+
+export interface ProductionCapability {
+  id: string;
+  title: string;
+  category: "Creative Strategy" | "Visual Production" | "Post-Production & Audio" | "Multi-Format Adaptation";
+  description: string;
+}
+
 export interface Pitch {
   id: string;
   slug: string;

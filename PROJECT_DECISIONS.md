@@ -17,9 +17,9 @@
 - **Decision:** Create a centralized data layer in `@/lib/data/` with dedicated repositories (`projects.ts`, `pitches.ts`, `blog.ts`, `leads.ts`, `settings.ts`) returning type-safe data interfaces defined in `@/types/`. In Phase 3, these repository methods will be replaced with Drizzle ORM / SQL queries matching the identical TypeScript signatures.
 - **Rationale:** Zero UI refactoring required when switching from mock data to Neon database queries in Phase 3.
 
-### Decision 004: Direct Browser-to-Cloudflare R2 Upload Architecture (No 50MB Cap)
+### Decision 004: Direct Browser-to-Storage Upload Architecture (No 50MB Cap)
 - **Context:** Standard Vercel Serverless Functions enforce a 4.5MB request payload limit on the hobby tier and 50MB on enterprise, which is completely inadequate for 4K commercial videos and high-fidelity video reels.
-- **Decision:** Direct client-to-R2 upload utilizing S3-compatible Presigned PUT URLs and Multipart Upload protocols. Serverless functions will only authenticate the request, validate MIME types and file sizes against configurable limits (`MAX_UPLOAD_SIZE_GB`), and issue presigned tokens.
+- **Decision:** Direct client-to-storage upload utilizing high-capacity edge storage. Serverless functions authenticate the request, validate MIME types and file sizes against configurable limits (`MAX_UPLOAD_SIZE_GB`), and issue upload tokens / stream directly into edge storage.
 - **Rationale:** Completely eliminates serverless proxy bottlenecks, supports files of multiple gigabytes, enables client-side upload progress bars, pause/resume, and zero bandwidth costs on Vercel.
 
 ### Decision 005: Dual-Track Lead Acquisition Flow
@@ -39,9 +39,13 @@
 - **Decision:** Use Drizzle ORM paired with `@neondatabase/serverless` (HTTP driver).
 - **Rationale:** Zero cold-start latency, native HTTP query protocol eliminating connection pooling limits, zero binary engine overhead, and 100% type safety mapping directly to our existing TypeScript domain models.
 
+### Decision 008: Pivot from Cloudflare R2 to Vercel Blob Storage
+- **Context:** International payment restrictions with AWS/Cloudflare necessitated an alternative high-capacity edge object storage solution for commercial video masters and stills.
+- **Decision:** Adopt Vercel Blob Storage via `@vercel/blob` and `@vercel/blob/client`, integrated directly into the Vercel ecosystem with `BLOB_READ_WRITE_TOKEN`.
+- **Rationale:** Seamless zero-config deployment on Vercel, global multi-region CDN distribution, support for high-capacity files up to 500MB+ per object, native client direct upload capabilities, and unified billing on the user's active Vercel account.
+
 ---
 
 ## 2. Unresolved / Pending Decisions for Review
-1. **Video Optimization Pipeline:** Whether to integrate Cloudflare Stream or an external transcoding worker (e.g., AWS Elemental / Mux / custom ffmpeg serverless runner) for auto-generating HLS/DASH streams, or maintain client-side multi-format upload (`original_video` + `playback_video` + `poster_image`) as defined in MVP SRS.
-   - *Recommendation:* Start with the SRS MVP asset model (three uploaded files: master original, optimized web MP4/WebM, and poster frame) with zero transcoding cost, and offer Cloudflare Stream integration as a future toggle.
-2. **Local Git Installation:** Git CLI needs to be installed or accessible via PATH on the host system to push to GitHub for the Phase 2 milestone.
+1. **Video Optimization Pipeline:** Whether to integrate external transcoding workers (e.g. Mux / AWS Elemental) for automated multi-bitrate HLS adaptive streaming, or continue with the Triple-Asset Architecture (user uploads 4K ProRes master, web-optimized MP4/WebM, and poster frame) which incurs zero recurring transcoding infrastructure cost.
+   - *Current Recommendation:* Triple-Asset Architecture satisfies MVP requirements and gives total creative control over the final compression grade.

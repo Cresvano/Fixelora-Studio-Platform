@@ -34,6 +34,11 @@
 - **Decision:** Dynamic route `/pitch/[slug]` with `robots: { index: false, follow: false }` metadata, custom branded headers displaying the recipient brand's logo, personalized intro video embed, personalized pitch deck note, and private CTA.
 - **Rationale:** Fulfills PRD Section 4.2 outbound sales engine while safeguarding intellectual property and SEO hygiene.
 
+### Decision 007: Drizzle ORM + @neondatabase/serverless Driver
+- **Context:** We need a type-safe database layer to connect Next.js 15 App Router on Vercel with Neon Serverless PostgreSQL.
+- **Decision:** Use Drizzle ORM paired with `@neondatabase/serverless` (HTTP driver).
+- **Rationale:** Zero cold-start latency, native HTTP query protocol eliminating connection pooling limits, zero binary engine overhead, and 100% type safety mapping directly to our existing TypeScript domain models.
+
 ---
 
 ## 2. Unresolved / Pending Decisions for Review

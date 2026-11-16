@@ -1,0 +1,120 @@
+export type ProjectCategory = 
+  | "All"
+  | "Commercial"
+  | "DTC & E-Commerce"
+  | "Brand Film"
+  | "Tech & Innovation"
+  | "3D & Motion";
+
+export interface CommercialImpactMetric {
+  metric: string;
+  label: string;
+}
+
+export interface Project {
+  id: string;
+  title: string;
+  slug: string;
+  client: string;
+  year: string;
+  category: Exclude<ProjectCategory, "All">;
+  tags: string[];
+  runtime: string;
+  aspectRatio: "16:9" | "9:16" | "2.39:1";
+  tagline: string;
+  description: string;
+  creativeObjective: string;
+  targetAudience: string;
+  deliverables: string[];
+  commercialImpact: CommercialImpactMetric[];
+  stills: string[];
+  originalVideoUrl: string;
+  playbackVideoUrl: string;
+  thumbnailUrl: string;
+  featured: boolean;
+  isPublished: boolean;
+  createdAt: string;
+}
+
+export interface Pitch {
+  id: string;
+  slug: string;
+  brandName: string;
+  brandLogo?: string;
+  contactName: string;
+  proposalTitle: string;
+  customNote: string;
+  playbackVideoUrl: string;
+  thumbnailUrl: string;
+  keyTakeaways: string[];
+  recommendedTimeline: string;
+  validUntil: string;
+  status: "active" | "viewed" | "accepted" | "expired";
+  createdAt: string;
+}
+
+export interface BlogPost {
+  id: string;
+  title: string;
+  slug: string;
+  excerpt: string;
+  content: string;
+  featuredImage: string;
+  category: string;
+  tags: string[];
+  author: {
+    name: string;
+    role: string;
+    avatar: string;
+  };
+  readingTime: string;
+  isPublished: boolean;
+  publishDate: string;
+  ctaVariant: "commercial" | "strategy" | "dtc";
+}
+
+export type LeadStatus = "new" | "contacted" | "in_discovery" | "proposal_sent" | "won" | "archived";
+
+export interface Lead {
+  id: string;
+  clientName: string;
+  company: string;
+  email: string;
+  phone?: string;
+  projectType: string;
+  estimatedBudget: string;
+  timeline: string;
+  description: string;
+  track: "brief" | "call";
+  status: LeadStatus;
+  notes?: string;
+  createdAt: string;
+}
+
+export interface MediaAsset {
+  id: string;
+  filename: string;
+  assetType: "original_video" | "playback_video" | "thumbnail";
+  fileSize: number;
+  formattedSize: string;
+  mimeType: string;
+  dimensions?: string;
+  duration?: string;
+  url: string;
+  associatedProjectId?: string;
+  associatedProjectTitle?: string;
+  uploadedAt: string;
+}
+
+export interface StudioSettings {
+  studioName: string;
+  tagline: string;
+  contactEmail: string;
+  phone: string;
+  address: string;
+  instagram: string;
+  vimeo: string;
+  youtube: string;
+  linkedin: string;
+  maxUploadSizeGb: number;
+}

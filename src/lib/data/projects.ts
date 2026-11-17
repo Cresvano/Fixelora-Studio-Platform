@@ -10,7 +10,7 @@ export const MOCK_PROJECTS: Project[] = [
     slug: "aura-x1-silence-of-speed",
     client: "Aura Motors International",
     year: "2026",
-    category: "Commercial",
+    category: "Product Commercials",
     tags: ["Automotive", "Cinematic", "Broadcast", "Sound Design"],
     runtime: "1:15",
     aspectRatio: "2.39:1",
@@ -42,7 +42,7 @@ export const MOCK_PROJECTS: Project[] = [
     slug: "verve-chrono-engineering-eternity",
     client: "Verve Horology Geneva",
     year: "2026",
-    category: "DTC & E-Commerce",
+    category: "E-commerce",
     tags: ["Luxury", "Macro Film", "Product Commercial", "DTC"],
     runtime: "0:45",
     aspectRatio: "16:9",
@@ -73,7 +73,7 @@ export const MOCK_PROJECTS: Project[] = [
     slug: "cognitive-ai-architecting-the-mind",
     client: "Synthetix Labs San Francisco",
     year: "2026",
-    category: "Tech & Innovation",
+    category: "Explainer/Software",
     tags: ["Technology", "Keynote Film", "VFX", "Sci-Fi Aesthetic"],
     runtime: "2:05",
     aspectRatio: "2.39:1",
@@ -104,7 +104,7 @@ export const MOCK_PROJECTS: Project[] = [
     slug: "botanica-the-alchemists-gin",
     client: "L'Elixir Botanical Spirits",
     year: "2026",
-    category: "Commercial",
+    category: "Product Commercials",
     tags: ["Spirits", "Editorial", "Color Grading", "High-Speed Phantom"],
     runtime: "0:30",
     aspectRatio: "16:9",
@@ -135,7 +135,7 @@ export const MOCK_PROJECTS: Project[] = [
     slug: "kinetica-sound-made-visible",
     client: "Bang & Olufsen Special Edition",
     year: "2026",
-    category: "3D & Motion",
+    category: "Social/Performance Advertising",
     tags: ["Audio", "CGI", "3D Simulation", "Acoustics"],
     runtime: "0:50",
     aspectRatio: "16:9",
@@ -164,7 +164,7 @@ export const MOCK_PROJECTS: Project[] = [
     slug: "sovereign-wealth-perpetual-motion",
     client: "Sovereign Private Capital",
     year: "2026",
-    category: "Brand Film",
+    category: "Brand Films",
     tags: ["Finance", "Documentary", "35mm Film", "Global"],
     runtime: "1:45",
     aspectRatio: "2.39:1",
@@ -189,6 +189,29 @@ export const MOCK_PROJECTS: Project[] = [
   }
 ];
 
+export function normalizeCategory(cat: string | null | undefined): Exclude<ProjectCategory, "All"> {
+  if (!cat) return "Product Commercials";
+  switch (cat) {
+    case "Product Commercials":
+    case "Brand Films":
+    case "Social/Performance Advertising":
+    case "E-commerce":
+    case "Explainer/Software":
+    case "Storytelling/Book Trailers":
+      return cat;
+    case "Commercial":
+      return "Product Commercials";
+    case "Tech & Innovation":
+      return "Explainer/Software";
+    case "3D & Motion":
+      return "Social/Performance Advertising";
+    case "Brand Film":
+      return "Brand Films";
+    default:
+      return "Product Commercials";
+  }
+}
+
 function mapDbProject(p: typeof schema.projects.$inferSelect): Project {
   return {
     id: p.id,
@@ -196,7 +219,7 @@ function mapDbProject(p: typeof schema.projects.$inferSelect): Project {
     slug: p.slug,
     client: p.client,
     year: p.year,
-    category: (p.category as Exclude<ProjectCategory, "All">) || "Commercial",
+    category: normalizeCategory(p.category),
     tags: (p.tags as string[]) || [],
     runtime: p.runtime,
     aspectRatio: (p.aspectRatio as "16:9" | "9:16" | "2.39:1") || "16:9",

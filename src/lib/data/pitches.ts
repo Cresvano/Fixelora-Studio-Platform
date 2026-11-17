@@ -1,4 +1,7 @@
 import { Pitch } from "@/types";
+import { db } from "@/lib/db";
+import * as schema from "@/lib/db/schema";
+import { eq, desc } from "drizzle-orm";
 
 export const MOCK_PITCHES: Pitch[] = [
   {
@@ -42,13 +45,60 @@ export const MOCK_PITCHES: Pitch[] = [
   }
 ];
 
+function mapDbPitch(p: typeof schema.pitches.$inferSelect): Pitch {
+  return {
+    id: p.id,
+    slug: p.slug,
+    brandName: p.brandName,
+    brandLogo: p.brandLogo || undefined,
+    contactName: p.contactName,
+    proposalTitle: p.proposalTitle,
+    customNote: p.customNote,
+    playbackVideoUrl: p.playbackVideoUrl,
+    thumbnailUrl: p.thumbnailUrl,
+    keyTakeaways: (p.keyTakeaways as string[]) || [],
+    recommendedTimeline: p.recommendedTimeline || "Immediate Turnaround",
+    validUntil: p.validUntil || "2026-12-31",
+    status: (p.status as "active" | "viewed" | "accepted" | "expired") || "active",
+    createdAt: p.createdAt ? p.createdAt.toISOString() : new Date().toISOString(),
+  };
+}
+
 export const pitchRepository = {
   async getPitchBySlug(slug: string): Promise<Pitch | null> {
+    if (process.env.DATABASE_URL) {
+      try {
+        const [pitch] = await db
+          .select()
+          .from(schema.pitches)
+          .where(eq(schema.pitches.slug, slug));
+
+        if (pitch) {
+          return mapDbPitch(pitch);
+        }
+      } catch (err) {
+        console.error("Live pitch query notice:", err);
+      }
+    }
     const pitch = MOCK_PITCHES.find((p) => p.slug === slug);
     return pitch || null;
   },
 
   async getAllPitchesAdmin(): Promise<Pitch[]> {
+    if (process.env.DATABASE_URL) {
+      try {
+        const live = await db
+          .select()
+          .from(schema.pitches)
+          .orderBy(desc(schema.pitches.createdAt));
+
+        if (live.length > 0) {
+          return live.map(mapDbPitch);
+        }
+      } catch (err) {
+        console.error("Live pitches admin query notice:", err);
+      }
+    }
     return [...MOCK_PITCHES];
   }
 };

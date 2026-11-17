@@ -1,4 +1,7 @@
 import { BlogPost } from "@/types";
+import { db } from "@/lib/db";
+import * as schema from "@/lib/db/schema";
+import { eq, desc } from "drizzle-orm";
 
 export const MOCK_BLOG_POSTS: BlogPost[] = [
   {
@@ -67,17 +70,81 @@ In high-fashion and automotive cinematography, we build custom color matrices sp
   }
 ];
 
+function mapDbBlogPost(p: typeof schema.blogPosts.$inferSelect): BlogPost {
+  return {
+    id: p.id,
+    title: p.title,
+    slug: p.slug,
+    excerpt: p.excerpt,
+    content: p.content,
+    featuredImage: p.featuredImage,
+    category: p.category,
+    tags: (p.tags as string[]) || [],
+    author: (p.author as { name: string; role: string; avatar: string }) || {
+      name: "Julian Vance",
+      role: "Creative Director",
+      avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200&auto=format&fit=crop",
+    },
+    readingTime: p.readingTime || "4 min read",
+    isPublished: p.isPublished,
+    publishDate: p.publishDate || new Date().toISOString().split("T")[0],
+    ctaVariant: (p.ctaVariant as "commercial" | "strategy" | "dtc") || "commercial",
+  };
+}
+
 export const blogRepository = {
   async getPosts(): Promise<BlogPost[]> {
+    if (process.env.DATABASE_URL) {
+      try {
+        const live = await db
+          .select()
+          .from(schema.blogPosts)
+          .orderBy(desc(schema.blogPosts.createdAt));
+
+        if (live.length > 0) {
+          return live.filter((p) => p.isPublished).map(mapDbBlogPost);
+        }
+      } catch (err) {
+        console.error("Live blog query notice:", err);
+      }
+    }
     return MOCK_BLOG_POSTS.filter((p) => p.isPublished);
   },
 
   async getPostBySlug(slug: string): Promise<BlogPost | null> {
+    if (process.env.DATABASE_URL) {
+      try {
+        const [post] = await db
+          .select()
+          .from(schema.blogPosts)
+          .where(eq(schema.blogPosts.slug, slug));
+
+        if (post) {
+          return mapDbBlogPost(post);
+        }
+      } catch (err) {
+        console.error("Live blog slug query notice:", err);
+      }
+    }
     const post = MOCK_BLOG_POSTS.find((p) => p.slug === slug);
     return post || null;
   },
 
   async getAllPostsAdmin(): Promise<BlogPost[]> {
+    if (process.env.DATABASE_URL) {
+      try {
+        const live = await db
+          .select()
+          .from(schema.blogPosts)
+          .orderBy(desc(schema.blogPosts.createdAt));
+
+        if (live.length > 0) {
+          return live.map(mapDbBlogPost);
+        }
+      } catch (err) {
+        console.error("Live blog admin query notice:", err);
+      }
+    }
     return [...MOCK_BLOG_POSTS];
   }
 };

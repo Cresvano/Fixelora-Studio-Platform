@@ -14,8 +14,8 @@ export default function ContactPage() {
     company: "",
     email: "",
     phone: "",
-    projectType: "Flagship Commercial / TV Spot",
-    estimatedBudget: "$50,000 – $100,000",
+    projectType: "Product Commercials",
+    estimatedBudget: "$300 - $500",
     timeline: "Within 60 Days",
     description: "",
   });
@@ -115,7 +115,7 @@ export default function ContactPage() {
                       Thank you, {formData.clientName}. Our executive production team has received your brief for {formData.company}. We review all submissions within 24 hours.
                     </p>
                     <div className="p-4 rounded-xl bg-muted/40 border border-border/60 text-xs text-muted-foreground font-mono mb-6">
-                      Brief ID: #FIX-{Date.now().toString().slice(-6)} • Lead stored in Studio CRM
+                      Brief ID: #FIX-{Date.now().toString().slice(-6)}
                     </div>
                     <button
                       onClick={() => {
@@ -125,8 +125,8 @@ export default function ContactPage() {
                           company: "",
                           email: "",
                           phone: "",
-                          projectType: "Flagship Commercial / TV Spot",
-                          estimatedBudget: "$50,000 – $100,000",
+                          projectType: "Product Commercials",
+                          estimatedBudget: "$300 - $500",
                           timeline: "Within 60 Days",
                           description: "",
                         });
@@ -222,11 +222,12 @@ export default function ContactPage() {
                           onChange={(e) => setFormData({ ...formData, projectType: e.target.value })}
                           className="px-4 py-3 rounded-xl border border-border/80 bg-background text-foreground text-sm focus:outline-none focus:border-gold-500/60"
                         >
-                          <option>Flagship Commercial / TV Spot</option>
-                          <option>DTC Paid Social Campaign Suite</option>
-                          <option>Brand Anthem / Keynote Film</option>
-                          <option>3D Animation & CGI Visuals</option>
-                          <option>Color Grading / Post-Production Only</option>
+                          <option>Product Commercials</option>
+                          <option>Brand Films</option>
+                          <option>Social/Performance Advertising</option>
+                          <option>E-commerce</option>
+                          <option>Explainer/Software</option>
+                          <option>Storytelling/Book Trailers</option>
                         </select>
                       </div>
 
@@ -239,10 +240,11 @@ export default function ContactPage() {
                           onChange={(e) => setFormData({ ...formData, estimatedBudget: e.target.value })}
                           className="px-4 py-3 rounded-xl border border-border/80 bg-background text-foreground text-sm focus:outline-none focus:border-gold-500/60 font-mono"
                         >
-                          <option>$25,000 – $50,000</option>
-                          <option>$50,000 – $100,000</option>
-                          <option>$100,000 – $250,000</option>
-                          <option>$250,000+</option>
+                          <option>$50 - $200</option>
+                          <option>$300 - $500</option>
+                          <option>$700 - $1,500</option>
+                          <option>$1,500 - $3,000</option>
+                          <option>Custom Budget</option>
                         </select>
                       </div>
                     </div>

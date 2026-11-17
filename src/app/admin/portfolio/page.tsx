@@ -28,11 +28,12 @@ import {
 } from "lucide-react";
 
 const CATEGORIES: Exclude<ProjectCategory, "All">[] = [
-  "Commercial",
-  "DTC & E-Commerce",
-  "Brand Film",
-  "Tech & Innovation",
-  "3D & Motion",
+  "Product Commercials",
+  "Brand Films",
+  "Social/Performance Advertising",
+  "E-commerce",
+  "Explainer/Software",
+  "Storytelling/Book Trailers",
 ];
 
 const EMPTY_FORM: Omit<Project, "id" | "createdAt"> = {
@@ -40,7 +41,7 @@ const EMPTY_FORM: Omit<Project, "id" | "createdAt"> = {
   slug: "",
   client: "",
   year: new Date().getFullYear().toString(),
-  category: "Commercial",
+  category: "Product Commercials",
   tags: ["Commercial", "Cinematic"],
   runtime: "1:00",
   aspectRatio: "16:9",

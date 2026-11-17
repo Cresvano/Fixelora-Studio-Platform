@@ -282,9 +282,16 @@ export default function AdminLeadsPage() {
                   <p className="text-[10px] font-mono uppercase text-muted-foreground mb-1">
                     Phone
                   </p>
-                  <p className="font-medium text-foreground">
-                    {selectedLead.phone || "Not provided"}
-                  </p>
+                  {selectedLead.phone ? (
+                    <a
+                      href={`tel:${selectedLead.phone}`}
+                      className="font-medium text-foreground hover:text-gold-400 truncate block"
+                    >
+                      {selectedLead.phone}
+                    </a>
+                  ) : (
+                    <p className="font-medium text-muted-foreground">Not provided</p>
+                  )}
                 </div>
               </div>
 

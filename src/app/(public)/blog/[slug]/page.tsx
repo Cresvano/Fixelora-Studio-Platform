@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { blogRepository } from "@/lib/data/blog";
-import { ArrowLeft, ArrowUpRight, Clock, Calendar, Share2, Sparkles } from "lucide-react";
+import { ArrowLeft, ArrowUpRight, Clock, Calendar, Share2 } from "lucide-react";
 
 interface BlogPostPageProps {
   params: Promise<{ slug: string }>;
@@ -114,10 +114,6 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
           {/* INJECTABLE SALES CTA BLOCK (Mandated by PRD Section 4.2) */}
           <div className="my-12 p-8 sm:p-10 rounded-3xl border border-gold-500/40 bg-card relative overflow-hidden">
-            <div className="flex items-center gap-2 text-gold-400 text-xs font-mono uppercase tracking-widest mb-2">
-              <Sparkles className="w-4 h-4" />
-              <span>Studio In-Article Consultation</span>
-            </div>
             <h3 className="text-xl sm:text-2xl font-black uppercase tracking-tight text-foreground mb-3">
               Ready to engineer your brand&apos;s next commercial film?
             </h3>

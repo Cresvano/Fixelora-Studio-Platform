@@ -1,10 +1,11 @@
 export type ProjectCategory = 
   | "All"
-  | "Commercial"
-  | "DTC & E-Commerce"
-  | "Brand Film"
-  | "Tech & Innovation"
-  | "3D & Motion";
+  | "Product Commercials"
+  | "Brand Films"
+  | "Social/Performance Advertising"
+  | "E-commerce"
+  | "Explainer/Software"
+  | "Storytelling/Book Trailers";
 
 export interface CommercialImpactMetric {
   metric: string;

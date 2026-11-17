@@ -145,10 +145,6 @@ export default async function AdminDashboardPage() {
             <p className="text-3xl font-black font-mono text-foreground">
               {projects.length}
             </p>
-            <p className="text-[11px] text-muted-foreground mt-1 flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-              <span>{publishedProjectsCount} Published on Live Portfolio</span>
-            </p>
           </div>
         </div>
 
@@ -156,7 +152,7 @@ export default async function AdminDashboardPage() {
         <div className="p-5 rounded-2xl border border-border/80 bg-card flex flex-col justify-between">
           <div className="flex items-center justify-between">
             <span className="text-xs font-mono uppercase tracking-wider text-muted-foreground">
-              R2 Storage Used
+              Blob Storage Used
             </span>
             <div className="w-8 h-8 rounded-lg bg-blue-500/10 border border-blue-500/20 text-blue-400 flex items-center justify-center">
               <HardDrive className="w-4 h-4" />
@@ -165,10 +161,6 @@ export default async function AdminDashboardPage() {
           <div className="mt-4">
             <p className="text-3xl font-black font-mono text-foreground">
               {formatFileSize(totalStorageBytes)}
-            </p>
-            <p className="text-[11px] text-muted-foreground mt-1 flex items-center gap-1.5">
-              <span className="text-gold-400 font-mono font-medium">No 50MB Cap</span>
-              <span>• Direct Cloudflare R2</span>
             </p>
           </div>
         </div>
@@ -187,16 +179,6 @@ export default async function AdminDashboardPage() {
             <p className="text-3xl font-black font-mono text-foreground">
               {leads.length}
             </p>
-            <p className="text-[11px] text-muted-foreground mt-1 flex items-center gap-1.5">
-              {newLeadsCount > 0 ? (
-                <>
-                  <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
-                  <span className="text-amber-400 font-medium">{newLeadsCount} Need Initial Response</span>
-                </>
-              ) : (
-                <span>All Inquiries Contacted</span>
-              )}
-            </p>
           </div>
         </div>
 
@@ -213,9 +195,6 @@ export default async function AdminDashboardPage() {
           <div className="mt-4">
             <p className="text-3xl font-black font-mono text-foreground">
               {pitchesCount}
-            </p>
-            <p className="text-[11px] text-muted-foreground mt-1">
-              Unlisted landing pages for brand outreach
             </p>
           </div>
         </div>

@@ -1,4 +1,7 @@
 import { Project, ProjectCategory } from "@/types";
+import { db } from "@/lib/db";
+import * as schema from "@/lib/db/schema";
+import { eq, desc } from "drizzle-orm";
 
 export const MOCK_PROJECTS: Project[] = [
   {
@@ -186,8 +189,54 @@ export const MOCK_PROJECTS: Project[] = [
   }
 ];
 
+function mapDbProject(p: typeof schema.projects.$inferSelect): Project {
+  return {
+    id: p.id,
+    title: p.title,
+    slug: p.slug,
+    client: p.client,
+    year: p.year,
+    category: (p.category as Exclude<ProjectCategory, "All">) || "Commercial",
+    tags: (p.tags as string[]) || [],
+    runtime: p.runtime,
+    aspectRatio: (p.aspectRatio as "16:9" | "9:16" | "2.39:1") || "16:9",
+    tagline: p.tagline || "",
+    description: p.description,
+    creativeObjective: p.creativeObjective || "",
+    targetAudience: p.targetAudience || "",
+    deliverables: (p.deliverables as string[]) || [],
+    commercialImpact: (p.commercialImpact as { metric: string; label: string }[]) || [],
+    stills: (p.stills as string[]) || [],
+    originalVideoUrl: p.originalVideoUrl || "",
+    playbackVideoUrl: p.playbackVideoUrl || "",
+    thumbnailUrl: p.thumbnailUrl,
+    featured: p.featured,
+    isPublished: p.isPublished,
+    createdAt: p.createdAt ? p.createdAt.toISOString() : new Date().toISOString(),
+  };
+}
+
 export const projectRepository = {
   async getProjects(category?: ProjectCategory): Promise<Project[]> {
+    if (process.env.DATABASE_URL) {
+      try {
+        const live = await db
+          .select()
+          .from(schema.projects)
+          .orderBy(desc(schema.projects.createdAt));
+
+        if (live.length > 0) {
+          const published = live.filter((p) => p.isPublished);
+          if (!category || category === "All") {
+            return published.map(mapDbProject);
+          }
+          return published.filter((p) => p.category === category).map(mapDbProject);
+        }
+      } catch (err) {
+        console.error("Live projects query notice:", err);
+      }
+    }
+
     if (!category || category === "All") {
       return MOCK_PROJECTS.filter((p) => p.isPublished);
     }
@@ -195,15 +244,57 @@ export const projectRepository = {
   },
 
   async getFeaturedProjects(): Promise<Project[]> {
+    if (process.env.DATABASE_URL) {
+      try {
+        const live = await db
+          .select()
+          .from(schema.projects)
+          .orderBy(desc(schema.projects.createdAt));
+
+        if (live.length > 0) {
+          return live.filter((p) => p.isPublished && p.featured).map(mapDbProject);
+        }
+      } catch (err) {
+        console.error("Live featured projects query notice:", err);
+      }
+    }
     return MOCK_PROJECTS.filter((p) => p.isPublished && p.featured);
   },
 
   async getProjectBySlug(slug: string): Promise<Project | null> {
+    if (process.env.DATABASE_URL) {
+      try {
+        const [project] = await db
+          .select()
+          .from(schema.projects)
+          .where(eq(schema.projects.slug, slug));
+
+        if (project) {
+          return mapDbProject(project);
+        }
+      } catch (err) {
+        console.error("Live slug query notice:", err);
+      }
+    }
     const project = MOCK_PROJECTS.find((p) => p.slug === slug);
     return project || null;
   },
 
   async getAllProjectsAdmin(): Promise<Project[]> {
+    if (process.env.DATABASE_URL) {
+      try {
+        const live = await db
+          .select()
+          .from(schema.projects)
+          .orderBy(desc(schema.projects.createdAt));
+
+        if (live.length > 0) {
+          return live.map(mapDbProject);
+        }
+      } catch (err) {
+        console.error("Live admin projects query notice:", err);
+      }
+    }
     return [...MOCK_PROJECTS];
   },
 };

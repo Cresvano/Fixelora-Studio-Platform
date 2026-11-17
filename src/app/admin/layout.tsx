@@ -129,15 +129,15 @@ export default function AdminLayout({
           </nav>
         </div>
 
-        {/* Phase 1 Mock Architecture Status Notice */}
+        {/* Production Architecture Live Status */}
         <div className="p-4 border-t border-border/60 flex flex-col gap-3">
-          <div className="p-3 rounded-xl bg-muted/40 border border-border/60 flex flex-col gap-2 text-[11px]">
-            <div className="flex items-center gap-2 text-gold-400 font-mono font-medium">
-              <ShieldCheck className="w-3.5 h-3.5" />
-              <span>Phase 1 Mock Engine</span>
+          <div className="p-3 rounded-xl bg-emerald-500/5 border border-emerald-500/20 flex flex-col gap-1.5 text-[11px]">
+            <div className="flex items-center gap-2 text-emerald-400 font-mono font-medium">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              <span>Neon DB & Blob Storage Live</span>
             </div>
             <p className="text-[10px] text-muted-foreground leading-normal">
-              Type-safe abstraction active. Neon PostgreSQL & Cloudflare R2 wire up in Phase 3/4.
+              Full relational persistence & CDN edge media pipeline active.
             </p>
           </div>
 

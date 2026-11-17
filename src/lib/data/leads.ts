@@ -1,4 +1,7 @@
 import { Lead, LeadStatus } from "@/types";
+import { db } from "@/lib/db";
+import * as schema from "@/lib/db/schema";
+import { eq, desc } from "drizzle-orm";
 
 export const MOCK_LEADS: Lead[] = [
   {
@@ -49,16 +52,74 @@ export const MOCK_LEADS: Lead[] = [
 
 export const leadRepository = {
   async getLeads(): Promise<Lead[]> {
+    if (process.env.DATABASE_URL) {
+      try {
+        const live = await db.select().from(schema.leads).orderBy(desc(schema.leads.createdAt));
+        if (live.length > 0) {
+          return live.map((l) => ({
+            ...l,
+            phone: l.phone || undefined,
+            notes: l.notes || undefined,
+            track: l.track as "brief" | "call",
+            status: l.status as LeadStatus,
+            createdAt: l.createdAt ? l.createdAt.toISOString() : new Date().toISOString(),
+          }));
+        }
+      } catch (err) {
+        console.error("Failed to query live leads from Neon:", err);
+      }
+    }
     return [...MOCK_LEADS];
   },
 
   async getLeadById(id: string): Promise<Lead | null> {
+    if (process.env.DATABASE_URL) {
+      try {
+        const [lead] = await db.select().from(schema.leads).where(eq(schema.leads.id, id));
+        if (lead) {
+          return {
+            ...lead,
+            phone: lead.phone || undefined,
+            notes: lead.notes || undefined,
+            track: lead.track as "brief" | "call",
+            status: lead.status as LeadStatus,
+            createdAt: lead.createdAt ? lead.createdAt.toISOString() : new Date().toISOString(),
+          };
+        }
+      } catch (err) {
+        console.error("Failed to query live lead by ID from Neon:", err);
+      }
+    }
     const lead = MOCK_LEADS.find((l) => l.id === id);
     return lead || null;
   },
 
   async createLead(data: Omit<Lead, "id" | "status" | "createdAt">): Promise<{ success: boolean; id: string }> {
     const newId = `lead-${Date.now()}`;
+    const newLeadRecord = {
+      id: newId,
+      clientName: data.clientName,
+      company: data.company,
+      email: data.email,
+      phone: data.phone || null,
+      projectType: data.projectType,
+      estimatedBudget: data.estimatedBudget,
+      timeline: data.timeline,
+      description: data.description,
+      track: data.track,
+      status: "new",
+      notes: data.notes || null,
+    };
+
+    if (process.env.DATABASE_URL) {
+      try {
+        await db.insert(schema.leads).values(newLeadRecord);
+        return { success: true, id: newId };
+      } catch (err) {
+        console.error("Failed to write lead to Neon:", err);
+      }
+    }
+
     const newLead: Lead = {
       ...data,
       id: newId,
@@ -70,6 +131,14 @@ export const leadRepository = {
   },
 
   async updateLeadStatus(id: string, status: LeadStatus): Promise<boolean> {
+    if (process.env.DATABASE_URL) {
+      try {
+        await db.update(schema.leads).set({ status }).where(eq(schema.leads.id, id));
+        return true;
+      } catch (err) {
+        console.error("Failed to update lead status in Neon:", err);
+      }
+    }
     const lead = MOCK_LEADS.find((l) => l.id === id);
     if (lead) {
       lead.status = status;

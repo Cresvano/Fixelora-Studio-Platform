@@ -6,6 +6,8 @@ import { serviceRepository } from "@/lib/data/services";
 import { HeroSlider } from "@/components/public/HeroSlider";
 import { ArrowUpRight, Play, Sparkles, Film, Award, Clock, ArrowRight, CheckCircle2 } from "lucide-react";
 
+export const dynamic = "force-dynamic";
+
 export default async function HomePage() {
   const featuredProjects = await projectRepository.getFeaturedProjects();
   const allProjects = await projectRepository.getProjects();

@@ -4,6 +4,8 @@ import { projectRepository } from "@/lib/data/projects";
 import { ProjectCategory } from "@/types";
 import { Play, Clock, ArrowUpRight } from "lucide-react";
 
+export const dynamic = "force-dynamic";
+
 const CATEGORIES: ProjectCategory[] = [
   "All",
   "Commercial",

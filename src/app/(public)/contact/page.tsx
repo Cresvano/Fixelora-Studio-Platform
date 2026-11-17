@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import { leadRepository } from "@/lib/data/leads";
 import { ArrowUpRight, CheckCircle2, Calendar, FileText, Clock, Mail, Phone, MapPin, Send } from "lucide-react";
 
 export default function ContactPage() {
@@ -26,20 +25,31 @@ export default function ContactPage() {
     setIsSubmitting(true);
 
     try {
-      await leadRepository.createLead({
-        clientName: formData.clientName,
-        company: formData.company,
-        email: formData.email,
-        phone: formData.phone,
-        projectType: formData.projectType,
-        estimatedBudget: formData.estimatedBudget,
-        timeline: formData.timeline,
-        description: formData.description,
-        track: "brief",
+      const response = await fetch("/api/leads", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          clientName: formData.clientName,
+          company: formData.company,
+          email: formData.email,
+          phone: formData.phone,
+          projectType: formData.projectType,
+          estimatedBudget: formData.estimatedBudget,
+          timeline: formData.timeline,
+          description: formData.description,
+          track: activeTrack,
+        }),
       });
-      setSubmitted(true);
+
+      const result = await response.json();
+      if (result.success) {
+        setSubmitted(true);
+      } else {
+        alert(result.error || "Failed to submit project brief.");
+      }
     } catch (err) {
-      console.error(err);
+      console.error("Submission error:", err);
+      alert("Network error. Please try again or reach out directly to production@fixelorastudio.com.");
     } finally {
       setIsSubmitting(false);
     }

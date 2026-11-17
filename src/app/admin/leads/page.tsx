@@ -1,51 +1,153 @@
 "use client";
 
 import * as React from "react";
-import { MOCK_LEADS } from "@/lib/data/leads";
 import { Lead, LeadStatus } from "@/types";
 import { formatDate } from "@/lib/utils";
-import { Users, Mail, Phone, Clock, FileText, CheckCircle2, ChevronRight, Filter } from "lucide-react";
+import {
+  Users,
+  Mail,
+  Phone,
+  Clock,
+  FileText,
+  CheckCircle2,
+  ChevronRight,
+  Filter,
+  RefreshCw,
+  Search,
+  Database,
+  Calendar,
+  DollarSign
+} from "lucide-react";
 
 export default function AdminLeadsPage() {
-  const [leads, setLeads] = React.useState<Lead[]>(MOCK_LEADS);
-  const [selectedLead, setSelectedLead] = React.useState<Lead | null>(MOCK_LEADS[0] || null);
+  const [leads, setLeads] = React.useState<Lead[]>([]);
+  const [selectedLead, setSelectedLead] = React.useState<Lead | null>(null);
   const [statusFilter, setStatusFilter] = React.useState<string>("All");
+  const [searchQuery, setSearchQuery] = React.useState<string>("");
+  const [isLoading, setIsLoading] = React.useState(true);
+  const [isRefreshing, setIsRefreshing] = React.useState(false);
 
-  const filteredLeads = leads.filter(
-    (l) => statusFilter === "All" || l.status === statusFilter
-  );
+  const fetchLeads = React.useCallback(async () => {
+    try {
+      setIsRefreshing(true);
+      const res = await fetch("/api/leads");
+      const data = await res.json();
+      if (data.success && Array.isArray(data.leads)) {
+        setLeads(data.leads);
+        if (data.leads.length > 0) {
+          setSelectedLead((current) => {
+            if (current) {
+              const updated = data.leads.find((l: Lead) => l.id === current.id);
+              return updated || data.leads[0];
+            }
+            return data.leads[0];
+          });
+        }
+      }
+    } catch (err) {
+      console.error("Failed to fetch leads:", err);
+    } finally {
+      setIsLoading(false);
+      setIsRefreshing(false);
+    }
+  }, []);
 
-  const handleUpdateStatus = (id: string, newStatus: LeadStatus) => {
-    setLeads(
-      leads.map((l) => (l.id === id ? { ...l, status: newStatus } : l))
+  React.useEffect(() => {
+    fetchLeads();
+  }, [fetchLeads]);
+
+  const handleUpdateStatus = async (id: string, newStatus: LeadStatus) => {
+    // Optimistic update
+    setLeads((prev) =>
+      prev.map((l) => (l.id === id ? { ...l, status: newStatus } : l))
     );
     if (selectedLead && selectedLead.id === id) {
       setSelectedLead({ ...selectedLead, status: newStatus });
     }
+
+    try {
+      await fetch("/api/leads", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, status: newStatus }),
+      });
+    } catch (err) {
+      console.error("Failed to update status on server:", err);
+    }
   };
+
+  const filteredLeads = leads.filter((l) => {
+    const matchesStatus = statusFilter === "All" || l.status === statusFilter;
+    const matchesSearch =
+      searchQuery.trim() === "" ||
+      l.clientName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      l.company.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      l.projectType.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      l.email.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchesStatus && matchesSearch;
+  });
+
+  const newLeadsCount = leads.filter((l) => l.status === "new").length;
 
   return (
     <div className="flex flex-col gap-6">
-      {/* Page Title */}
+      {/* Page Title & Status Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-2xl font-bold tracking-tight text-foreground">
-            Inbound Leads & Client Inquiries CRM
-          </h2>
-          <p className="text-xs text-muted-foreground mt-0.5">
-            Manage prospective client briefs, discovery call requests, and project budget tiers.
+          <div className="flex items-center gap-2 mb-1">
+            <h2 className="text-2xl font-bold tracking-tight text-foreground">
+              Inbound Leads & Client Inquiries CRM
+            </h2>
+            <span className="px-2 py-0.5 rounded-full text-[10px] font-mono uppercase bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 flex items-center gap-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              Neon DB Live
+            </span>
+          </div>
+          <p className="text-xs text-muted-foreground">
+            Manage prospective client briefs, discovery call inquiries, and project budget tiers in real-time.
           </p>
         </div>
 
-        {/* Filter Pills */}
-        <div className="flex flex-wrap gap-1.5 p-1 rounded-xl bg-card border border-border/80">
+        {/* Top Actions & Sync */}
+        <div className="flex items-center gap-3">
+          <button
+            onClick={fetchLeads}
+            disabled={isRefreshing}
+            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl border border-border text-foreground hover:bg-muted text-xs font-mono transition-colors disabled:opacity-50"
+            title="Refresh leads from Neon"
+          >
+            <RefreshCw className={`w-3.5 h-3.5 ${isRefreshing ? "animate-spin text-gold-400" : ""}`} />
+            <span>Sync</span>
+          </button>
+
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl border border-amber-500/30 bg-amber-500/10 text-amber-400 text-xs font-mono">
+            <span>{newLeadsCount} New Inquiries</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Filter and Search Bar */}
+      <div className="p-4 rounded-2xl border border-border/80 bg-card flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
+        <div className="relative w-full md:w-72">
+          <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search client, company, or brief..."
+            className="w-full pl-9 pr-3 py-1.5 rounded-xl border border-border/80 bg-background text-foreground text-xs font-mono focus:outline-none focus:border-gold-500/60"
+          />
+        </div>
+
+        {/* Status Filter Pills */}
+        <div className="flex flex-wrap gap-1.5 p-1 rounded-xl bg-background border border-border/80">
           {["All", "new", "in_discovery", "proposal_sent", "won"].map((s) => (
             <button
               key={s}
               onClick={() => setStatusFilter(s)}
-              className={`px-3 py-1.5 rounded-lg text-[11px] font-mono uppercase ${
+              className={`px-3 py-1 rounded-lg text-[11px] font-mono uppercase transition-colors ${
                 statusFilter === s
-                  ? "bg-gold-500 text-black font-bold"
+                  ? "bg-gold-500 text-black font-bold shadow-sm"
                   : "text-muted-foreground hover:text-foreground"
               }`}
             >
@@ -70,44 +172,63 @@ export default function AdminLeadsPage() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-border/40 text-xs">
-                {filteredLeads.map((lead) => {
-                  const isSelected = selectedLead?.id === lead.id;
-                  return (
-                    <tr
-                      key={lead.id}
-                      onClick={() => setSelectedLead(lead)}
-                      className={`cursor-pointer transition-colors ${
-                        isSelected
-                          ? "bg-gold-500/10 border-l-2 border-gold-500"
-                          : "hover:bg-muted/40"
-                      }`}
-                    >
-                      <td className="py-3.5 px-3">
-                        <p className="font-bold text-foreground">{lead.clientName}</p>
-                        <p className="text-[11px] text-muted-foreground">{lead.company}</p>
-                      </td>
-                      <td className="py-3.5 px-3 font-mono font-semibold text-gold-400">
-                        {lead.estimatedBudget}
-                      </td>
-                      <td className="py-3.5 px-3">
-                        <span
-                          className={`px-2 py-0.5 rounded-full text-[10px] font-mono uppercase font-semibold ${
-                            lead.status === "new"
-                              ? "bg-amber-500/10 text-amber-400 border border-amber-500/30"
-                              : lead.status === "in_discovery"
-                              ? "bg-blue-500/10 text-blue-400 border border-blue-500/30"
-                              : "bg-emerald-500/10 text-emerald-400 border border-emerald-500/30"
-                          }`}
-                        >
-                          {lead.status.replace("_", " ")}
-                        </span>
-                      </td>
-                      <td className="py-3.5 px-3 text-right font-mono text-[11px] text-muted-foreground">
-                        {formatDate(lead.createdAt)}
-                      </td>
-                    </tr>
-                  );
-                })}
+                {isLoading ? (
+                  <tr>
+                    <td colSpan={4} className="py-12 text-center text-muted-foreground">
+                      <div className="flex items-center justify-center gap-2">
+                        <RefreshCw className="w-4 h-4 animate-spin text-gold-400" />
+                        <span>Loading leads from Neon PostgreSQL...</span>
+                      </div>
+                    </td>
+                  </tr>
+                ) : filteredLeads.length === 0 ? (
+                  <tr>
+                    <td colSpan={4} className="py-12 text-center text-muted-foreground">
+                      No inbound inquiries found. Submissions from the public Contact page will appear here.
+                    </td>
+                  </tr>
+                ) : (
+                  filteredLeads.map((lead) => {
+                    const isSelected = selectedLead?.id === lead.id;
+                    return (
+                      <tr
+                        key={lead.id}
+                        onClick={() => setSelectedLead(lead)}
+                        className={`cursor-pointer transition-colors ${
+                          isSelected
+                            ? "bg-gold-500/10 border-l-2 border-gold-500"
+                            : "hover:bg-muted/40"
+                        }`}
+                      >
+                        <td className="py-3.5 px-3">
+                          <p className="font-bold text-foreground">{lead.clientName}</p>
+                          <p className="text-[11px] text-muted-foreground">{lead.company}</p>
+                        </td>
+                        <td className="py-3.5 px-3 font-mono font-semibold text-gold-400">
+                          {lead.estimatedBudget}
+                        </td>
+                        <td className="py-3.5 px-3">
+                          <span
+                            className={`px-2 py-0.5 rounded-full text-[10px] font-mono uppercase font-semibold ${
+                              lead.status === "new"
+                                ? "bg-amber-500/10 text-amber-400 border border-amber-500/30"
+                                : lead.status === "in_discovery"
+                                ? "bg-blue-500/10 text-blue-400 border border-blue-500/30"
+                                : lead.status === "won"
+                                ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/30"
+                                : "bg-purple-500/10 text-purple-400 border border-purple-500/30"
+                            }`}
+                          >
+                            {lead.status.replace("_", " ")}
+                          </span>
+                        </td>
+                        <td className="py-3.5 px-3 text-right font-mono text-[11px] text-muted-foreground">
+                          {formatDate(lead.createdAt)}
+                        </td>
+                      </tr>
+                    );
+                  })
+                )}
               </tbody>
             </table>
           </div>

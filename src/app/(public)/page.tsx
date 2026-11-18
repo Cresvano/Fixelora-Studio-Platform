@@ -1,23 +1,53 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { projectRepository } from "@/lib/data/projects";
 import { blogRepository } from "@/lib/data/blog";
 import { serviceRepository } from "@/lib/data/services";
+import { pageContentRepository } from "@/lib/data/page-content";
 import { HeroSlider } from "@/components/public/HeroSlider";
 import { ArrowUpRight, Play, Sparkles, Film, Award, Clock, ArrowRight, CheckCircle2 } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
+export const metadata: Metadata = {
+  title: "Fixelora Studio | Creative Ads. Powerful Stories.",
+  description:
+    "International commercial video production studio crafting broadcast-grade commercials, luxury product films, and cinematic brand campaigns for visionary brands worldwide.",
+  openGraph: {
+    title: "Fixelora Studio | Creative Ads. Powerful Stories.",
+    description:
+      "International commercial video production studio crafting broadcast-grade commercials, luxury product films, and cinematic brand campaigns.",
+    type: "website",
+    url: "/",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Fixelora Studio | Commercial Video Production",
+    description:
+      "Broadcast-grade commercials, luxury product films, and cinematic brand campaigns.",
+  },
+};
+
 export default async function HomePage() {
-  const featuredProjects = await projectRepository.getFeaturedProjects();
-  const allProjects = await projectRepository.getProjects();
-  const latestArticles = await blogRepository.getPosts();
-  const primaryServices = await serviceRepository.getPrimaryServices();
+  const [featuredProjects, allProjects, latestArticles, primaryServices, pageContent] =
+    await Promise.all([
+      projectRepository.getFeaturedProjects(),
+      projectRepository.getProjects(),
+      blogRepository.getPosts(),
+      serviceRepository.getPrimaryServices(),
+      pageContentRepository.getPageContent(),
+    ]);
 
   return (
     <div className="flex flex-col w-full overflow-hidden">
       {/* 1. DYNAMIC HERO SLIDER (AUTO CROSS-FADING) */}
-      <HeroSlider />
+      <HeroSlider
+        heroTag={pageContent.homeHeroTag}
+        heroHeadline={pageContent.homeHeroHeadline}
+        heroHeadlineAccent={pageContent.homeHeroHeadlineAccent}
+        heroSubheadline={pageContent.homeHeroSubheadline}
+      />
 
       {/* 2. SELECTED COMMERCIAL WORKS (PORTFOLIO SHOWCASE) */}
       <section id="showcase" className="py-12 md:py-24 px-4 sm:px-6 bg-background">
@@ -129,10 +159,10 @@ export default async function HomePage() {
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10 md:mb-16">
             <div className="max-w-2xl">
               <p className="text-xs font-mono uppercase tracking-[0.25em] text-gold-400 mb-1">
-                Commercial Capabilities
+                {pageContent.homeServicesEyebrow}
               </p>
               <h2 className="text-2xl sm:text-4xl md:text-5xl font-black uppercase tracking-tight text-foreground">
-                Production Disciplines
+                {pageContent.homeServicesTitle}
               </h2>
             </div>
             <Link

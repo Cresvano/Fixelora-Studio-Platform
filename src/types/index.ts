@@ -132,7 +132,7 @@ export interface Lead {
 export interface MediaAsset {
   id: string;
   filename: string;
-  assetType: "original_video" | "playback_video" | "thumbnail";
+  assetType: "original_video" | "playback_video" | "thumbnail" | "headshot";
   fileSize: number;
   formattedSize: string;
   mimeType: string;
@@ -155,4 +155,34 @@ export interface StudioSettings {
   youtube: string;
   linkedin: string;
   maxUploadSizeGb: number;
+}
+
+export interface PageContent {
+  id: number;
+  homeHeroTag: string;
+  homeHeroHeadline: string;
+  homeHeroHeadlineAccent: string;
+  homeHeroSubheadline: string;
+  homeServicesEyebrow: string;
+  homeServicesTitle: string;
+  aboutHeroEyebrow: string;
+  aboutHeroHeadline: string;
+  aboutHeroHeadlineAccent: string;
+  aboutHeroSubheadline: string;
+  aboutManifestoTitle: string;
+  aboutMainBody: string;
+  servicesHeroHeadline: string;
+  servicesHeroHeadlineAccent: string;
+  servicesHeroSummary: string;
+  updatedAt: string;
+}
+
+export interface TeamMember {
+  id: string;
+  name: string;
+  role: string;
+  bio: string;
+  headshotUrl: string;
+  displayOrder: number;
+  createdAt: string;
 }

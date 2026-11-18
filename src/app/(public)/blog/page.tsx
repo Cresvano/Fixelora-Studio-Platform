@@ -1,7 +1,29 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { blogRepository } from "@/lib/data/blog";
 import { ArrowUpRight, Clock, User } from "lucide-react";
+
+export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title: "Insights & Commercial Filmmaking Journal",
+  description:
+    "Analytical essays, camera pipeline breakdowns, color grading techniques, and conversion case studies direct from Fixelora Studio's directors and colorists.",
+  openGraph: {
+    title: "Insights & Commercial Filmmaking Journal | Fixelora Studio",
+    description:
+      "Analytical essays, camera pipeline breakdowns, and conversion strategy from our directors and colorists.",
+    type: "website",
+    url: "/blog",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Insights & Journal | Fixelora Studio",
+    description:
+      "Commercial filmmaking and advertising strategy from Fixelora Studio.",
+  },
+};
 
 export default async function BlogIndexPage() {
   const posts = await blogRepository.getPosts();

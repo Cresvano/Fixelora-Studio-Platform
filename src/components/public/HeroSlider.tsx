@@ -58,7 +58,34 @@ const HERO_SLIDES: HeroSlide[] = [
   },
 ];
 
-export function HeroSlider() {
+export interface HeroContentProps {
+  heroTag?: string;
+  heroHeadline?: string;
+  heroHeadlineAccent?: string;
+  heroSubheadline?: string;
+}
+
+export function HeroSlider({
+  heroTag,
+  heroHeadline,
+  heroHeadlineAccent,
+  heroSubheadline,
+}: HeroContentProps = {}) {
+  const slides = React.useMemo(() => {
+    return HERO_SLIDES.map((s, idx) => {
+      if (idx === 0) {
+        return {
+          ...s,
+          tag: heroTag || s.tag,
+          headlineFirst: heroHeadline || s.headlineFirst,
+          headlineGold: heroHeadlineAccent || s.headlineGold,
+          subtitle: heroSubheadline || s.subtitle,
+        };
+      }
+      return s;
+    });
+  }, [heroTag, heroHeadline, heroHeadlineAccent, heroSubheadline]);
+
   const [currentSlide, setCurrentSlide] = React.useState(0);
   const [isPlaying, setIsPlaying] = React.useState(true);
 
@@ -66,17 +93,17 @@ export function HeroSlider() {
   React.useEffect(() => {
     if (!isPlaying) return;
     const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % HERO_SLIDES.length);
+      setCurrentSlide((prev) => (prev + 1) % slides.length);
     }, 6000);
     return () => clearInterval(interval);
-  }, [isPlaying]);
+  }, [isPlaying, slides.length]);
 
-  const slide = HERO_SLIDES[currentSlide];
+  const slide = slides[currentSlide];
 
   return (
     <section className="relative min-h-[85vh] md:min-h-screen flex items-center justify-center pt-20 md:pt-24 pb-8 md:pb-16 px-4 sm:px-6 overflow-hidden bg-black">
       {/* Background Media with Cross-fade */}
-      {HERO_SLIDES.map((s, idx) => (
+      {slides.map((s, idx) => (
         <div
           key={idx}
           className={`absolute inset-0 z-0 transition-opacity duration-1000 ease-in-out ${
@@ -146,7 +173,7 @@ export function HeroSlider() {
           <button
             onClick={() => {
               setIsPlaying(false);
-              setCurrentSlide((prev) => (prev - 1 + HERO_SLIDES.length) % HERO_SLIDES.length);
+              setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
             }}
             aria-label="Previous slide"
             className="p-1.5 rounded-full border border-white/20 bg-black/40 text-neutral-300 hover:text-white hover:border-gold-500/60 transition-colors"
@@ -155,7 +182,7 @@ export function HeroSlider() {
           </button>
 
           <div className="flex items-center gap-2">
-            {HERO_SLIDES.map((_, idx) => (
+            {slides.map((_, idx) => (
               <button
                 key={idx}
                 onClick={() => {
@@ -175,7 +202,7 @@ export function HeroSlider() {
           <button
             onClick={() => {
               setIsPlaying(false);
-              setCurrentSlide((prev) => (prev + 1) % HERO_SLIDES.length);
+              setCurrentSlide((prev) => (prev + 1) % slides.length);
             }}
             aria-label="Next slide"
             className="p-1.5 rounded-full border border-white/20 bg-black/40 text-neutral-300 hover:text-white hover:border-gold-500/60 transition-colors"
@@ -184,8 +211,8 @@ export function HeroSlider() {
           </button>
         </div>
 
-        {/* Mobile Spacing Tightened: Spec Bar */}
-        <div className="mt-6 md:mt-12 pt-4 md:pt-6 border-t border-white/10 w-full max-w-3xl flex flex-wrap items-center justify-between gap-2.5 sm:gap-4 text-xs font-mono text-neutral-300">
+        {/* Spec Bar: Hidden on mobile viewports to reduce text clutter */}
+        <div className="hidden md:flex mt-12 pt-6 border-t border-white/10 w-full max-w-3xl flex-wrap items-center justify-between gap-4 text-xs font-mono text-neutral-300">
           <div className="flex items-center gap-1.5">
             <span className="text-gold-400 font-bold">FORMAT:</span>
             <span>4K ProRes 4444 XQ / RED 8K</span>

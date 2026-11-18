@@ -19,11 +19,13 @@ import {
   HardDrive,
   Menu,
   X,
-  LogOut
+  LogOut,
+  LayoutTemplate
 } from "lucide-react";
 
 const ADMIN_LINKS = [
   { label: "Overview", href: "/admin", icon: LayoutDashboard },
+  { label: "Pages & Team", href: "/admin/pages", icon: LayoutTemplate },
   { label: "Portfolio CRUD", href: "/admin/portfolio", icon: Film },
   { label: "Media & Storage", href: "/admin/media", icon: Video },
   { label: "Blog CMS", href: "/admin/blog", icon: FileText },

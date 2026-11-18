@@ -10,6 +10,7 @@ import { MOCK_PITCHES } from "../data/pitches";
 import { MOCK_LEADS } from "../data/leads";
 import { MOCK_BLOG_POSTS } from "../data/blog";
 import { MOCK_STUDIO_SETTINGS } from "../data/settings";
+import { DEFAULT_PAGE_CONTENT, DEFAULT_TEAM_MEMBERS } from "../data/page-content";
 
 const sql = neon(process.env.DATABASE_URL!);
 const db = drizzle(sql, { schema });
@@ -150,6 +151,41 @@ async function seed() {
         publishDate: post.publishDate,
         ctaVariant: post.ctaVariant,
         createdAt: new Date(),
+      }).onConflictDoNothing();
+    }
+
+    // 8. Seed Global Page Content
+    console.log("Seeding global page content...");
+    await db.insert(schema.pageContent).values({
+      id: 1,
+      homeHeroTag: DEFAULT_PAGE_CONTENT.homeHeroTag,
+      homeHeroHeadline: DEFAULT_PAGE_CONTENT.homeHeroHeadline,
+      homeHeroHeadlineAccent: DEFAULT_PAGE_CONTENT.homeHeroHeadlineAccent,
+      homeHeroSubheadline: DEFAULT_PAGE_CONTENT.homeHeroSubheadline,
+      homeServicesEyebrow: DEFAULT_PAGE_CONTENT.homeServicesEyebrow,
+      homeServicesTitle: DEFAULT_PAGE_CONTENT.homeServicesTitle,
+      aboutHeroEyebrow: DEFAULT_PAGE_CONTENT.aboutHeroEyebrow,
+      aboutHeroHeadline: DEFAULT_PAGE_CONTENT.aboutHeroHeadline,
+      aboutHeroHeadlineAccent: DEFAULT_PAGE_CONTENT.aboutHeroHeadlineAccent,
+      aboutHeroSubheadline: DEFAULT_PAGE_CONTENT.aboutHeroSubheadline,
+      aboutManifestoTitle: DEFAULT_PAGE_CONTENT.aboutManifestoTitle,
+      aboutMainBody: DEFAULT_PAGE_CONTENT.aboutMainBody,
+      servicesHeroHeadline: DEFAULT_PAGE_CONTENT.servicesHeroHeadline,
+      servicesHeroHeadlineAccent: DEFAULT_PAGE_CONTENT.servicesHeroHeadlineAccent,
+      servicesHeroSummary: DEFAULT_PAGE_CONTENT.servicesHeroSummary,
+    }).onConflictDoNothing();
+
+    // 9. Seed Team Members
+    console.log(`Seeding ${DEFAULT_TEAM_MEMBERS.length} studio directors & team members...`);
+    for (const member of DEFAULT_TEAM_MEMBERS) {
+      await db.insert(schema.teamMembers).values({
+        id: member.id,
+        name: member.name,
+        role: member.role,
+        bio: member.bio,
+        headshotUrl: member.headshotUrl,
+        displayOrder: member.displayOrder,
+        createdAt: new Date(member.createdAt),
       }).onConflictDoNothing();
     }
 

@@ -42,8 +42,10 @@ export default function PublicLayout({
       {/* Floating Header */}
       <header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          scrolled
-            ? "py-3 bg-background/80 backdrop-blur-md border-b border-border/50 shadow-sm"
+          mobileMenuOpen
+            ? "py-4 bg-background border-b border-border/60 shadow-sm"
+            : scrolled
+            ? "py-3 bg-background/85 backdrop-blur-md border-b border-border/50 shadow-sm"
             : "py-6 bg-transparent"
         }`}
       >
@@ -95,7 +97,7 @@ export default function PublicLayout({
             <ThemeToggle />
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded-lg border border-border/60 text-foreground hover:bg-muted/60 transition-colors"
+              className="p-2 rounded-lg border border-border bg-background/85 backdrop-blur-md text-foreground hover:bg-muted transition-colors shadow-sm"
               aria-label="Toggle navigation menu"
             >
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -106,32 +108,33 @@ export default function PublicLayout({
 
       {/* Mobile Menu Overlay */}
       {mobileMenuOpen && (
-        <div className="fixed inset-0 z-40 bg-background/95 backdrop-blur-xl md:hidden flex flex-col pt-28 px-8 pb-12 justify-between animate-in fade-in duration-200">
+        <div className="fixed inset-0 z-40 bg-background text-foreground md:hidden flex flex-col pt-28 px-8 pb-12 justify-between animate-in fade-in duration-200">
           <div className="flex flex-col gap-6">
-            <p className="text-[10px] uppercase tracking-[0.3em] text-gold-400 font-mono">
+            <p className="text-[11px] uppercase tracking-[0.3em] text-gold-600 dark:text-gold-400 font-mono font-semibold">
               Navigation
             </p>
-            {NAV_LINKS.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="text-2xl font-light tracking-wider hover:text-gold-400 transition-colors"
-              >
-                {link.label}
-              </Link>
-            ))}
+            {NAV_LINKS.map((link) => {
+              const isActive = pathname === link.href || (link.href !== "/" && pathname?.startsWith(link.href));
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`text-2xl tracking-wider transition-colors ${
+                    isActive
+                      ? "text-gold-600 dark:text-gold-400 font-bold"
+                      : "text-foreground font-medium hover:text-gold-600 dark:hover:text-gold-400"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
           </div>
 
-          <div className="flex flex-col gap-4 pt-8 border-t border-border/60">
-            <Link
-              href="/admin"
-              className="text-xs uppercase tracking-widest text-muted-foreground hover:text-foreground"
-            >
-              Access Admin Dashboard &rarr;
-            </Link>
+          <div className="flex flex-col gap-4 pt-8 border-t border-border">
             <Link
               href="/contact"
-              className="w-full inline-flex items-center justify-center gap-2 py-4 rounded-full text-xs uppercase tracking-widest font-semibold bg-gold-500 text-black shadow-lg"
+              className="w-full inline-flex items-center justify-center gap-2 py-4 rounded-full text-xs uppercase tracking-widest font-semibold bg-gold-500 text-black hover:bg-gold-400 shadow-lg transition-colors"
             >
               <span>Start a Project</span>
               <ArrowUpRight className="w-4 h-4" />
@@ -146,7 +149,7 @@ export default function PublicLayout({
       </main>
 
       {/* Editorial Footer */}
-      <footer className="border-t border-border/60 bg-card/40 backdrop-blur-sm pt-20 pb-12">
+      <footer className="border-t border-border/60 bg-card/40 backdrop-blur-sm pt-20 pb-28 md:pb-14">
         <div className="container max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-12 pb-16 border-b border-border/40">
             {/* Col 1: Brand & Tagline */}

@@ -2,6 +2,39 @@
 
 All notable changes and architectural milestones for this project will be documented in this file.
 
+## [Phase 6] - Mobile Responsive Polish, Global Page & Team CMS, SEO & Open Graph (November 2026)
+
+### Added
+- **Global Content & Team Roster CMS (`/admin/pages`):**
+  - Added Neon PostgreSQL tables `page_content` and `team_members` via Drizzle ORM and seeded default studio copy and directors.
+  - Built `/api/page-content` (`GET`, `PUT`) and `/api/team` (`GET`, `POST`, `PUT`, `DELETE`) with instant Next.js cache invalidation (`revalidatePath`).
+  - Wired team headshot direct uploads (`assetType="headshot"`) through `/api/upload` to Vercel Blob Storage (`fixelora/team/...`).
+  - Added `"Pages & Team"` tab to Admin Dashboard with global static page copy editor (Homepage, About, Services) and interactive Team Roster CRUD modal.
+  - Synced public `/`, `/about`, and `/services` pages to fetch live copy and team members dynamically from Neon.
+- **SEO, Open Graph, Sitemap & Robots:**
+  - Configured `metadataBase`, default OG image, Twitter cards, and robots directives in `src/app/layout.tsx`.
+  - Added static `metadata` across public routes (`/`, `/work`, `/services`, `/about`, `/blog`, `/contact`, `/privacy`, `/terms`) and dynamic `generateMetadata` with OG & Twitter cards for `/work/[slug]`, `/blog/[slug]`, and `/services/[slug]`.
+  - Created dynamic `src/app/sitemap.ts` (`/sitemap.xml`) and `src/app/robots.ts` (`/robots.txt`).
+
+### Changed
+- **Mobile UX & Clutter Reduction:**
+  - Removed `"Access Admin Dashboard"` link from public mobile menu and improved light-mode contrast in `src/app/(public)/layout.tsx`.
+  - Hid the technical metadata bar (`FORMAT`, `LOCATIONS`, `AUDIO`) on mobile viewports (`hidden md:flex`) in `HeroSlider.tsx`.
+  - Increased footer bottom padding (`pb-28 md:pb-14`) so the final email link and bottom bar are never cut off by mobile browser chrome.
+
+## [Phase 5 / 5.1] - Production CMS Workflows, Lead Ingestion & UI Cleanup (November 2026)
+
+### Added
+- Full CRUD APIs and Admin interfaces for Portfolio (`/api/projects`), Inbound Leads (`/api/leads`), Blog Articles (`/api/blog`), and Private Pitches (`/api/pitches`) backed by Neon PostgreSQL.
+- Integrated Vercel Blob media selector inside Portfolio CRUD and direct `mailto:` / `tel:` outreach links in Leads CRM.
+- Standardized the 6 production categories and updated contact budget tiers.
+
+## [Phase 3 & 4] - Neon Serverless PostgreSQL & Vercel Blob Storage (November 2026)
+
+### Added
+- Configured Drizzle ORM with Neon Serverless PostgreSQL (`projects`, `media_assets`, `pitches`, `leads`, `blog_posts`, `admin_users`, `studio_settings`).
+- Implemented Vercel Blob direct upload pipeline (`/api/upload` and `/admin/media`) for high-capacity commercial video files and thumbnails.
+
 ## [Phase 1.5] - Frontend Refinements, Admin Security & Services Overhaul (November 2026)
 
 ### Added

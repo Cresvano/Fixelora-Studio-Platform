@@ -26,12 +26,32 @@ export async function generateMetadata({ params }: ServiceDetailPageProps): Prom
   const service = await serviceRepository.getServiceBySlug(slug);
 
   if (!service) {
-    return { title: "Service Not Found | Fixelora Studio" };
+    return { title: "Service Not Found" };
   }
 
   return {
-    title: `${service.title} | Fixelora Commercial Production`,
+    title: `${service.title} | Commercial Production`,
     description: service.shortDescription,
+    openGraph: {
+      title: `${service.title} | Fixelora Studio`,
+      description: service.shortDescription,
+      type: "website",
+      url: `/services/${service.slug}`,
+      images: [
+        {
+          url: service.heroImage,
+          width: 1600,
+          height: 900,
+          alt: service.title,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${service.title} | Fixelora Studio`,
+      description: service.shortDescription,
+      images: [service.heroImage],
+    },
   };
 }
 

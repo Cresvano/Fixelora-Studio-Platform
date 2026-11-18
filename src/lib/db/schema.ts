@@ -123,3 +123,73 @@ export const studioSettings = pgTable("studio_settings", {
   maxUploadSizeGb: integer("max_upload_size_gb").default(25).notNull(),
   updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
 });
+
+// 8. GLOBAL PAGE CONTENT CMS
+export const pageContent = pgTable("page_content", {
+  id: integer("id").primaryKey().default(1),
+  homeHeroTag: varchar("home_hero_tag", { length: 255 })
+    .default("Commercial Video Production Studio")
+    .notNull(),
+  homeHeroHeadline: varchar("home_hero_headline", { length: 255 })
+    .default("Creative Ads.")
+    .notNull(),
+  homeHeroHeadlineAccent: varchar("home_hero_headline_accent", { length: 255 })
+    .default("Powerful Stories.")
+    .notNull(),
+  homeHeroSubheadline: text("home_hero_subheadline")
+    .default(
+      "We direct broadcast-grade commercials, luxury product films, and cinematic brand campaigns for visionary companies worldwide."
+    )
+    .notNull(),
+  homeServicesEyebrow: varchar("home_services_eyebrow", { length: 255 })
+    .default("Commercial Capabilities")
+    .notNull(),
+  homeServicesTitle: varchar("home_services_title", { length: 255 })
+    .default("Production Disciplines")
+    .notNull(),
+  aboutHeroEyebrow: varchar("about_hero_eyebrow", { length: 255 })
+    .default("The Studio Story")
+    .notNull(),
+  aboutHeroHeadline: varchar("about_hero_headline", { length: 255 })
+    .default("We Reject Generic.")
+    .notNull(),
+  aboutHeroHeadlineAccent: varchar("about_hero_headline_accent", { length: 255 })
+    .default("We Direct Prestige.")
+    .notNull(),
+  aboutHeroSubheadline: text("about_hero_subheadline")
+    .default(
+      "Fixelora Studio was founded on a simple conviction: commercial advertising should be as unforgettable, visually breathtaking, and emotionally resonant as award-winning cinema."
+    )
+    .notNull(),
+  aboutManifestoTitle: varchar("about_manifesto_title", { length: 255 })
+    .default("Cinema Craftsmanship Meets Commercial Strategy")
+    .notNull(),
+  aboutMainBody: text("about_main_body")
+    .default(
+      "In an era where digital noise is at an all-time peak, most brand videos disappear into the background. They look identical, sound identical, and convert poorly.\n\nFixelora operates as an agile, international commercial production unit. We strip away agency bloat to pair brand leaders directly with world-class directors, cinematographers, and visual artists."
+    )
+    .notNull(),
+  servicesHeroHeadline: varchar("services_hero_headline", { length: 255 })
+    .default("Commercial Video")
+    .notNull(),
+  servicesHeroHeadlineAccent: varchar("services_hero_headline_accent", { length: 255 })
+    .default("Engineered For Prestige.")
+    .notNull(),
+  servicesHeroSummary: text("services_hero_summary")
+    .default(
+      "Fixelora Studio combines tier-one cinematography, high-concept narrative direction, and algorithmic performance strategy. We direct broadcast-grade commercials and multi-platform visual campaigns that position brands at the summit of their industry."
+    )
+    .notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+});
+
+// 9. TEAM MEMBERS / ROSTER
+export const teamMembers = pgTable("team_members", {
+  id: text("id").primaryKey(),
+  name: varchar("name", { length: 255 }).notNull(),
+  role: varchar("role", { length: 255 }).notNull(),
+  bio: text("bio").notNull(),
+  headshotUrl: text("headshot_url").notNull(),
+  displayOrder: integer("display_order").default(0).notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+});

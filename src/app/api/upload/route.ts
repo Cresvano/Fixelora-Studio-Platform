@@ -104,6 +104,8 @@ export async function POST(request: Request): Promise<NextResponse> {
     const folder =
       assetType === "thumbnail"
         ? "thumbnails"
+        : assetType === "headshot"
+        ? "team"
         : assetType === "playback_video"
         ? "playback"
         : "masters";
@@ -130,8 +132,8 @@ export async function POST(request: Request): Promise<NextResponse> {
       fileSize: fileSize,
       formattedSize: formattedSize,
       mimeType: mimeType,
-      dimensions: dimensions || (assetType === "thumbnail" ? "1920x1080" : "3840x2160"),
-      duration: duration || (assetType === "thumbnail" ? null : "0:60"),
+      dimensions: dimensions || (assetType === "thumbnail" || assetType === "headshot" ? "1200x1500" : "3840x2160"),
+      duration: duration || (assetType === "thumbnail" || assetType === "headshot" ? null : "0:60"),
       url: blob.url,
       associatedProjectId: associatedProjectId || null,
       associatedProjectTitle: associatedProjectTitle || null,

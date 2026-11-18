@@ -1,11 +1,56 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { blogRepository } from "@/lib/data/blog";
 import { ArrowLeft, ArrowUpRight, Clock, Calendar, Share2 } from "lucide-react";
 
+export const dynamic = "force-dynamic";
+
 interface BlogPostPageProps {
   params: Promise<{ slug: string }>;
+}
+
+export async function generateMetadata({
+  params,
+}: BlogPostPageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const post = await blogRepository.getPostBySlug(slug);
+
+  if (!post) {
+    return {
+      title: "Article Not Found",
+    };
+  }
+
+  return {
+    title: post.title,
+    description: post.excerpt,
+    keywords: [post.category, ...post.tags],
+    authors: [{ name: post.author.name }],
+    openGraph: {
+      title: `${post.title} | Fixelora Studio Journal`,
+      description: post.excerpt,
+      type: "article",
+      url: `/blog/${post.slug}`,
+      publishedTime: post.publishDate,
+      authors: [post.author.name],
+      images: [
+        {
+          url: post.featuredImage,
+          width: 1600,
+          height: 900,
+          alt: post.title,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description: post.excerpt,
+      images: [post.featuredImage],
+    },
+  };
 }
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {

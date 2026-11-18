@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { projectRepository } from "@/lib/data/projects";
@@ -5,6 +6,25 @@ import { ProjectCategory } from "@/types";
 import { Play, Clock, ArrowUpRight } from "lucide-react";
 
 export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title: "Selected Commercial Works & Portfolio",
+  description:
+    "Watch Fixelora Studio's commercial video portfolio spanning product commercials, brand films, e-commerce campaigns, performance social ads, software explainers, and book trailers.",
+  openGraph: {
+    title: "Selected Commercial Works | Fixelora Studio",
+    description:
+      "Commercial video portfolio spanning product commercials, brand films, performance advertising, and e-commerce campaigns.",
+    type: "website",
+    url: "/work",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Selected Commercial Works | Fixelora Studio",
+    description:
+      "Watch our flagship commercial advertisements, brand films, and product campaigns.",
+  },
+};
 
 const CATEGORIES: ProjectCategory[] = [
   "All",

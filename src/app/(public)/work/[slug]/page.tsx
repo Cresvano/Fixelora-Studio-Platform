@@ -1,11 +1,57 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { projectRepository } from "@/lib/data/projects";
 import { ArrowLeft, ArrowUpRight, Play, CheckCircle2, Award, Clock, Layers } from "lucide-react";
 
+export const dynamic = "force-dynamic";
+
 interface ProjectDetailPageProps {
   params: Promise<{ slug: string }>;
+}
+
+export async function generateMetadata({
+  params,
+}: ProjectDetailPageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const project = await projectRepository.getProjectBySlug(slug);
+
+  if (!project) {
+    return {
+      title: "Case Study Not Found",
+    };
+  }
+
+  const description = project.tagline
+    ? `${project.tagline} — Directed for ${project.client} by Fixelora Studio.`
+    : project.description;
+
+  return {
+    title: `${project.title} (${project.client})`,
+    description,
+    keywords: [project.category, project.client, ...project.tags],
+    openGraph: {
+      title: `${project.title} | Fixelora Studio Case Study`,
+      description,
+      type: "article",
+      url: `/work/${project.slug}`,
+      images: [
+        {
+          url: project.thumbnailUrl,
+          width: 1600,
+          height: 900,
+          alt: `${project.title} — ${project.client}`,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${project.title} | Fixelora Studio`,
+      description,
+      images: [project.thumbnailUrl],
+    },
+  };
 }
 
 export default async function ProjectDetailPage({ params }: ProjectDetailPageProps) {

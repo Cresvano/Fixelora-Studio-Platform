@@ -1,27 +1,29 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowUpRight, Camera, Film, Sparkles, Trophy, Users, MonitorCheck } from "lucide-react";
+import { pageContentRepository } from "@/lib/data/page-content";
+import { ArrowUpRight } from "lucide-react";
 
-const DIRECTORS = [
-  {
-    name: "Julian Vance",
-    role: "Founder & Executive Creative Director",
-    bio: "Former commercial director at RSA Films and Grey London. Julian has directed global campaigns for Audi, Bang & Olufsen, and Polestar, specializing in automotive velocity and quiet luxury aesthetics.",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=600&auto=format&fit=crop"
+export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title: "About Fixelora Studio | Creative Directors & Production Standards",
+  description:
+    "Meet the directors, colorists, and visual artists behind Fixelora Studio. Learn about our international commercial filmmaking ethos and 8K cinema production pipeline.",
+  openGraph: {
+    title: "About Fixelora Studio | We Reject Generic. We Direct Prestige.",
+    description:
+      "Meet the directors, colorists, and visual artists behind Fixelora Studio.",
+    type: "website",
+    url: "/about",
   },
-  {
-    name: "Elena Rostova",
-    role: "Technical Director & Senior Colorist",
-    bio: "Pioneering colorist and camera pipeline architect. Elena supervises the studio's custom look profile creation, ACES color workflow, and high-speed Phantom macro shoots.",
-    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=600&auto=format&fit=crop"
+  twitter: {
+    card: "summary_large_image",
+    title: "About Fixelora Studio",
+    description:
+      "Meet the international directors and visual artists behind Fixelora Studio.",
   },
-  {
-    name: "Kaelen Voss",
-    role: "Head of 3D & Spatial Simulation",
-    bio: "Specializing in procedural visual effects, photorealistic hardware rendering, and generative sound design. Kaelen bridges tactile live-action cinema with futuristic CGI.",
-    image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=600&auto=format&fit=crop"
-  }
-];
+};
 
 const TECHNICAL_GEAR = [
   { item: "RED V-Raptor XL 8K VV & ARRI Alexa 35", desc: "Flagship cinema sensor packages with 17+ stops of dynamic range" },
@@ -30,21 +32,31 @@ const TECHNICAL_GEAR = [
   { item: "Dolby Atmos 7.1.4 Mixing Suite", desc: "Immersive spatial audio engineering for cinema and prestige streaming" }
 ];
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const [pageContent, teamMembers] = await Promise.all([
+    pageContentRepository.getPageContent(),
+    pageContentRepository.getTeamMembers(),
+  ]);
+
+  const bodyParagraphs = pageContent.aboutMainBody
+    .split(/\n\s*\n/)
+    .map((p) => p.trim())
+    .filter(Boolean);
+
   return (
     <div className="flex flex-col pt-32 pb-24 px-6 bg-background">
       <div className="container max-w-6xl mx-auto">
         {/* Hero Section */}
         <div className="max-w-3xl mb-20">
           <p className="text-[11px] font-mono uppercase tracking-[0.25em] text-gold-400 mb-3">
-            The Studio Story
+            {pageContent.aboutHeroEyebrow}
           </p>
           <h1 className="text-4xl sm:text-6xl font-black uppercase tracking-tight text-foreground leading-[1.08] mb-6">
-            We Reject Generic. <br />
-            <span className="gold-gradient-text">We Direct Prestige.</span>
+            {pageContent.aboutHeroHeadline} <br />
+            <span className="gold-gradient-text">{pageContent.aboutHeroHeadlineAccent}</span>
           </h1>
           <p className="text-base sm:text-lg text-muted-foreground font-light leading-relaxed">
-            Fixelora Studio was founded on a simple conviction: commercial advertising should be as unforgettable, visually breathtaking, and emotionally resonant as award-winning cinema.
+            {pageContent.aboutHeroSubheadline}
           </p>
         </div>
 
@@ -56,14 +68,18 @@ export default function AboutPage() {
                 Creative Manifesto
               </p>
               <h2 className="text-2xl sm:text-3xl font-black uppercase text-foreground mb-4">
-                Cinema Craftsmanship Meets Commercial Strategy
+                {pageContent.aboutManifestoTitle}
               </h2>
-              <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed mb-4">
-                In an era where digital noise is at an all-time peak, most brand videos disappear into the background. They look identical, sound identical, and convert poorly.
-              </p>
-              <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
-                Fixelora operates as an agile, international commercial production unit. We strip away agency bloat to pair brand leaders directly with world-class directors, cinematographers, and visual artists.
-              </p>
+              <div className="space-y-4">
+                {bodyParagraphs.map((paragraph, index) => (
+                  <p
+                    key={index}
+                    className="text-xs sm:text-sm text-muted-foreground leading-relaxed"
+                  >
+                    {paragraph}
+                  </p>
+                ))}
+              </div>
             </div>
             <div className="pt-6 mt-6 border-t border-border/40 flex items-center gap-6 text-xs text-muted-foreground font-mono">
               <span>EST. 2024</span>
@@ -82,7 +98,7 @@ export default function AboutPage() {
           </div>
         </div>
 
-        {/* Directors & Leadership */}
+        {/* Directors & Leadership (Dynamic Neon Roster) */}
         <div className="mb-24">
           <div className="max-w-2xl mb-12">
             <p className="text-[11px] font-mono uppercase tracking-[0.25em] text-gold-400 mb-2">
@@ -94,16 +110,17 @@ export default function AboutPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {DIRECTORS.map((director, i) => (
+            {teamMembers.map((director) => (
               <div
-                key={i}
+                key={director.id}
                 className="flex flex-col rounded-2xl border border-border/80 bg-card overflow-hidden hover:border-gold-500/40 transition-colors"
               >
                 <div className="relative aspect-[4/5] w-full bg-black/40">
                   <Image
-                    src={director.image}
+                    src={director.headshotUrl}
                     alt={director.name}
                     fill
+                    sizes="(max-width: 768px) 100vw, 33vw"
                     className="object-cover grayscale hover:grayscale-0 transition-all duration-500"
                   />
                 </div>

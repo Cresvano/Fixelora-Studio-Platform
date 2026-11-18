@@ -1,6 +1,8 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { serviceRepository } from "@/lib/data/services";
+import { pageContentRepository } from "@/lib/data/page-content";
 import {
   ArrowUpRight,
   ArrowRight,
@@ -16,15 +18,34 @@ import {
   Check
 } from "lucide-react";
 
-export const metadata = {
-  title: "Commercial Video Production Services | Fixelora Studio",
-  description: "Explore Fixelora Studio's comprehensive commercial video production services: Product commercials, brand films, performance social ads, e-commerce suites, SaaS explainers, and cinematic book trailers.",
+export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title: "Commercial Video Production Services",
+  description:
+    "Explore Fixelora Studio's comprehensive commercial video production services: Product commercials, brand films, performance social ads, e-commerce suites, SaaS explainers, and cinematic book trailers.",
+  openGraph: {
+    title: "Commercial Video Production Services | Fixelora Studio",
+    description:
+      "Product commercials, brand films, performance social ads, e-commerce suites, SaaS explainers, and cinematic book trailers.",
+    type: "website",
+    url: "/services",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Commercial Video Production Services | Fixelora Studio",
+    description:
+      "Broadcast-grade commercial video production and multi-platform visual campaigns.",
+  },
 };
 
 export default async function ServicesPage() {
-  const primaryServices = await serviceRepository.getPrimaryServices();
-  const additionalServices = await serviceRepository.getAdditionalServices();
-  const capabilities = await serviceRepository.getProductionCapabilities();
+  const [primaryServices, additionalServices, capabilities, pageContent] = await Promise.all([
+    serviceRepository.getPrimaryServices(),
+    serviceRepository.getAdditionalServices(),
+    serviceRepository.getProductionCapabilities(),
+    pageContentRepository.getPageContent(),
+  ]);
 
   // Group capabilities by category
   const capabilityCategories = [
@@ -44,11 +65,11 @@ export default async function ServicesPage() {
             <span>Commercial Production Suite</span>
           </div>
           <h1 className="text-3xl sm:text-5xl md:text-6xl font-black uppercase tracking-tight text-foreground leading-[1.08] mb-6">
-            Commercial Video <br />
-            <span className="gold-gradient-text">Engineered For Prestige.</span>
+            {pageContent.servicesHeroHeadline} <br />
+            <span className="gold-gradient-text">{pageContent.servicesHeroHeadlineAccent}</span>
           </h1>
           <p className="text-base sm:text-lg text-muted-foreground font-light leading-relaxed">
-            Fixelora Studio combines tier-one cinematography, high-concept narrative direction, and algorithmic performance strategy. We direct broadcast-grade commercials and multi-platform visual campaigns that position brands at the summit of their industry.
+            {pageContent.servicesHeroSummary}
           </p>
         </div>
 

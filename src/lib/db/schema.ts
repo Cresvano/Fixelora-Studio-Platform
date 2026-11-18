@@ -141,6 +141,11 @@ export const pageContent = pgTable("page_content", {
       "We direct broadcast-grade commercials, luxury product films, and cinematic brand campaigns for visionary companies worldwide."
     )
     .notNull(),
+  sliderIntroText: text("slider_intro_text")
+    .default(
+      "Built to help ambitious brands stand out, earn instant trust, and turn attention into measurable sales."
+    )
+    .notNull(),
   homeServicesEyebrow: varchar("home_services_eyebrow", { length: 255 })
     .default("Commercial Capabilities")
     .notNull(),
@@ -178,6 +183,19 @@ export const pageContent = pgTable("page_content", {
   servicesHeroSummary: text("services_hero_summary")
     .default(
       "Fixelora Studio combines tier-one cinematography, high-concept narrative direction, and algorithmic performance strategy. We direct broadcast-grade commercials and multi-platform visual campaigns that position brands at the summit of their industry."
+    )
+    .notNull(),
+  globalCtaHeading: varchar("global_cta_heading", { length: 255 })
+    .default("Let's Craft Something Unforgettable.")
+    .notNull(),
+  globalCtaSubtext: text("global_cta_subtext")
+    .default(
+      "Whether you need a flagship product commercial, a high-converting social ad campaign, or an unforgettable brand film, our team is ready to bring your vision to life."
+    )
+    .notNull(),
+  footerDescription: text("footer_description")
+    .default(
+      "Fixelora Studio is an international commercial video production agency. We combine cinematic craftsmanship, high-concept visual storytelling, and marketing strategy to produce high-impact brand commercials worldwide."
     )
     .notNull(),
   updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),

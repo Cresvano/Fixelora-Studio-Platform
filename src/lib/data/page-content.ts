@@ -10,6 +10,8 @@ export const DEFAULT_PAGE_CONTENT: PageContent = {
   homeHeroHeadlineAccent: "Powerful Stories.",
   homeHeroSubheadline:
     "We direct broadcast-grade commercials, luxury product films, and cinematic brand campaigns for visionary companies worldwide.",
+  sliderIntroText:
+    "Built to help ambitious brands stand out, earn instant trust, and turn attention into measurable sales.",
   homeServicesEyebrow: "Commercial Capabilities",
   homeServicesTitle: "Production Disciplines",
   aboutHeroEyebrow: "The Studio Story",
@@ -24,6 +26,11 @@ export const DEFAULT_PAGE_CONTENT: PageContent = {
   servicesHeroHeadlineAccent: "Engineered For Prestige.",
   servicesHeroSummary:
     "Fixelora Studio combines tier-one cinematography, high-concept narrative direction, and algorithmic performance strategy. We direct broadcast-grade commercials and multi-platform visual campaigns that position brands at the summit of their industry.",
+  globalCtaHeading: "Let's Craft Something Unforgettable.",
+  globalCtaSubtext:
+    "Whether you need a flagship product commercial, a high-converting social ad campaign, or an unforgettable brand film, our team is ready to bring your vision to life.",
+  footerDescription:
+    "Fixelora Studio is an international commercial video production agency. We combine cinematic craftsmanship, high-concept visual storytelling, and marketing strategy to produce high-impact brand commercials worldwide.",
   updatedAt: new Date().toISOString(),
 };
 
@@ -67,6 +74,7 @@ function mapDbPageContent(row: typeof schema.pageContent.$inferSelect): PageCont
     homeHeroHeadline: row.homeHeroHeadline,
     homeHeroHeadlineAccent: row.homeHeroHeadlineAccent,
     homeHeroSubheadline: row.homeHeroSubheadline,
+    sliderIntroText: row.sliderIntroText || DEFAULT_PAGE_CONTENT.sliderIntroText,
     homeServicesEyebrow: row.homeServicesEyebrow,
     homeServicesTitle: row.homeServicesTitle,
     aboutHeroEyebrow: row.aboutHeroEyebrow,
@@ -78,6 +86,9 @@ function mapDbPageContent(row: typeof schema.pageContent.$inferSelect): PageCont
     servicesHeroHeadline: row.servicesHeroHeadline,
     servicesHeroHeadlineAccent: row.servicesHeroHeadlineAccent,
     servicesHeroSummary: row.servicesHeroSummary,
+    globalCtaHeading: row.globalCtaHeading || DEFAULT_PAGE_CONTENT.globalCtaHeading,
+    globalCtaSubtext: row.globalCtaSubtext || DEFAULT_PAGE_CONTENT.globalCtaSubtext,
+    footerDescription: row.footerDescription || DEFAULT_PAGE_CONTENT.footerDescription,
     updatedAt: row.updatedAt ? row.updatedAt.toISOString() : new Date().toISOString(),
   };
 }

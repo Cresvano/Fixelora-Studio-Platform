@@ -53,7 +53,7 @@ export default async function WorkPage({ searchParams }: WorkPageProps) {
         {/* Page Title & Category Tabs */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16 pb-8 border-b border-border/60">
           <div>
-            <p className="text-[11px] font-mono uppercase tracking-[0.25em] text-gold-400 mb-3">
+            <p className="text-[11px] font-mono uppercase tracking-[0.25em] text-gold-700 dark:text-gold-400 font-semibold mb-3">
               Commercial Portfolio
             </p>
             <h1 className="text-4xl sm:text-6xl font-black uppercase tracking-tight text-foreground">
@@ -141,7 +141,7 @@ export default async function WorkPage({ searchParams }: WorkPageProps) {
                 <div className="flex items-center justify-between pt-4 border-t border-border/40">
                   {project.commercialImpact[0] && (
                     <div className="flex items-center gap-2">
-                      <span className="text-base font-bold font-mono text-gold-400">
+                      <span className="text-base font-bold font-mono text-gold-700 dark:text-gold-400">
                         {project.commercialImpact[0].metric}
                       </span>
                       <span className="text-[11px] text-muted-foreground">
@@ -151,7 +151,7 @@ export default async function WorkPage({ searchParams }: WorkPageProps) {
                   )}
                   <Link
                     href={`/work/${project.slug}`}
-                    className="text-xs font-semibold uppercase tracking-wider text-foreground hover:text-gold-400 inline-flex items-center gap-1 transition-colors"
+                    className="text-xs font-semibold uppercase tracking-wider text-foreground hover:text-gold-700 dark:hover:text-gold-400 inline-flex items-center gap-1 transition-colors"
                   >
                     <span>View Case Study</span>
                     <ArrowUpRight className="w-3.5 h-3.5" />

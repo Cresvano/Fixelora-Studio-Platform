@@ -48,7 +48,7 @@ export default async function AboutPage() {
       <div className="container max-w-6xl mx-auto">
         {/* Hero Section */}
         <div className="max-w-3xl mb-20">
-          <p className="text-[11px] font-mono uppercase tracking-[0.25em] text-gold-400 mb-3">
+          <p className="text-[11px] font-mono uppercase tracking-[0.25em] text-gold-700 dark:text-gold-400 font-semibold mb-3">
             {pageContent.aboutHeroEyebrow}
           </p>
           <h1 className="text-4xl sm:text-6xl font-black uppercase tracking-tight text-foreground leading-[1.08] mb-6">
@@ -64,7 +64,7 @@ export default async function AboutPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 p-8 sm:p-12 rounded-3xl border border-border/80 bg-card mb-24">
           <div className="flex flex-col justify-between">
             <div>
-              <p className="text-[11px] font-mono uppercase tracking-[0.25em] text-gold-400 mb-2">
+              <p className="text-[11px] font-mono uppercase tracking-[0.25em] text-gold-700 dark:text-gold-400 font-semibold mb-2">
                 Creative Manifesto
               </p>
               <h2 className="text-2xl sm:text-3xl font-black uppercase text-foreground mb-4">
@@ -101,7 +101,7 @@ export default async function AboutPage() {
         {/* Directors & Leadership (Dynamic Neon Roster) */}
         <div className="mb-24">
           <div className="max-w-2xl mb-12">
-            <p className="text-[11px] font-mono uppercase tracking-[0.25em] text-gold-400 mb-2">
+            <p className="text-[11px] font-mono uppercase tracking-[0.25em] text-gold-700 dark:text-gold-400 font-semibold mb-2">
               Creative Leadership
             </p>
             <h2 className="text-3xl sm:text-4xl font-black uppercase tracking-tight text-foreground">
@@ -127,7 +127,7 @@ export default async function AboutPage() {
                 <div className="p-6 flex flex-col flex-1 justify-between gap-3">
                   <div>
                     <h3 className="text-lg font-bold text-foreground">{director.name}</h3>
-                    <p className="text-xs font-mono text-gold-400 mb-3">{director.role}</p>
+                    <p className="text-xs font-mono font-medium text-gold-700 dark:text-gold-400 mb-3">{director.role}</p>
                     <p className="text-xs text-muted-foreground leading-relaxed">
                       {director.bio}
                     </p>
@@ -141,8 +141,8 @@ export default async function AboutPage() {
         {/* Technical Standard / Camera Packages */}
         <div className="p-8 sm:p-12 rounded-3xl border border-gold-500/30 bg-card mb-20">
           <div className="max-w-2xl mb-8">
-            <p className="text-[11px] font-mono uppercase tracking-[0.25em] text-gold-400 mb-2">
-              Technical Infrastructure
+            <p className="text-[11px] font-mono uppercase tracking-[0.25em] text-gold-700 dark:text-gold-400 font-semibold mb-2">
+              Production Infrastructure
             </p>
             <h2 className="text-2xl sm:text-3xl font-black uppercase text-foreground">
               Production Standards
@@ -153,7 +153,7 @@ export default async function AboutPage() {
             {TECHNICAL_GEAR.map((item, idx) => (
               <div key={idx} className="p-5 rounded-xl border border-border/60 bg-background/50">
                 <p className="text-xs font-bold text-foreground mb-1 flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-gold-400" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-gold-600 dark:bg-gold-400" />
                   <span>{item.item}</span>
                 </p>
                 <p className="text-xs text-muted-foreground leading-relaxed pl-3.5">
@@ -164,13 +164,13 @@ export default async function AboutPage() {
           </div>
         </div>
 
-        {/* CTA */}
+        {/* CTA (Dynamic Global CTA Copy) */}
         <div className="text-center flex flex-col items-center">
-          <h2 className="text-3xl sm:text-4xl font-black uppercase tracking-tight text-foreground mb-4">
-            Partner With Fixelora
+          <h2 className="text-3xl sm:text-4xl font-black uppercase tracking-tight text-foreground mb-4 max-w-2xl">
+            {pageContent.globalCtaHeading}
           </h2>
-          <p className="text-sm text-muted-foreground max-w-md mb-8">
-            Let&apos;s evaluate your brand&apos;s upcoming campaign and discover what cinematic storytelling can unlock.
+          <p className="text-sm text-muted-foreground max-w-lg mb-8 leading-relaxed">
+            {pageContent.globalCtaSubtext}
           </p>
           <Link
             href="/contact"

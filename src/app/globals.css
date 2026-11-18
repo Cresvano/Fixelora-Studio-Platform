@@ -70,13 +70,14 @@
 }
 
 .gold-gradient-text {
-  background: linear-gradient(135deg, #FFF0C2 0%, #D4AF37 50%, #9B7B1E 100%);
+  background: linear-gradient(135deg, #7A5E14 0%, #B89425 50%, #5C460E 100%);
   -webkit-background-clip: text;
   -webkit-fill-color: transparent;
   -webkit-text-fill-color: transparent;
 }
 
-.dark .gold-gradient-text {
+.dark .gold-gradient-text,
+.hero-gold-gradient-text {
   background: linear-gradient(135deg, #FFF5D6 0%, #F3C866 50%, #B89425 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;

@@ -163,6 +163,7 @@ export interface PageContent {
   homeHeroHeadline: string;
   homeHeroHeadlineAccent: string;
   homeHeroSubheadline: string;
+  sliderIntroText: string;
   homeServicesEyebrow: string;
   homeServicesTitle: string;
   aboutHeroEyebrow: string;
@@ -174,6 +175,9 @@ export interface PageContent {
   servicesHeroHeadline: string;
   servicesHeroHeadlineAccent: string;
   servicesHeroSummary: string;
+  globalCtaHeading: string;
+  globalCtaSubtext: string;
+  footerDescription: string;
   updatedAt: string;
 }
 

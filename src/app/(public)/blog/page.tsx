@@ -32,7 +32,7 @@ export default async function BlogIndexPage() {
     <div className="flex flex-col pt-32 pb-24 px-6 bg-background">
       <div className="container max-w-6xl mx-auto">
         <div className="max-w-3xl mb-16">
-          <p className="text-[11px] font-mono uppercase tracking-[0.25em] text-gold-400 mb-3">
+          <p className="text-[11px] font-mono uppercase tracking-[0.25em] text-gold-700 dark:text-gold-400 font-semibold mb-3">
             Journal & Insights
           </p>
           <h1 className="text-4xl sm:text-6xl font-black uppercase tracking-tight text-foreground leading-[1.08] mb-6">
@@ -69,13 +69,13 @@ export default async function BlogIndexPage() {
               <div className="p-8 flex flex-col flex-1 justify-between gap-6">
                 <div>
                   <div className="flex items-center gap-2 text-xs font-mono text-muted-foreground mb-3">
-                    <Clock className="w-3.5 h-3.5 text-gold-400" />
+                    <Clock className="w-3.5 h-3.5 text-gold-700 dark:text-gold-400" />
                     <span>{post.readingTime}</span>
                     <span>•</span>
                     <span>{post.publishDate}</span>
                   </div>
 
-                  <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground group-hover:text-gold-400 transition-colors mb-3">
+                  <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground group-hover:text-gold-700 dark:group-hover:text-gold-400 transition-colors mb-3">
                     <Link href={`/blog/${post.slug}`}>
                       {post.title}
                     </Link>

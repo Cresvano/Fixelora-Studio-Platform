@@ -48,7 +48,7 @@ export function BrandLogo({
           <span className="font-bold tracking-[0.2em] text-sm md:text-base uppercase text-foreground">
             FIXELORA
           </span>
-          <span className="font-light tracking-[0.25em] text-xs md:text-sm uppercase text-gold-400">
+          <span className="font-medium tracking-[0.25em] text-xs md:text-sm uppercase text-gold-700 dark:text-gold-400">
             STUDIO
           </span>
         </div>

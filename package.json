@@ -9,8 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@ai-sdk/openai": "^4.0.121",
     "@neondatabase/serverless": "^1.2.1",
     "@vercel/blob": "^2.9.0",
+    "ai": "^7.0.176",
     "clsx": "^2.1.1",
     "dotenv": "^18.0.10",
     "drizzle-kit": "^0.31.11",

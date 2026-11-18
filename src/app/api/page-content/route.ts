@@ -13,6 +13,7 @@ function mapDbPageContent(row: typeof schema.pageContent.$inferSelect): PageCont
     homeHeroHeadline: row.homeHeroHeadline,
     homeHeroHeadlineAccent: row.homeHeroHeadlineAccent,
     homeHeroSubheadline: row.homeHeroSubheadline,
+    sliderIntroText: row.sliderIntroText || DEFAULT_PAGE_CONTENT.sliderIntroText,
     homeServicesEyebrow: row.homeServicesEyebrow,
     homeServicesTitle: row.homeServicesTitle,
     aboutHeroEyebrow: row.aboutHeroEyebrow,
@@ -24,6 +25,9 @@ function mapDbPageContent(row: typeof schema.pageContent.$inferSelect): PageCont
     servicesHeroHeadline: row.servicesHeroHeadline,
     servicesHeroHeadlineAccent: row.servicesHeroHeadlineAccent,
     servicesHeroSummary: row.servicesHeroSummary,
+    globalCtaHeading: row.globalCtaHeading || DEFAULT_PAGE_CONTENT.globalCtaHeading,
+    globalCtaSubtext: row.globalCtaSubtext || DEFAULT_PAGE_CONTENT.globalCtaSubtext,
+    footerDescription: row.footerDescription || DEFAULT_PAGE_CONTENT.footerDescription,
     updatedAt: row.updatedAt ? row.updatedAt.toISOString() : new Date().toISOString(),
   };
 }
@@ -74,6 +78,8 @@ export async function PUT(request: Request): Promise<NextResponse> {
         data.homeHeroHeadlineAccent ?? DEFAULT_PAGE_CONTENT.homeHeroHeadlineAccent,
       homeHeroSubheadline:
         data.homeHeroSubheadline ?? DEFAULT_PAGE_CONTENT.homeHeroSubheadline,
+      sliderIntroText:
+        data.sliderIntroText ?? DEFAULT_PAGE_CONTENT.sliderIntroText,
       homeServicesEyebrow:
         data.homeServicesEyebrow ?? DEFAULT_PAGE_CONTENT.homeServicesEyebrow,
       homeServicesTitle: data.homeServicesTitle ?? DEFAULT_PAGE_CONTENT.homeServicesTitle,
@@ -92,6 +98,12 @@ export async function PUT(request: Request): Promise<NextResponse> {
         data.servicesHeroHeadlineAccent ?? DEFAULT_PAGE_CONTENT.servicesHeroHeadlineAccent,
       servicesHeroSummary:
         data.servicesHeroSummary ?? DEFAULT_PAGE_CONTENT.servicesHeroSummary,
+      globalCtaHeading:
+        data.globalCtaHeading ?? DEFAULT_PAGE_CONTENT.globalCtaHeading,
+      globalCtaSubtext:
+        data.globalCtaSubtext ?? DEFAULT_PAGE_CONTENT.globalCtaSubtext,
+      footerDescription:
+        data.footerDescription ?? DEFAULT_PAGE_CONTENT.footerDescription,
       updatedAt: new Date(),
     };
 
@@ -106,6 +118,7 @@ export async function PUT(request: Request): Promise<NextResponse> {
             homeHeroHeadline: record.homeHeroHeadline,
             homeHeroHeadlineAccent: record.homeHeroHeadlineAccent,
             homeHeroSubheadline: record.homeHeroSubheadline,
+            sliderIntroText: record.sliderIntroText,
             homeServicesEyebrow: record.homeServicesEyebrow,
             homeServicesTitle: record.homeServicesTitle,
             aboutHeroEyebrow: record.aboutHeroEyebrow,
@@ -117,12 +130,16 @@ export async function PUT(request: Request): Promise<NextResponse> {
             servicesHeroHeadline: record.servicesHeroHeadline,
             servicesHeroHeadlineAccent: record.servicesHeroHeadlineAccent,
             servicesHeroSummary: record.servicesHeroSummary,
+            globalCtaHeading: record.globalCtaHeading,
+            globalCtaSubtext: record.globalCtaSubtext,
+            footerDescription: record.footerDescription,
             updatedAt: record.updatedAt,
           },
         });
     }
 
     try {
+      revalidatePath("/", "layout");
       revalidatePath("/");
       revalidatePath("/about");
       revalidatePath("/services");

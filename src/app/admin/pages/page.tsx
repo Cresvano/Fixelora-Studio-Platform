@@ -412,6 +412,21 @@ export default function AdminPagesCMS() {
                     />
                   </div>
 
+                  <div className="flex flex-col gap-1.5 sm:col-span-2">
+                    <label className="text-xs font-mono uppercase text-muted-foreground">
+                      Hero Slider Intro / Trust Line (Replaces Technical Jargon)
+                    </label>
+                    <input
+                      type="text"
+                      value={content.sliderIntroText}
+                      onChange={(e) =>
+                        setContent({ ...content, sliderIntroText: e.target.value })
+                      }
+                      placeholder="Built to help ambitious brands stand out, earn instant trust, and turn attention into measurable sales."
+                      className="px-4 py-2.5 rounded-xl border border-border/80 bg-background text-foreground text-sm focus:outline-none focus:border-gold-500/60"
+                    />
+                  </div>
+
                   <div className="flex flex-col gap-1.5">
                     <label className="text-xs font-mono uppercase text-muted-foreground">
                       Homepage Services Eyebrow
@@ -583,6 +598,65 @@ export default function AdminPagesCMS() {
                       value={content.servicesHeroSummary}
                       onChange={(e) =>
                         setContent({ ...content, servicesHeroSummary: e.target.value })
+                      }
+                      className="px-4 py-2.5 rounded-xl border border-border/80 bg-background text-foreground text-sm leading-relaxed focus:outline-none focus:border-gold-500/60 resize-none"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* 4. GLOBAL CTA BANNERS & FOOTER BIO */}
+              <div className="p-6 rounded-2xl border border-border/80 bg-card flex flex-col gap-5">
+                <div className="pb-3 border-b border-border/60">
+                  <h3 className="text-sm font-bold text-foreground uppercase tracking-wider font-mono">
+                    Global CTA Banners & Footer Bio (Site-Wide)
+                  </h3>
+                  <p className="text-xs text-muted-foreground">
+                    Controls the bottom &ldquo;Start a Project&rdquo; banners across all pages and the brand bio inside the global footer.
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-1 gap-4">
+                  <div className="flex flex-col gap-1.5">
+                    <label className="text-xs font-mono uppercase text-muted-foreground">
+                      Global Closing CTA Heading
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={content.globalCtaHeading}
+                      onChange={(e) =>
+                        setContent({ ...content, globalCtaHeading: e.target.value })
+                      }
+                      className="px-4 py-2.5 rounded-xl border border-border/80 bg-background text-foreground text-sm focus:outline-none focus:border-gold-500/60"
+                    />
+                  </div>
+
+                  <div className="flex flex-col gap-1.5">
+                    <label className="text-xs font-mono uppercase text-muted-foreground">
+                      Global Closing CTA Subtext
+                    </label>
+                    <textarea
+                      rows={2}
+                      required
+                      value={content.globalCtaSubtext}
+                      onChange={(e) =>
+                        setContent({ ...content, globalCtaSubtext: e.target.value })
+                      }
+                      className="px-4 py-2.5 rounded-xl border border-border/80 bg-background text-foreground text-sm leading-relaxed focus:outline-none focus:border-gold-500/60 resize-none"
+                    />
+                  </div>
+
+                  <div className="flex flex-col gap-1.5">
+                    <label className="text-xs font-mono uppercase text-muted-foreground">
+                      Global Footer Studio Bio / Description
+                    </label>
+                    <textarea
+                      rows={3}
+                      required
+                      value={content.footerDescription}
+                      onChange={(e) =>
+                        setContent({ ...content, footerDescription: e.target.value })
                       }
                       className="px-4 py-2.5 rounded-xl border border-border/80 bg-background text-foreground text-sm leading-relaxed focus:outline-none focus:border-gold-500/60 resize-none"
                     />

@@ -47,6 +47,7 @@ export default async function HomePage() {
         heroHeadline={pageContent.homeHeroHeadline}
         heroHeadlineAccent={pageContent.homeHeroHeadlineAccent}
         heroSubheadline={pageContent.homeHeroSubheadline}
+        sliderIntroText={pageContent.sliderIntroText}
       />
 
       {/* 2. SELECTED COMMERCIAL WORKS (PORTFOLIO SHOWCASE) */}
@@ -55,7 +56,7 @@ export default async function HomePage() {
           {/* Section Header */}
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10 md:mb-16 pb-6 border-b border-border/60">
             <div>
-              <p className="text-xs font-mono uppercase tracking-[0.25em] text-gold-400 mb-1">
+              <p className="text-xs font-mono uppercase tracking-[0.25em] text-gold-700 dark:text-gold-400 font-semibold mb-1">
                 Selected Portfolio
               </p>
               <h2 className="text-2xl sm:text-4xl md:text-5xl font-black uppercase tracking-tight text-foreground">
@@ -64,7 +65,7 @@ export default async function HomePage() {
             </div>
             <Link
               href="/work"
-              className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.18em] font-medium text-gold-400 hover:text-gold-300 transition-colors"
+              className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.18em] font-semibold text-gold-700 dark:text-gold-400 hover:text-gold-600 dark:hover:text-gold-300 transition-colors"
             >
               <span>Explore All Works ({allProjects.length})</span>
               <ArrowRight className="w-4 h-4" />
@@ -130,7 +131,7 @@ export default async function HomePage() {
                   <div className="flex items-center justify-between pt-4 border-t border-border/50">
                     {project.commercialImpact[0] && (
                       <div className="flex items-center gap-2">
-                        <span className="text-base font-bold font-mono text-gold-400">
+                        <span className="text-base font-bold font-mono text-gold-700 dark:text-gold-400">
                           {project.commercialImpact[0].metric}
                         </span>
                         <span className="text-xs text-muted-foreground">
@@ -140,7 +141,7 @@ export default async function HomePage() {
                     )}
                     <Link
                       href={`/work/${project.slug}`}
-                      className="text-xs font-semibold uppercase tracking-wider text-foreground hover:text-gold-400 inline-flex items-center gap-1 transition-colors"
+                      className="text-xs font-semibold uppercase tracking-wider text-foreground hover:text-gold-700 dark:hover:text-gold-400 inline-flex items-center gap-1 transition-colors"
                     >
                       <span>Case Study</span>
                       <ArrowUpRight className="w-3.5 h-3.5" />
@@ -158,7 +159,7 @@ export default async function HomePage() {
         <div className="container max-w-7xl mx-auto">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10 md:mb-16">
             <div className="max-w-2xl">
-              <p className="text-xs font-mono uppercase tracking-[0.25em] text-gold-400 mb-1">
+              <p className="text-xs font-mono uppercase tracking-[0.25em] text-gold-700 dark:text-gold-400 font-semibold mb-1">
                 {pageContent.homeServicesEyebrow}
               </p>
               <h2 className="text-2xl sm:text-4xl md:text-5xl font-black uppercase tracking-tight text-foreground">
@@ -167,7 +168,7 @@ export default async function HomePage() {
             </div>
             <Link
               href="/services"
-              className="text-xs font-mono uppercase tracking-wider text-gold-400 hover:text-gold-300 inline-flex items-center gap-1"
+              className="text-xs font-mono font-semibold uppercase tracking-wider text-gold-700 dark:text-gold-400 hover:text-gold-600 dark:hover:text-gold-300 inline-flex items-center gap-1"
             >
               <span>View All 6 Divisions & Capabilities</span>
               <ArrowRight className="w-4 h-4" />
@@ -182,7 +183,7 @@ export default async function HomePage() {
               >
                 <div>
                   <div className="flex items-center justify-between mb-4">
-                    <span className="text-xs font-mono text-gold-400 uppercase tracking-widest font-bold">
+                    <span className="text-xs font-mono text-gold-700 dark:text-gold-400 uppercase tracking-widest font-bold">
                       0{idx + 1}
                     </span>
                     <span className="text-[11px] font-mono text-muted-foreground">
@@ -203,7 +204,7 @@ export default async function HomePage() {
                   </span>
                   <Link
                     href={`/services/${service.slug}`}
-                    className="text-xs font-semibold uppercase tracking-wider text-gold-400 hover:text-gold-300 inline-flex items-center gap-1"
+                    className="text-xs font-semibold uppercase tracking-wider text-gold-700 dark:text-gold-400 hover:text-gold-600 dark:hover:text-gold-300 inline-flex items-center gap-1"
                   >
                     <span>Details</span>
                     <ArrowUpRight className="w-3.5 h-3.5" />
@@ -221,7 +222,7 @@ export default async function HomePage() {
           <div className="p-8 sm:p-12 rounded-3xl border border-gold-500/30 bg-gradient-to-b from-card to-background relative overflow-hidden">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 text-center divide-y md:divide-y-0 md:divide-x divide-border/60">
               <div className="pt-4 md:pt-0">
-                <p className="text-3xl sm:text-5xl font-black font-mono text-gold-400 mb-1">
+                <p className="text-3xl sm:text-5xl font-black font-mono text-gold-700 dark:text-gold-400 mb-1">
                   45M+
                 </p>
                 <p className="text-xs uppercase tracking-widest text-muted-foreground">
@@ -230,7 +231,7 @@ export default async function HomePage() {
               </div>
 
               <div className="pt-4 md:pt-0">
-                <p className="text-3xl sm:text-5xl font-black font-mono text-gold-400 mb-1">
+                <p className="text-3xl sm:text-5xl font-black font-mono text-gold-700 dark:text-gold-400 mb-1">
                   $85M+
                 </p>
                 <p className="text-xs uppercase tracking-widest text-muted-foreground">
@@ -239,16 +240,16 @@ export default async function HomePage() {
               </div>
 
               <div className="pt-4 md:pt-0">
-                <p className="text-3xl sm:text-5xl font-black font-mono text-gold-400 mb-1">
+                <p className="text-3xl sm:text-5xl font-black font-mono text-gold-700 dark:text-gold-400 mb-1">
                   100%
                 </p>
                 <p className="text-xs uppercase tracking-widest text-muted-foreground">
-                  4K / ProRes Master Standard
+                  Brand-First Commercial Quality
                 </p>
               </div>
 
               <div className="pt-4 md:pt-0">
-                <p className="text-3xl sm:text-5xl font-black font-mono text-gold-400 mb-1">
+                <p className="text-3xl sm:text-5xl font-black font-mono text-gold-700 dark:text-gold-400 mb-1">
                   &lt; 24h
                 </p>
                 <p className="text-xs uppercase tracking-widest text-muted-foreground">
@@ -265,7 +266,7 @@ export default async function HomePage() {
         <div className="container max-w-7xl mx-auto">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
             <div>
-              <p className="text-xs font-mono uppercase tracking-[0.25em] text-gold-400 mb-1">
+              <p className="text-xs font-mono uppercase tracking-[0.25em] text-gold-700 dark:text-gold-400 font-semibold mb-1">
                 Studio Journal
               </p>
               <h2 className="text-2xl sm:text-4xl font-black uppercase tracking-tight text-foreground">
@@ -274,7 +275,7 @@ export default async function HomePage() {
             </div>
             <Link
               href="/blog"
-              className="text-xs uppercase tracking-[0.18em] font-medium text-gold-400 hover:text-gold-300 inline-flex items-center gap-1"
+              className="text-xs uppercase tracking-[0.18em] font-semibold text-gold-700 dark:text-gold-400 hover:text-gold-600 dark:hover:text-gold-300 inline-flex items-center gap-1"
             >
               <span>View All Articles</span>
               <ArrowRight className="w-4 h-4" />
@@ -290,10 +291,10 @@ export default async function HomePage() {
               >
                 <div>
                   <div className="flex items-center justify-between text-xs text-muted-foreground font-mono mb-4">
-                    <span className="text-gold-400 font-semibold uppercase">{post.category}</span>
+                    <span className="text-gold-700 dark:text-gold-400 font-semibold uppercase">{post.category}</span>
                     <span>{post.readingTime}</span>
                   </div>
-                  <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground group-hover:text-gold-400 transition-colors mb-3">
+                  <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground group-hover:text-gold-700 dark:group-hover:text-gold-400 transition-colors mb-3">
                     {post.title}
                   </h3>
                   <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed line-clamp-2">
@@ -302,7 +303,7 @@ export default async function HomePage() {
                 </div>
                 <div className="pt-6 mt-6 border-t border-border/40 flex items-center justify-between text-xs text-muted-foreground">
                   <span>By {post.author.name}</span>
-                  <span className="inline-flex items-center gap-1 text-foreground font-medium group-hover:text-gold-400">
+                  <span className="inline-flex items-center gap-1 text-foreground font-medium group-hover:text-gold-700 dark:group-hover:text-gold-400">
                     Read Article <ArrowUpRight className="w-3.5 h-3.5" />
                   </span>
                 </div>
@@ -312,19 +313,17 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* 6. CLOSING CTA BANNER */}
+      {/* 6. CLOSING CTA BANNER (Dynamic Global CTA Copy) */}
       <section className="py-16 md:py-28 px-4 sm:px-6 bg-background relative overflow-hidden">
         <div className="container max-w-5xl mx-auto text-center flex flex-col items-center">
-          <p className="text-xs font-mono uppercase tracking-[0.3em] text-gold-400 mb-3">
+          <p className="text-xs font-mono uppercase tracking-[0.3em] text-gold-700 dark:text-gold-400 font-semibold mb-3">
             Start Your Next Production
           </p>
-          <h2 className="text-3xl sm:text-5xl md:text-7xl font-black uppercase tracking-tight text-foreground leading-[1.08] mb-6">
-            Let&apos;s Craft Something <br />
-            <span className="gold-gradient-text">Unforgettable.</span>
+          <h2 className="text-3xl sm:text-5xl md:text-6xl font-black uppercase tracking-tight text-foreground leading-[1.08] mb-6 max-w-3xl">
+            {pageContent.globalCtaHeading}
           </h2>
           <p className="text-sm sm:text-base text-muted-foreground max-w-xl font-light mb-8 leading-relaxed">
-            Whether you need a flagship television commercial, a multi-platform DTC video campaign, 
-            or high-concept 3D visuals, our directors are ready.
+            {pageContent.globalCtaSubtext}
           </p>
           <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4">
             <Link

@@ -162,6 +162,7 @@ async function seed() {
       homeHeroHeadline: DEFAULT_PAGE_CONTENT.homeHeroHeadline,
       homeHeroHeadlineAccent: DEFAULT_PAGE_CONTENT.homeHeroHeadlineAccent,
       homeHeroSubheadline: DEFAULT_PAGE_CONTENT.homeHeroSubheadline,
+      sliderIntroText: DEFAULT_PAGE_CONTENT.sliderIntroText,
       homeServicesEyebrow: DEFAULT_PAGE_CONTENT.homeServicesEyebrow,
       homeServicesTitle: DEFAULT_PAGE_CONTENT.homeServicesTitle,
       aboutHeroEyebrow: DEFAULT_PAGE_CONTENT.aboutHeroEyebrow,
@@ -173,6 +174,9 @@ async function seed() {
       servicesHeroHeadline: DEFAULT_PAGE_CONTENT.servicesHeroHeadline,
       servicesHeroHeadlineAccent: DEFAULT_PAGE_CONTENT.servicesHeroHeadlineAccent,
       servicesHeroSummary: DEFAULT_PAGE_CONTENT.servicesHeroSummary,
+      globalCtaHeading: DEFAULT_PAGE_CONTENT.globalCtaHeading,
+      globalCtaSubtext: DEFAULT_PAGE_CONTENT.globalCtaSubtext,
+      footerDescription: DEFAULT_PAGE_CONTENT.footerDescription,
     }).onConflictDoNothing();
 
     // 9. Seed Team Members

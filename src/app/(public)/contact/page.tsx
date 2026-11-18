@@ -60,7 +60,7 @@ export default function ContactPage() {
       <div className="container max-w-5xl mx-auto">
         {/* Header */}
         <div className="max-w-2xl mb-12">
-          <p className="text-[11px] font-mono uppercase tracking-[0.25em] text-gold-400 mb-3">
+          <p className="text-[11px] font-mono uppercase tracking-[0.25em] text-gold-700 dark:text-gold-400 font-semibold mb-3">
             Start A Project
           </p>
           <h1 className="text-4xl sm:text-6xl font-black uppercase tracking-tight text-foreground leading-[1.08] mb-4">
@@ -131,7 +131,7 @@ export default function ContactPage() {
                           description: "",
                         });
                       }}
-                      className="text-xs uppercase tracking-wider text-gold-400 hover:underline font-mono"
+                      className="text-xs uppercase tracking-wider text-gold-700 dark:text-gold-400 font-semibold hover:underline font-mono"
                     >
                       Submit Another Brief
                     </button>
@@ -147,7 +147,7 @@ export default function ContactPage() {
                           Fill out the details below. Response guaranteed within 24 hours.
                         </p>
                       </div>
-                      <span className="text-[10px] font-mono uppercase px-2 py-1 rounded bg-muted text-gold-400 border border-border/60">
+                      <span className="text-[10px] font-mono font-semibold uppercase px-2 py-1 rounded bg-muted text-gold-700 dark:text-gold-400 border border-border/60">
                         Avg. Time: 2 mins
                       </span>
                     </div>
@@ -311,7 +311,7 @@ export default function ContactPage() {
                 </div>
 
                 <div className="p-8 rounded-2xl border border-dashed border-border/80 bg-background/50 flex flex-col items-center text-center">
-                  <div className="w-14 h-14 rounded-full bg-gold-500/10 border border-gold-500/30 text-gold-400 flex items-center justify-center mb-4">
+                  <div className="w-14 h-14 rounded-full bg-gold-500/10 border border-gold-500/30 text-gold-700 dark:text-gold-400 flex items-center justify-center mb-4">
                     <Calendar className="w-6 h-6" />
                   </div>
                   <h3 className="text-base font-bold text-foreground mb-1">
@@ -343,11 +343,11 @@ export default function ContactPage() {
           <div className="lg:col-span-4 flex flex-col gap-6">
             <div className="p-6 rounded-2xl border border-border/80 bg-card flex flex-col gap-6">
               <div>
-                <p className="text-[10px] font-mono uppercase tracking-[0.2em] text-gold-400 mb-1">
+                <p className="text-[10px] font-mono uppercase tracking-[0.2em] text-gold-700 dark:text-gold-400 font-semibold mb-1">
                   Guaranteed Response
                 </p>
                 <p className="text-sm font-bold text-foreground flex items-center gap-2">
-                  <Clock className="w-4 h-4 text-emerald-400" />
+                  <Clock className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
                   <span>Under 24 Hours</span>
                 </p>
                 <p className="text-xs text-muted-foreground mt-1 leading-relaxed">
@@ -357,25 +357,27 @@ export default function ContactPage() {
 
               <div className="pt-4 border-t border-border/40 flex flex-col gap-4 text-xs text-muted-foreground">
                 <div className="flex items-start gap-3">
-                  <Mail className="w-4 h-4 text-gold-400 shrink-0 mt-0.5" />
+                  <Mail className="w-4 h-4 text-gold-700 dark:text-gold-400 shrink-0 mt-0.5" />
                   <div>
                     <p className="text-foreground font-semibold">Direct Production Email</p>
-                    <a href="mailto:production@fixelorastudio.com" className="hover:text-gold-400">
+                    <a href="mailto:production@fixelorastudio.com" className="hover:text-gold-700 dark:hover:text-gold-400">
                       production@fixelorastudio.com
                     </a>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-3">
-                  <Phone className="w-4 h-4 text-gold-400 shrink-0 mt-0.5" />
+                  <Phone className="w-4 h-4 text-gold-700 dark:text-gold-400 shrink-0 mt-0.5" />
                   <div>
                     <p className="text-foreground font-semibold">Studio Line</p>
-                    <p>+1 (310) 902-8800</p>
+                    <a href="tel:+13109028800" className="hover:text-gold-700 dark:hover:text-gold-400">
+                      +1 (310) 902-8800
+                    </a>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-3">
-                  <MapPin className="w-4 h-4 text-gold-400 shrink-0 mt-0.5" />
+                  <MapPin className="w-4 h-4 text-gold-700 dark:text-gold-400 shrink-0 mt-0.5" />
                   <div>
                     <p className="text-foreground font-semibold">Hubs</p>
                     <p>Century City, Los Angeles</p>
@@ -385,8 +387,8 @@ export default function ContactPage() {
               </div>
             </div>
 
-            <div className="p-6 rounded-2xl border border-gold-500/20 bg-card/60 flex flex-col gap-2">
-              <span className="text-xs font-mono uppercase tracking-wider text-gold-400 font-bold">
+            <div className="p-6 rounded-2xl border border-gold-500/30 bg-card/60 flex flex-col gap-2">
+              <span className="text-xs font-mono uppercase tracking-wider text-gold-700 dark:text-gold-400 font-bold">
                 Confidentiality Guaranteed
               </span>
               <p className="text-xs text-muted-foreground leading-relaxed">

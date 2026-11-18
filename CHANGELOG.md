@@ -2,6 +2,22 @@
 
 All notable changes and architectural milestones for this project will be documented in this file.
 
+## [Phase 6.2] - Master UX, 100% Editable Global CMS & SDR AI Chatbot (November 2026)
+
+### Added
+- **Custom Fixelora SDR AI Chatbot (`src/components/public/ChatWidget.tsx`, `/api/chat`):**
+  - Installed `ai` (Vercel AI SDK) and `@ai-sdk/openai`.
+  - Built a floating bottom-right chat widget mounted across all public pages with quick starter prompts, live streaming replies, theme-adaptive dark/light styling, and direct `/contact` brief CTA.
+  - Configured `/api/chat` with the Fixelora SDR system prompt (6 core services, `$50-$200` to `$1,500-$3,000+` budget tiers, jargon-free business growth tone) and graceful built-in SDR fallback when `OPENAI_API_KEY` is not yet configured.
+- **100% Editable Global Copy (`page_content` Schema & `/admin/pages`):**
+  - Expanded Neon `page_content` table and seed script with `slider_intro_text`, `global_cta_heading`, `global_cta_subtext`, and `footer_description`.
+  - Added inputs for all 4 new global fields inside `/admin/pages` and wired `HeroSlider`, `PublicShell` footer bio, and closing CTA banners across `/`, `/about`, and `/services`.
+
+### Changed
+- **Jargon Removal (`src/components/public/HeroSlider.tsx`):** Completely deleted the technical metadata block (`FORMAT: 4K ProRes...`, `LOCATIONS:...`, `AUDIO: Dolby Atmos`) from the codebase and replaced it with dynamic `sliderIntroText`.
+- **Footer Security Cleanup (`src/components/public/PublicShell.tsx`):** Completely removed the `<Link href="/admin">Internal Dashboard</Link>` link, stray separator dots (`•`), and desktop header admin link from the public UI.
+- **Global Light Mode Contrast Fix:** Fixed critical light-mode contrast bugs across `/`, `/about`, `/services`, `/work`, `/contact`, `/blog`, `HeroSlider.tsx`, `BrandLogo.tsx`, and `globals.css` (replaced `from-card` white gradient behind white service titles with dark scrim, locked hero video overlays to dark cinematic gradients, updated light-mode `.gold-gradient-text` and gold accents to `text-gold-700 dark:text-gold-400`, and gave the header an adaptive frosted backdrop).
+
 ## [Phase 6] - Mobile Responsive Polish, Global Page & Team CMS, SEO & Open Graph (November 2026)
 
 ### Added

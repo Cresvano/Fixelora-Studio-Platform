@@ -109,7 +109,7 @@ export default function PrivacyPolicyPage() {
             </p>
             <div className="p-5 rounded-2xl border border-border/80 bg-card font-mono text-xs text-muted-foreground space-y-1.5">
               <p><strong className="text-foreground">Fixelora Studio Legal & Compliance</strong></p>
-              <p>Century City Media District, Los Angeles, CA</p>
+              <p>International Commercial Video Production • Global Studio</p>
               <p>Email: <a href="mailto:legal@fixelorastudio.com" className="text-gold-400 hover:underline">legal@fixelorastudio.com</a></p>
               <p>Production Line: +1 (310) 902-8800</p>
             </div>

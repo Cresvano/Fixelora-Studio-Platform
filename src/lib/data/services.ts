@@ -25,8 +25,8 @@ export const PRIMARY_SERVICES: PrimaryService[] = [
     productionProcess: [
       { step: "01", phase: "Concept & Visual Treatment", detail: "Dissect product architecture, materials, and positioning. Develop 3 distinct visual treatments with lighting maps and motion references." },
       { step: "02", phase: "Pre-Light & Studio Staging", detail: "Custom set construction, precision robotic arm pre-programming, and macro lighting calibration for pristine highlight roll-off." },
-      { step: "03", phase: "Principal Photography", detail: "Shot on RED 8K VV / ARRI Alexa 35 with specialized anamorphic and probe lenses for extreme tactile fidelity." },
-      { step: "04", phase: "Conform, Color & Spatial Audio", detail: "ACES color pipeline, cleanup, beauty retouching, and bespoke sound design mixed in Dolby Atmos." }
+      { step: "03", phase: "Principal Photography", detail: "Shot on flagship cinema camera packages with specialized anamorphic and probe lenses for extreme tactile fidelity." },
+      { step: "04", phase: "Conform, Color & Spatial Audio", detail: "ACES color pipeline, cleanup, beauty retouching, and bespoke sound design mixed for cinema-grade spatial audio." }
     ],
     industryUseCases: [
       { industry: "Luxury & Horology", application: "Intimate macro mechanics, tourbillon movement tracking, and reflection management." },
@@ -91,7 +91,7 @@ export const PRIMARY_SERVICES: PrimaryService[] = [
       },
       {
         question: "What international locations can you shoot in?",
-        answer: "Fixelora operates dual production hubs in Los Angeles and London, with trusted production fixers and camera crews stationed across Europe, North America, and East Asia."
+        answer: "Fixelora operates as an international commercial production unit, deploying worldwide for borderless commercial execution with vetted production crews across Europe, North America, and East Asia."
       }
     ]
   },
@@ -353,12 +353,12 @@ export const PRODUCTION_CAPABILITIES: ProductionCapability[] = [
   { id: "cap-4", title: "Executive Creative Direction", category: "Creative Strategy", description: "Direct oversight by award-winning commercial directors from initial pitch to final master color." },
   
   { id: "cap-5", title: "AI-Assisted Visual Production", category: "Visual Production", description: "Utilizing generative and neural imaging tools as an agile production pipeline capability to accelerate prototyping and concept design." },
-  { id: "cap-6", title: "High-Speed & Macro Cinematography", category: "Visual Production", description: "Phantom Flex 4K at 1000fps and specialized probe optics for tactile, microscopic detail." },
-  { id: "cap-7", title: "Location Scouting & Studio Set Builds", category: "Visual Production", description: "Custom architectural sets, cyclorama stages, and global location coordination in LA, London, and remote." },
+  { id: "cap-6", title: "High-Speed & Macro Cinematography", category: "Visual Production", description: "Ultra high-speed cinema optics for capturing tactile, microscopic product detail." },
+  { id: "cap-7", title: "Location Scouting & Studio Set Builds", category: "Visual Production", description: "Custom architectural sets, cyclorama stages, and global location coordination worldwide." },
   { id: "cap-8", title: "Talent Casting & Wardrobe Styling", category: "Visual Production", description: "Professional SAG-AFTRA and international commercial talent casting, grooming, and luxury styling." },
   
   { id: "cap-9", title: "Voiceover Production & Voice Direction", category: "Post-Production & Audio", description: "Sourcing and directing premier international commercial voice actors in world-class audio booths." },
-  { id: "cap-10", title: "Bespoke Sound Design & Foley", category: "Post-Production & Audio", description: "Tactile acoustic design, mechanical foley, and spatial sound manipulation mixed in Dolby Atmos." },
+  { id: "cap-10", title: "Bespoke Sound Design & Foley", category: "Post-Production & Audio", description: "Tactile acoustic design, mechanical foley, and spatial sound manipulation mixed for pristine stereo and surround delivery." },
   { id: "cap-11", title: "Custom Music Selection & Original Scoring", category: "Post-Production & Audio", description: "Curated orchestral, electronic, or bespoke compositions recorded specifically for campaign resonance." },
   { id: "cap-12", title: "High-End Video Editing & Conforming", category: "Post-Production & Audio", description: "Rhythmically refined offline and online editing suites powered by DaVinci Resolve Studio." },
   { id: "cap-13", title: "ACES Color Grading & Look Profiles", category: "Post-Production & Audio", description: "Custom LUT creation and calibrated OLED color grading by seasoned studio colorists." },

@@ -16,7 +16,7 @@ export const MOCK_PITCHES: Pitch[] = [
     thumbnailUrl: "https://images.unsplash.com/photo-1617788138017-80ad40651399?q=80&w=1600&auto=format&fit=crop",
     keyTakeaways: [
       "Custom 60s broadcast and 4x vertical cutdowns engineered specifically for European and Asian growth corridors.",
-      "Zero combustion noise: 100% bespoke spatial sound design produced in Dolby Atmos.",
+      "Zero combustion noise: 100% bespoke spatial sound design produced for broadcast standards.",
       "Turnkey production pipeline with guaranteed 3-week turnaround from pre-light to final grade."
     ],
     recommendedTimeline: "Q1 Campaign Window (4-Week Turnaround)",

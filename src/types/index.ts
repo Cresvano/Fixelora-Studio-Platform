@@ -175,6 +175,15 @@ export interface PageContent {
   servicesHeroHeadline: string;
   servicesHeroHeadlineAccent: string;
   servicesHeroSummary: string;
+  blogHeroEyebrow: string;
+  blogHeroHeadline: string;
+  blogHeroHeadlineAccent: string;
+  blogHeroIntro: string;
+  contactHeroEyebrow: string;
+  contactHeroHeadline: string;
+  contactHeroHeadlineAccent: string;
+  contactHeroIntro: string;
+  contactResponsePromise: string;
   globalCtaHeading: string;
   globalCtaSubtext: string;
   footerDescription: string;

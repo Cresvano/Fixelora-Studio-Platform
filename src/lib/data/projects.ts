@@ -49,7 +49,7 @@ export const MOCK_PROJECTS: Project[] = [
     tagline: "Every millisecond engineered with astronomical precision.",
     description: "An intimate macro-cinematography showcase of the Verve Tourbillon. Combining extreme probe-lens tracking with liquid metal simulation, this commercial drove the most successful direct-to-consumer pre-order in the brand's history.",
     creativeObjective: "Translate high-horology mechanical complexity into an emotive, aspirational purchase trigger for affluent online buyers.",
-    targetAudience: "Luxury collectors, executive professionals, and horology enthusiasts across London, Zurich, and New York.",
+    targetAudience: "Luxury collectors, executive professionals, and horology enthusiasts across premier international luxury markets.",
     deliverables: ["45s DTC Hero Video", "3x 9:16 Instagram Reels / TikTok Editions", "E-commerce Landing Page Interactive Video Loop"],
     commercialImpact: [
       { metric: "$3.8M", label: "Pre-Order Revenue in 72h" },

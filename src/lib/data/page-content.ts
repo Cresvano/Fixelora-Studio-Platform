@@ -26,6 +26,17 @@ export const DEFAULT_PAGE_CONTENT: PageContent = {
   servicesHeroHeadlineAccent: "Engineered For Prestige.",
   servicesHeroSummary:
     "Fixelora Studio combines tier-one cinematography, high-concept narrative direction, and algorithmic performance strategy. We direct broadcast-grade commercials and multi-platform visual campaigns that position brands at the summit of their industry.",
+  blogHeroEyebrow: "Commercial Film & Creative Strategy",
+  blogHeroHeadline: "Insights &",
+  blogHeroHeadlineAccent: "Field Notes.",
+  blogHeroIntro:
+    "Deep dives into high-impact commercial direction, cinematic storytelling, and visual advertising strategy for premium brands.",
+  contactHeroEyebrow: "Direct Studio Inquiries",
+  contactHeroHeadline: "Initiate a",
+  contactHeroHeadlineAccent: "Commercial Brief.",
+  contactHeroIntro:
+    "Submit your project brief below or select a timeline to discuss your campaign with our executive production team.",
+  contactResponsePromise: "We review briefs within 24 hours. NDA provided upon initial submission.",
   globalCtaHeading: "Let's Craft Something Unforgettable.",
   globalCtaSubtext:
     "Whether you need a flagship product commercial, a high-converting social ad campaign, or an unforgettable brand film, our team is ready to bring your vision to life.",
@@ -39,7 +50,7 @@ export const DEFAULT_TEAM_MEMBERS: TeamMember[] = [
     id: "team-1",
     name: "Julian Vance",
     role: "Founder & Executive Creative Director",
-    bio: "Former commercial director at RSA Films and Grey London. Julian has directed global campaigns for Audi, Bang & Olufsen, and Polestar, specializing in automotive velocity and quiet luxury aesthetics.",
+    bio: "Former commercial director at RSA Films and leading global agencies. Julian has directed worldwide campaigns for Audi, Bang & Olufsen, and Polestar, specializing in automotive velocity and quiet luxury aesthetics.",
     headshotUrl:
       "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=600&auto=format&fit=crop",
     displayOrder: 1,
@@ -86,6 +97,15 @@ function mapDbPageContent(row: typeof schema.pageContent.$inferSelect): PageCont
     servicesHeroHeadline: row.servicesHeroHeadline,
     servicesHeroHeadlineAccent: row.servicesHeroHeadlineAccent,
     servicesHeroSummary: row.servicesHeroSummary,
+    blogHeroEyebrow: row.blogHeroEyebrow || DEFAULT_PAGE_CONTENT.blogHeroEyebrow,
+    blogHeroHeadline: row.blogHeroHeadline || DEFAULT_PAGE_CONTENT.blogHeroHeadline,
+    blogHeroHeadlineAccent: row.blogHeroHeadlineAccent || DEFAULT_PAGE_CONTENT.blogHeroHeadlineAccent,
+    blogHeroIntro: row.blogHeroIntro || DEFAULT_PAGE_CONTENT.blogHeroIntro,
+    contactHeroEyebrow: row.contactHeroEyebrow || DEFAULT_PAGE_CONTENT.contactHeroEyebrow,
+    contactHeroHeadline: row.contactHeroHeadline || DEFAULT_PAGE_CONTENT.contactHeroHeadline,
+    contactHeroHeadlineAccent: row.contactHeroHeadlineAccent || DEFAULT_PAGE_CONTENT.contactHeroHeadlineAccent,
+    contactHeroIntro: row.contactHeroIntro || DEFAULT_PAGE_CONTENT.contactHeroIntro,
+    contactResponsePromise: row.contactResponsePromise || DEFAULT_PAGE_CONTENT.contactResponsePromise,
     globalCtaHeading: row.globalCtaHeading || DEFAULT_PAGE_CONTENT.globalCtaHeading,
     globalCtaSubtext: row.globalCtaSubtext || DEFAULT_PAGE_CONTENT.globalCtaSubtext,
     footerDescription: row.footerDescription || DEFAULT_PAGE_CONTENT.footerDescription,

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { blogRepository } from "@/lib/data/blog";
+import { pageContentRepository } from "@/lib/data/page-content";
 import { ArrowUpRight, Clock, User } from "lucide-react";
 
 export const dynamic = "force-dynamic";
@@ -26,21 +27,24 @@ export const metadata: Metadata = {
 };
 
 export default async function BlogIndexPage() {
-  const posts = await blogRepository.getPosts();
+  const [posts, pageContent] = await Promise.all([
+    blogRepository.getPosts(),
+    pageContentRepository.getPageContent(),
+  ]);
 
   return (
     <div className="flex flex-col pt-32 pb-24 px-6 bg-background">
       <div className="container max-w-6xl mx-auto">
         <div className="max-w-3xl mb-16">
           <p className="text-[11px] font-mono uppercase tracking-[0.25em] text-gold-700 dark:text-gold-400 font-semibold mb-3">
-            Journal & Insights
+            {pageContent.blogHeroEyebrow}
           </p>
           <h1 className="text-4xl sm:text-6xl font-black uppercase tracking-tight text-foreground leading-[1.08] mb-6">
-            Commercial Filmmaking <br />
-            <span className="gold-gradient-text">& Advertising Strategy.</span>
+            {pageContent.blogHeroHeadline} <br />
+            <span className="gold-gradient-text">{pageContent.blogHeroHeadlineAccent}</span>
           </h1>
           <p className="text-base sm:text-lg text-muted-foreground font-light leading-relaxed">
-            Analytical essays, camera pipeline breakdowns, and conversion case studies direct from our directors and colorists.
+            {pageContent.blogHeroIntro}
           </p>
         </div>
 

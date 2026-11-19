@@ -20,8 +20,15 @@ import {
   AlertCircle,
   Loader2,
   Image as ImageIcon,
-  FileText
+  FileText,
+  Compass,
+  Sliders,
+  BookOpen,
+  Mail,
+  Globe
 } from "lucide-react";
+
+type PageTab = "home" | "about" | "services" | "insights" | "contact" | "global" | "team";
 
 const EMPTY_MEMBER: Omit<TeamMember, "id" | "createdAt"> = {
   name: "",
@@ -32,7 +39,7 @@ const EMPTY_MEMBER: Omit<TeamMember, "id" | "createdAt"> = {
 };
 
 export default function AdminPagesCMS() {
-  const [activeTab, setActiveTab] = React.useState<"copy" | "team">("copy");
+  const [activeTab, setActiveTab] = React.useState<PageTab>("home");
 
   // Page Copy State
   const [content, setContent] = React.useState<PageContent>(DEFAULT_PAGE_CONTENT);
@@ -250,6 +257,16 @@ export default function AdminPagesCMS() {
     }
   };
 
+  const tabsConfig = [
+    { id: "home" as PageTab, label: "Home (/)", icon: LayoutTemplate, preview: "/" },
+    { id: "about" as PageTab, label: "About (/about)", icon: Compass, preview: "/about" },
+    { id: "services" as PageTab, label: "Services (/services)", icon: Sliders, preview: "/services" },
+    { id: "insights" as PageTab, label: "Insights (/blog)", icon: BookOpen, preview: "/blog" },
+    { id: "contact" as PageTab, label: "Contact (/contact)", icon: Mail, preview: "/contact" },
+    { id: "global" as PageTab, label: "Global (Footer & CTA)", icon: Globe, preview: "/" },
+    { id: "team" as PageTab, label: "Team Roster", icon: Users, preview: "/about" },
+  ];
+
   return (
     <div className="flex flex-col gap-6 max-w-6xl">
       {/* Header */}
@@ -257,7 +274,7 @@ export default function AdminPagesCMS() {
         <div>
           <div className="flex items-center gap-2 mb-1">
             <h2 className="text-2xl font-bold tracking-tight text-foreground">
-              Global Page Copy & Team CMS
+              Global Page CMS & Team Manager
             </h2>
             <span className="px-2 py-0.5 rounded-full text-[10px] font-mono uppercase bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 flex items-center gap-1">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
@@ -265,411 +282,537 @@ export default function AdminPagesCMS() {
             </span>
           </div>
           <p className="text-xs text-muted-foreground">
-            Edit public page headlines, manifesto copy, service summaries, and manage the directing roster with Vercel Blob headshot uploads.
+            Edit live copy across all 5 public pages, global elements, and direct your creative team roster.
           </p>
         </div>
 
         <div className="flex items-center gap-2">
-          <Link
-            href="/"
-            target="_blank"
-            className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl border border-border text-xs font-mono text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
-          >
-            <span>Home</span>
-            <ExternalLink className="w-3 h-3" />
-          </Link>
-          <Link
-            href="/about"
-            target="_blank"
-            className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl border border-border text-xs font-mono text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
-          >
-            <span>About</span>
-            <ExternalLink className="w-3 h-3" />
-          </Link>
-          <Link
-            href="/services"
-            target="_blank"
-            className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl border border-border text-xs font-mono text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
-          >
-            <span>Services</span>
-            <ExternalLink className="w-3 h-3" />
-          </Link>
+          {tabsConfig
+            .find((t) => t.id === activeTab)
+            ?.preview && (
+              <Link
+                href={tabsConfig.find((t) => t.id === activeTab)!.preview}
+                target="_blank"
+                className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl border border-border text-xs font-mono text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+              >
+                <span>Preview Page</span>
+                <ExternalLink className="w-3.5 h-3.5" />
+              </Link>
+            )}
         </div>
       </div>
 
-      {/* Section Tabs */}
-      <div className="flex items-center gap-2 p-1.5 rounded-2xl bg-card border border-border/80 w-fit">
-        <button
-          onClick={() => setActiveTab("copy")}
-          className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-mono uppercase tracking-wider transition-all ${
-            activeTab === "copy"
-              ? "bg-gold-500 text-black font-bold shadow-sm"
-              : "text-muted-foreground hover:text-foreground"
-          }`}
-        >
-          <FileText className="w-3.5 h-3.5" />
-          <span>Global Page Copy</span>
-        </button>
-
-        <button
-          onClick={() => setActiveTab("team")}
-          className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-mono uppercase tracking-wider transition-all ${
-            activeTab === "team"
-              ? "bg-gold-500 text-black font-bold shadow-sm"
-              : "text-muted-foreground hover:text-foreground"
-          }`}
-        >
-          <Users className="w-3.5 h-3.5" />
-          <span>Team & Directors ({members.length})</span>
-        </button>
+      {/* Tabbed Navigation Bar */}
+      <div className="flex flex-wrap items-center gap-2 p-1.5 rounded-2xl bg-card border border-border/80 w-full">
+        {tabsConfig.map((tab) => {
+          const Icon = tab.icon;
+          const isActive = activeTab === tab.id;
+          return (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-mono uppercase tracking-wider transition-all duration-200 ${
+                isActive
+                  ? "bg-gold-500 text-black font-bold shadow-sm"
+                  : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+              }`}
+            >
+              <Icon className="w-3.5 h-3.5" />
+              <span>{tab.label}</span>
+            </button>
+          );
+        })}
       </div>
 
-      {/* TAB 1: GLOBAL PAGE COPY FORM */}
-      {activeTab === "copy" && (
-        <form onSubmit={handleSaveCopy} className="flex flex-col gap-6">
+      {/* Copy Notification Banners */}
+      {activeTab !== "team" && (
+        <>
+          {copySaved && (
+            <div className="p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 flex items-center justify-between text-xs font-mono animate-in fade-in duration-200">
+              <div className="flex items-center gap-2">
+                <Check className="w-4 h-4" />
+                <span>Page content successfully saved and revalidated across public routes!</span>
+              </div>
+            </div>
+          )}
+
           {copyError && (
-            <div className="p-4 rounded-2xl bg-rose-500/10 border border-rose-500/30 text-rose-400 text-xs flex items-center gap-2">
+            <div className="p-4 rounded-2xl bg-rose-500/10 border border-rose-500/30 text-rose-400 flex items-center gap-2 text-xs font-mono">
               <AlertCircle className="w-4 h-4 shrink-0" />
               <span>{copyError}</span>
             </div>
           )}
+        </>
+      )}
 
+      {/* TAB CONTENT: COPY SECTIONS (HOME, ABOUT, SERVICES, INSIGHTS, CONTACT, GLOBAL) */}
+      {activeTab !== "team" ? (
+        <form onSubmit={handleSaveCopy} className="flex flex-col gap-6">
           {isLoadingCopy ? (
-            <div className="py-16 flex flex-col items-center justify-center text-center">
-              <RefreshCw className="w-7 h-7 animate-spin text-gold-400 mb-3" />
-              <p className="text-xs font-mono uppercase text-muted-foreground">
-                Loading page copy from Neon...
-              </p>
+            <div className="p-16 rounded-3xl border border-border bg-card flex flex-col items-center justify-center gap-3">
+              <RefreshCw className="w-6 h-6 animate-spin text-gold-400" />
+              <p className="text-xs font-mono text-muted-foreground">Loading copy from Neon...</p>
             </div>
           ) : (
             <>
-              {/* 1. HOMEPAGE COPY */}
-              <div className="p-6 rounded-2xl border border-border/80 bg-card flex flex-col gap-5">
-                <div className="pb-3 border-b border-border/60 flex items-center justify-between">
-                  <div>
-                    <h3 className="text-sm font-bold text-foreground uppercase tracking-wider font-mono">
-                      Homepage Copy (/)
-                    </h3>
-                    <p className="text-xs text-muted-foreground">
-                      Controls the primary hero slide headline, subheadline, and services overview heading.
-                    </p>
+              {/* TAB 1: HOME (/) */}
+              {activeTab === "home" && (
+                <div className="p-6 sm:p-8 rounded-3xl border border-border/80 bg-card flex flex-col gap-5">
+                  <div className="border-b border-border/60 pb-3 flex items-center justify-between">
+                    <div>
+                      <h3 className="text-base font-bold text-foreground">Homepage Copy (/)</h3>
+                      <p className="text-xs text-muted-foreground font-mono">
+                        Hero headlines, slider introductory summary, and capabilities section headers.
+                      </p>
+                    </div>
+                    <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded bg-muted text-muted-foreground">
+                      Route: /
+                    </span>
                   </div>
-                </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="flex flex-col gap-1.5 sm:col-span-2">
+                  <div className="flex flex-col gap-1.5">
                     <label className="text-xs font-mono uppercase text-muted-foreground">
-                      Hero Eyebrow Pill Tag
+                      Hero Category Badge
                     </label>
                     <input
                       type="text"
                       value={content.homeHeroTag}
                       onChange={(e) => setContent({ ...content, homeHeroTag: e.target.value })}
-                      className="px-4 py-2.5 rounded-xl border border-border/80 bg-background text-foreground text-sm focus:outline-none focus:border-gold-500/60"
+                      className="px-3.5 py-2.5 rounded-xl bg-background border border-border text-foreground text-xs focus:outline-none focus:border-gold-500 font-mono"
                     />
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="flex flex-col gap-1.5">
+                      <label className="text-xs font-mono uppercase text-muted-foreground">
+                        Hero Main Headline
+                      </label>
+                      <input
+                        type="text"
+                        value={content.homeHeroHeadline}
+                        onChange={(e) => setContent({ ...content, homeHeroHeadline: e.target.value })}
+                        className="px-3.5 py-2.5 rounded-xl bg-background border border-border text-foreground text-xs focus:outline-none focus:border-gold-500"
+                      />
+                    </div>
+                    <div className="flex flex-col gap-1.5">
+                      <label className="text-xs font-mono uppercase text-gold-700 dark:text-gold-400 font-semibold">
+                        Hero Accent Headline (Gold Gradient)
+                      </label>
+                      <input
+                        type="text"
+                        value={content.homeHeroHeadlineAccent}
+                        onChange={(e) => setContent({ ...content, homeHeroHeadlineAccent: e.target.value })}
+                        className="px-3.5 py-2.5 rounded-xl bg-background border border-border text-foreground text-xs focus:outline-none focus:border-gold-500"
+                      />
+                    </div>
                   </div>
 
                   <div className="flex flex-col gap-1.5">
-                    <label className="text-xs font-mono uppercase text-muted-foreground">
-                      Hero Headline (Line 1)
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      value={content.homeHeroHeadline}
-                      onChange={(e) => setContent({ ...content, homeHeroHeadline: e.target.value })}
-                      className="px-4 py-2.5 rounded-xl border border-border/80 bg-background text-foreground text-sm focus:outline-none focus:border-gold-500/60"
-                    />
-                  </div>
-
-                  <div className="flex flex-col gap-1.5">
-                    <label className="text-xs font-mono uppercase text-muted-foreground">
-                      Hero Headline Gold Accent (Line 2)
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      value={content.homeHeroHeadlineAccent}
-                      onChange={(e) =>
-                        setContent({ ...content, homeHeroHeadlineAccent: e.target.value })
-                      }
-                      className="px-4 py-2.5 rounded-xl border border-border/80 bg-background text-foreground text-sm focus:outline-none focus:border-gold-500/60"
-                    />
-                  </div>
-
-                  <div className="flex flex-col gap-1.5 sm:col-span-2">
                     <label className="text-xs font-mono uppercase text-muted-foreground">
                       Hero Subheadline
                     </label>
                     <textarea
-                      rows={3}
-                      required
+                      rows={2}
                       value={content.homeHeroSubheadline}
-                      onChange={(e) =>
-                        setContent({ ...content, homeHeroSubheadline: e.target.value })
-                      }
-                      className="px-4 py-2.5 rounded-xl border border-border/80 bg-background text-foreground text-sm leading-relaxed focus:outline-none focus:border-gold-500/60 resize-none"
+                      onChange={(e) => setContent({ ...content, homeHeroSubheadline: e.target.value })}
+                      className="px-3.5 py-2.5 rounded-xl bg-background border border-border text-foreground text-xs leading-relaxed focus:outline-none focus:border-gold-500 resize-none"
                     />
                   </div>
 
-                  <div className="flex flex-col gap-1.5 sm:col-span-2">
+                  <div className="flex flex-col gap-1.5">
                     <label className="text-xs font-mono uppercase text-muted-foreground">
-                      Hero Slider Intro / Trust Line (Replaces Technical Jargon)
+                      Slider Intro Text (Replaces technical camera metadata)
                     </label>
-                    <input
-                      type="text"
+                    <textarea
+                      rows={2}
                       value={content.sliderIntroText}
-                      onChange={(e) =>
-                        setContent({ ...content, sliderIntroText: e.target.value })
-                      }
-                      placeholder="Built to help ambitious brands stand out, earn instant trust, and turn attention into measurable sales."
-                      className="px-4 py-2.5 rounded-xl border border-border/80 bg-background text-foreground text-sm focus:outline-none focus:border-gold-500/60"
+                      onChange={(e) => setContent({ ...content, sliderIntroText: e.target.value })}
+                      className="px-3.5 py-2.5 rounded-xl bg-background border border-border text-foreground text-xs leading-relaxed focus:outline-none focus:border-gold-500 resize-none"
                     />
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                    <div className="flex flex-col gap-1.5">
+                      <label className="text-xs font-mono uppercase text-muted-foreground">
+                        Services Section Eyebrow
+                      </label>
+                      <input
+                        type="text"
+                        value={content.homeServicesEyebrow}
+                        onChange={(e) => setContent({ ...content, homeServicesEyebrow: e.target.value })}
+                        className="px-3.5 py-2.5 rounded-xl bg-background border border-border text-foreground text-xs focus:outline-none focus:border-gold-500 font-mono"
+                      />
+                    </div>
+                    <div className="flex flex-col gap-1.5">
+                      <label className="text-xs font-mono uppercase text-muted-foreground">
+                        Services Section Title
+                      </label>
+                      <input
+                        type="text"
+                        value={content.homeServicesTitle}
+                        onChange={(e) => setContent({ ...content, homeServicesTitle: e.target.value })}
+                        className="px-3.5 py-2.5 rounded-xl bg-background border border-border text-foreground text-xs focus:outline-none focus:border-gold-500"
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* TAB 2: ABOUT (/about) */}
+              {activeTab === "about" && (
+                <div className="p-6 sm:p-8 rounded-3xl border border-border/80 bg-card flex flex-col gap-5">
+                  <div className="border-b border-border/60 pb-3 flex items-center justify-between">
+                    <div>
+                      <h3 className="text-base font-bold text-foreground">About Page Copy (/about)</h3>
+                      <p className="text-xs text-muted-foreground font-mono">
+                        Studio story, executive manifesto, and creative philosophy.
+                      </p>
+                    </div>
+                    <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded bg-muted text-muted-foreground">
+                      Route: /about
+                    </span>
                   </div>
 
                   <div className="flex flex-col gap-1.5">
                     <label className="text-xs font-mono uppercase text-muted-foreground">
-                      Homepage Services Eyebrow
-                    </label>
-                    <input
-                      type="text"
-                      value={content.homeServicesEyebrow}
-                      onChange={(e) =>
-                        setContent({ ...content, homeServicesEyebrow: e.target.value })
-                      }
-                      className="px-4 py-2.5 rounded-xl border border-border/80 bg-background text-foreground text-sm focus:outline-none focus:border-gold-500/60"
-                    />
-                  </div>
-
-                  <div className="flex flex-col gap-1.5">
-                    <label className="text-xs font-mono uppercase text-muted-foreground">
-                      Homepage Services Section Title
-                    </label>
-                    <input
-                      type="text"
-                      value={content.homeServicesTitle}
-                      onChange={(e) =>
-                        setContent({ ...content, homeServicesTitle: e.target.value })
-                      }
-                      className="px-4 py-2.5 rounded-xl border border-border/80 bg-background text-foreground text-sm focus:outline-none focus:border-gold-500/60"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              {/* 2. ABOUT PAGE COPY */}
-              <div className="p-6 rounded-2xl border border-border/80 bg-card flex flex-col gap-5">
-                <div className="pb-3 border-b border-border/60">
-                  <h3 className="text-sm font-bold text-foreground uppercase tracking-wider font-mono">
-                    About Page Copy (/about)
-                  </h3>
-                  <p className="text-xs text-muted-foreground">
-                    Controls the studio story hero and creative manifesto body paragraphs. Use blank lines to separate paragraphs.
-                  </p>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="flex flex-col gap-1.5 sm:col-span-2">
-                    <label className="text-xs font-mono uppercase text-muted-foreground">
-                      About Hero Eyebrow
+                      Hero Eyebrow
                     </label>
                     <input
                       type="text"
                       value={content.aboutHeroEyebrow}
                       onChange={(e) => setContent({ ...content, aboutHeroEyebrow: e.target.value })}
-                      className="px-4 py-2.5 rounded-xl border border-border/80 bg-background text-foreground text-sm focus:outline-none focus:border-gold-500/60"
+                      className="px-3.5 py-2.5 rounded-xl bg-background border border-border text-foreground text-xs focus:outline-none focus:border-gold-500 font-mono"
                     />
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="flex flex-col gap-1.5">
+                      <label className="text-xs font-mono uppercase text-muted-foreground">
+                        Hero Main Headline
+                      </label>
+                      <input
+                        type="text"
+                        value={content.aboutHeroHeadline}
+                        onChange={(e) => setContent({ ...content, aboutHeroHeadline: e.target.value })}
+                        className="px-3.5 py-2.5 rounded-xl bg-background border border-border text-foreground text-xs focus:outline-none focus:border-gold-500"
+                      />
+                    </div>
+                    <div className="flex flex-col gap-1.5">
+                      <label className="text-xs font-mono uppercase text-gold-700 dark:text-gold-400 font-semibold">
+                        Hero Accent Headline (Gold Gradient)
+                      </label>
+                      <input
+                        type="text"
+                        value={content.aboutHeroHeadlineAccent}
+                        onChange={(e) => setContent({ ...content, aboutHeroHeadlineAccent: e.target.value })}
+                        className="px-3.5 py-2.5 rounded-xl bg-background border border-border text-foreground text-xs focus:outline-none focus:border-gold-500"
+                      />
+                    </div>
                   </div>
 
                   <div className="flex flex-col gap-1.5">
                     <label className="text-xs font-mono uppercase text-muted-foreground">
-                      About Hero Headline (Line 1)
-                    </label>
-                    <input
-                      type="text"
-                      value={content.aboutHeroHeadline}
-                      onChange={(e) => setContent({ ...content, aboutHeroHeadline: e.target.value })}
-                      className="px-4 py-2.5 rounded-xl border border-border/80 bg-background text-foreground text-sm focus:outline-none focus:border-gold-500/60"
-                    />
-                  </div>
-
-                  <div className="flex flex-col gap-1.5">
-                    <label className="text-xs font-mono uppercase text-muted-foreground">
-                      About Hero Accent (Line 2)
-                    </label>
-                    <input
-                      type="text"
-                      value={content.aboutHeroHeadlineAccent}
-                      onChange={(e) =>
-                        setContent({ ...content, aboutHeroHeadlineAccent: e.target.value })
-                      }
-                      className="px-4 py-2.5 rounded-xl border border-border/80 bg-background text-foreground text-sm focus:outline-none focus:border-gold-500/60"
-                    />
-                  </div>
-
-                  <div className="flex flex-col gap-1.5 sm:col-span-2">
-                    <label className="text-xs font-mono uppercase text-muted-foreground">
-                      About Hero Intro Subheadline
+                      Hero Subheadline
                     </label>
                     <textarea
                       rows={2}
                       value={content.aboutHeroSubheadline}
-                      onChange={(e) =>
-                        setContent({ ...content, aboutHeroSubheadline: e.target.value })
-                      }
-                      className="px-4 py-2.5 rounded-xl border border-border/80 bg-background text-foreground text-sm leading-relaxed focus:outline-none focus:border-gold-500/60 resize-none"
+                      onChange={(e) => setContent({ ...content, aboutHeroSubheadline: e.target.value })}
+                      className="px-3.5 py-2.5 rounded-xl bg-background border border-border text-foreground text-xs leading-relaxed focus:outline-none focus:border-gold-500 resize-none"
                     />
                   </div>
 
-                  <div className="flex flex-col gap-1.5 sm:col-span-2">
+                  <div className="flex flex-col gap-1.5 pt-2">
                     <label className="text-xs font-mono uppercase text-muted-foreground">
-                      Manifesto Heading
+                      Manifesto Title
                     </label>
                     <input
                       type="text"
                       value={content.aboutManifestoTitle}
-                      onChange={(e) =>
-                        setContent({ ...content, aboutManifestoTitle: e.target.value })
-                      }
-                      className="px-4 py-2.5 rounded-xl border border-border/80 bg-background text-foreground text-sm focus:outline-none focus:border-gold-500/60"
+                      onChange={(e) => setContent({ ...content, aboutManifestoTitle: e.target.value })}
+                      className="px-3.5 py-2.5 rounded-xl bg-background border border-border text-foreground text-xs focus:outline-none focus:border-gold-500"
                     />
                   </div>
 
-                  <div className="flex flex-col gap-1.5 sm:col-span-2">
+                  <div className="flex flex-col gap-1.5">
                     <label className="text-xs font-mono uppercase text-muted-foreground">
-                      About Main Body Text (Blank line = new paragraph)
+                      Manifesto Main Body (Paragraphs separated by blank line)
                     </label>
                     <textarea
-                      rows={5}
+                      rows={6}
                       value={content.aboutMainBody}
                       onChange={(e) => setContent({ ...content, aboutMainBody: e.target.value })}
-                      className="px-4 py-2.5 rounded-xl border border-border/80 bg-background text-foreground text-sm leading-relaxed focus:outline-none focus:border-gold-500/60 resize-y"
+                      className="px-3.5 py-2.5 rounded-xl bg-background border border-border text-foreground text-xs leading-relaxed focus:outline-none focus:border-gold-500 font-mono"
                     />
                   </div>
                 </div>
-              </div>
+              )}
 
-              {/* 3. SERVICES PAGE COPY */}
-              <div className="p-6 rounded-2xl border border-border/80 bg-card flex flex-col gap-5">
-                <div className="pb-3 border-b border-border/60">
-                  <h3 className="text-sm font-bold text-foreground uppercase tracking-wider font-mono">
-                    Services Page Summary (/services)
-                  </h3>
-                  <p className="text-xs text-muted-foreground">
-                    Controls the headline and studio positioning summary at the top of the Services page.
-                  </p>
+              {/* TAB 3: SERVICES (/services) */}
+              {activeTab === "services" && (
+                <div className="p-6 sm:p-8 rounded-3xl border border-border/80 bg-card flex flex-col gap-5">
+                  <div className="border-b border-border/60 pb-3 flex items-center justify-between">
+                    <div>
+                      <h3 className="text-base font-bold text-foreground">Services Page Copy (/services)</h3>
+                      <p className="text-xs text-muted-foreground font-mono">
+                        Page title, gold accent, and executive commercial summary.
+                      </p>
+                    </div>
+                    <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded bg-muted text-muted-foreground">
+                      Route: /services
+                    </span>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="flex flex-col gap-1.5">
+                      <label className="text-xs font-mono uppercase text-muted-foreground">
+                        Services Hero Headline
+                      </label>
+                      <input
+                        type="text"
+                        value={content.servicesHeroHeadline}
+                        onChange={(e) => setContent({ ...content, servicesHeroHeadline: e.target.value })}
+                        className="px-3.5 py-2.5 rounded-xl bg-background border border-border text-foreground text-xs focus:outline-none focus:border-gold-500"
+                      />
+                    </div>
+                    <div className="flex flex-col gap-1.5">
+                      <label className="text-xs font-mono uppercase text-gold-700 dark:text-gold-400 font-semibold">
+                        Services Accent Headline (Gold Gradient)
+                      </label>
+                      <input
+                        type="text"
+                        value={content.servicesHeroHeadlineAccent}
+                        onChange={(e) =>
+                          setContent({ ...content, servicesHeroHeadlineAccent: e.target.value })
+                        }
+                        className="px-3.5 py-2.5 rounded-xl bg-background border border-border text-foreground text-xs focus:outline-none focus:border-gold-500"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col gap-1.5">
+                    <label className="text-xs font-mono uppercase text-muted-foreground">
+                      Services Executive Summary
+                    </label>
+                    <textarea
+                      rows={4}
+                      value={content.servicesHeroSummary}
+                      onChange={(e) => setContent({ ...content, servicesHeroSummary: e.target.value })}
+                      className="px-3.5 py-2.5 rounded-xl bg-background border border-border text-foreground text-xs leading-relaxed focus:outline-none focus:border-gold-500"
+                    />
+                  </div>
                 </div>
+              )}
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="flex flex-col gap-1.5">
-                    <label className="text-xs font-mono uppercase text-muted-foreground">
-                      Services Headline (Line 1)
-                    </label>
-                    <input
-                      type="text"
-                      value={content.servicesHeroHeadline}
-                      onChange={(e) =>
-                        setContent({ ...content, servicesHeroHeadline: e.target.value })
-                      }
-                      className="px-4 py-2.5 rounded-xl border border-border/80 bg-background text-foreground text-sm focus:outline-none focus:border-gold-500/60"
-                    />
+              {/* TAB 4: INSIGHTS (/blog) */}
+              {activeTab === "insights" && (
+                <div className="p-6 sm:p-8 rounded-3xl border border-border/80 bg-card flex flex-col gap-5">
+                  <div className="border-b border-border/60 pb-3 flex items-center justify-between">
+                    <div>
+                      <h3 className="text-base font-bold text-foreground">Insights & Journal Copy (/blog)</h3>
+                      <p className="text-xs text-muted-foreground font-mono">
+                        Header copy for our commercial filmmaking and advertising strategy publication.
+                      </p>
+                    </div>
+                    <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded bg-muted text-muted-foreground">
+                      Route: /blog
+                    </span>
                   </div>
 
                   <div className="flex flex-col gap-1.5">
                     <label className="text-xs font-mono uppercase text-muted-foreground">
-                      Services Accent (Line 2)
+                      Eyebrow Tag
                     </label>
                     <input
                       type="text"
-                      value={content.servicesHeroHeadlineAccent}
-                      onChange={(e) =>
-                        setContent({ ...content, servicesHeroHeadlineAccent: e.target.value })
-                      }
-                      className="px-4 py-2.5 rounded-xl border border-border/80 bg-background text-foreground text-sm focus:outline-none focus:border-gold-500/60"
+                      value={content.blogHeroEyebrow}
+                      onChange={(e) => setContent({ ...content, blogHeroEyebrow: e.target.value })}
+                      className="px-3.5 py-2.5 rounded-xl bg-background border border-border text-foreground text-xs focus:outline-none focus:border-gold-500 font-mono"
                     />
                   </div>
 
-                  <div className="flex flex-col gap-1.5 sm:col-span-2">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="flex flex-col gap-1.5">
+                      <label className="text-xs font-mono uppercase text-muted-foreground">
+                        Main Headline
+                      </label>
+                      <input
+                        type="text"
+                        value={content.blogHeroHeadline}
+                        onChange={(e) => setContent({ ...content, blogHeroHeadline: e.target.value })}
+                        className="px-3.5 py-2.5 rounded-xl bg-background border border-border text-foreground text-xs focus:outline-none focus:border-gold-500"
+                      />
+                    </div>
+                    <div className="flex flex-col gap-1.5">
+                      <label className="text-xs font-mono uppercase text-gold-700 dark:text-gold-400 font-semibold">
+                        Accent Headline (Gold Gradient)
+                      </label>
+                      <input
+                        type="text"
+                        value={content.blogHeroHeadlineAccent}
+                        onChange={(e) => setContent({ ...content, blogHeroHeadlineAccent: e.target.value })}
+                        className="px-3.5 py-2.5 rounded-xl bg-background border border-border text-foreground text-xs focus:outline-none focus:border-gold-500"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col gap-1.5">
                     <label className="text-xs font-mono uppercase text-muted-foreground">
-                      Services Overview Summary
+                      Introductory Summary
                     </label>
                     <textarea
                       rows={3}
-                      value={content.servicesHeroSummary}
-                      onChange={(e) =>
-                        setContent({ ...content, servicesHeroSummary: e.target.value })
-                      }
-                      className="px-4 py-2.5 rounded-xl border border-border/80 bg-background text-foreground text-sm leading-relaxed focus:outline-none focus:border-gold-500/60 resize-none"
+                      value={content.blogHeroIntro}
+                      onChange={(e) => setContent({ ...content, blogHeroIntro: e.target.value })}
+                      className="px-3.5 py-2.5 rounded-xl bg-background border border-border text-foreground text-xs leading-relaxed focus:outline-none focus:border-gold-500 resize-none"
                     />
                   </div>
                 </div>
-              </div>
+              )}
 
-              {/* 4. GLOBAL CTA BANNERS & FOOTER BIO */}
-              <div className="p-6 rounded-2xl border border-border/80 bg-card flex flex-col gap-5">
-                <div className="pb-3 border-b border-border/60">
-                  <h3 className="text-sm font-bold text-foreground uppercase tracking-wider font-mono">
-                    Global CTA Banners & Footer Bio (Site-Wide)
-                  </h3>
-                  <p className="text-xs text-muted-foreground">
-                    Controls the bottom &ldquo;Start a Project&rdquo; banners across all pages and the brand bio inside the global footer.
-                  </p>
-                </div>
+              {/* TAB 5: CONTACT (/contact) */}
+              {activeTab === "contact" && (
+                <div className="p-6 sm:p-8 rounded-3xl border border-border/80 bg-card flex flex-col gap-5">
+                  <div className="border-b border-border/60 pb-3 flex items-center justify-between">
+                    <div>
+                      <h3 className="text-base font-bold text-foreground">Contact & Brief Copy (/contact)</h3>
+                      <p className="text-xs text-muted-foreground font-mono">
+                        Header copy, brief intro instructions, and production response SLA promise.
+                      </p>
+                    </div>
+                    <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded bg-muted text-muted-foreground">
+                      Route: /contact
+                    </span>
+                  </div>
 
-                <div className="grid grid-cols-1 gap-4">
                   <div className="flex flex-col gap-1.5">
                     <label className="text-xs font-mono uppercase text-muted-foreground">
-                      Global Closing CTA Heading
+                      Eyebrow Tag
                     </label>
                     <input
                       type="text"
-                      required
+                      value={content.contactHeroEyebrow}
+                      onChange={(e) => setContent({ ...content, contactHeroEyebrow: e.target.value })}
+                      className="px-3.5 py-2.5 rounded-xl bg-background border border-border text-foreground text-xs focus:outline-none focus:border-gold-500 font-mono"
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="flex flex-col gap-1.5">
+                      <label className="text-xs font-mono uppercase text-muted-foreground">
+                        Main Headline
+                      </label>
+                      <input
+                        type="text"
+                        value={content.contactHeroHeadline}
+                        onChange={(e) => setContent({ ...content, contactHeroHeadline: e.target.value })}
+                        className="px-3.5 py-2.5 rounded-xl bg-background border border-border text-foreground text-xs focus:outline-none focus:border-gold-500"
+                      />
+                    </div>
+                    <div className="flex flex-col gap-1.5">
+                      <label className="text-xs font-mono uppercase text-gold-700 dark:text-gold-400 font-semibold">
+                        Accent Headline (Gold Gradient)
+                      </label>
+                      <input
+                        type="text"
+                        value={content.contactHeroHeadlineAccent}
+                        onChange={(e) =>
+                          setContent({ ...content, contactHeroHeadlineAccent: e.target.value })
+                        }
+                        className="px-3.5 py-2.5 rounded-xl bg-background border border-border text-foreground text-xs focus:outline-none focus:border-gold-500"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col gap-1.5">
+                    <label className="text-xs font-mono uppercase text-muted-foreground">
+                      Introductory Explanation
+                    </label>
+                    <textarea
+                      rows={3}
+                      value={content.contactHeroIntro}
+                      onChange={(e) => setContent({ ...content, contactHeroIntro: e.target.value })}
+                      className="px-3.5 py-2.5 rounded-xl bg-background border border-border text-foreground text-xs leading-relaxed focus:outline-none focus:border-gold-500 resize-none"
+                    />
+                  </div>
+
+                  <div className="flex flex-col gap-1.5 pt-2">
+                    <label className="text-xs font-mono uppercase text-muted-foreground">
+                      Response SLA Promise (Right-hand column)
+                    </label>
+                    <input
+                      type="text"
+                      value={content.contactResponsePromise}
+                      onChange={(e) => setContent({ ...content, contactResponsePromise: e.target.value })}
+                      className="px-3.5 py-2.5 rounded-xl bg-background border border-border text-foreground text-xs focus:outline-none focus:border-gold-500 font-mono"
+                    />
+                  </div>
+                </div>
+              )}
+
+              {/* TAB 6: GLOBAL (FOOTER & CTA) */}
+              {activeTab === "global" && (
+                <div className="p-6 sm:p-8 rounded-3xl border border-border/80 bg-card flex flex-col gap-5">
+                  <div className="border-b border-border/60 pb-3 flex items-center justify-between">
+                    <div>
+                      <h3 className="text-base font-bold text-foreground">Global Banner & Footer Copy</h3>
+                      <p className="text-xs text-muted-foreground font-mono">
+                        Affects global call-to-action sections and footer branding across the entire site.
+                      </p>
+                    </div>
+                    <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded bg-muted text-muted-foreground">
+                      Sitewide
+                    </span>
+                  </div>
+
+                  <div className="flex flex-col gap-1.5">
+                    <label className="text-xs font-mono uppercase text-muted-foreground">
+                      Global CTA Heading
+                    </label>
+                    <input
+                      type="text"
                       value={content.globalCtaHeading}
-                      onChange={(e) =>
-                        setContent({ ...content, globalCtaHeading: e.target.value })
-                      }
-                      className="px-4 py-2.5 rounded-xl border border-border/80 bg-background text-foreground text-sm focus:outline-none focus:border-gold-500/60"
+                      onChange={(e) => setContent({ ...content, globalCtaHeading: e.target.value })}
+                      className="px-3.5 py-2.5 rounded-xl bg-background border border-border text-foreground text-xs focus:outline-none focus:border-gold-500"
                     />
                   </div>
 
                   <div className="flex flex-col gap-1.5">
                     <label className="text-xs font-mono uppercase text-muted-foreground">
-                      Global Closing CTA Subtext
+                      Global CTA Subtext
                     </label>
                     <textarea
                       rows={2}
-                      required
                       value={content.globalCtaSubtext}
-                      onChange={(e) =>
-                        setContent({ ...content, globalCtaSubtext: e.target.value })
-                      }
-                      className="px-4 py-2.5 rounded-xl border border-border/80 bg-background text-foreground text-sm leading-relaxed focus:outline-none focus:border-gold-500/60 resize-none"
+                      onChange={(e) => setContent({ ...content, globalCtaSubtext: e.target.value })}
+                      className="px-3.5 py-2.5 rounded-xl bg-background border border-border text-foreground text-xs leading-relaxed focus:outline-none focus:border-gold-500 resize-none"
                     />
                   </div>
 
-                  <div className="flex flex-col gap-1.5">
+                  <div className="flex flex-col gap-1.5 pt-2">
                     <label className="text-xs font-mono uppercase text-muted-foreground">
-                      Global Footer Studio Bio / Description
+                      Footer Brand Bio
                     </label>
                     <textarea
                       rows={3}
-                      required
                       value={content.footerDescription}
-                      onChange={(e) =>
-                        setContent({ ...content, footerDescription: e.target.value })
-                      }
-                      className="px-4 py-2.5 rounded-xl border border-border/80 bg-background text-foreground text-sm leading-relaxed focus:outline-none focus:border-gold-500/60 resize-none"
+                      onChange={(e) => setContent({ ...content, footerDescription: e.target.value })}
+                      className="px-3.5 py-2.5 rounded-xl bg-background border border-border text-foreground text-xs leading-relaxed focus:outline-none focus:border-gold-500"
                     />
                   </div>
                 </div>
-              </div>
+              )}
 
-              {/* Save Action */}
-              <div className="flex items-center gap-4">
+              {/* SAVE ACTION BAR */}
+              <div className="flex items-center justify-between p-4 rounded-2xl bg-card border border-border">
+                <p className="text-xs text-muted-foreground font-mono">
+                  Changes save to Neon PostgreSQL and immediately invalidate route cache.
+                </p>
+
                 <button
                   type="submit"
                   disabled={isSavingCopy}
-                  className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl text-xs uppercase tracking-widest font-semibold bg-gold-500 text-black hover:bg-gold-400 transition-colors shadow-md disabled:opacity-50"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gold-500 text-black hover:bg-gold-400 text-xs font-semibold uppercase tracking-wider disabled:opacity-50 transition-colors shadow-md"
                 >
                   {isSavingCopy ? (
                     <>
@@ -679,124 +822,110 @@ export default function AdminPagesCMS() {
                   ) : copySaved ? (
                     <>
                       <Check className="w-4 h-4" />
-                      <span>Saved & Published Live</span>
+                      <span>Changes Saved!</span>
                     </>
                   ) : (
                     <>
                       <Save className="w-4 h-4" />
-                      <span>Publish Page Copy</span>
+                      <span>Save Page Copy</span>
                     </>
                   )}
                 </button>
-                {copySaved && (
-                  <span className="text-xs font-mono text-emerald-400">
-                    Public routes revalidated immediately.
-                  </span>
-                )}
               </div>
             </>
           )}
         </form>
-      )}
-
-      {/* TAB 2: TEAM ROSTER CRUD */}
-      {activeTab === "team" && (
+      ) : (
+        /* TAB 7: TEAM ROSTER */
         <div className="flex flex-col gap-6">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-2xl border border-border/80 bg-card">
-            <div>
-              <h3 className="text-base font-bold text-foreground">
-                Directing Minds & Studio Roster
-              </h3>
-              <p className="text-xs text-muted-foreground">
-                Members added here render dynamically on the public <code className="text-gold-400">/about</code> page. Headshots upload directly to Vercel Blob CDN.
-              </p>
-            </div>
-            <button
-              onClick={handleOpenAddMember}
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-semibold uppercase tracking-wider bg-gold-500 text-black hover:bg-gold-400 transition-colors shadow-sm shrink-0"
-            >
-              <Plus className="w-4 h-4" />
-              <span>Add Team Member</span>
-            </button>
-          </div>
+          <div className="p-6 sm:p-8 rounded-3xl border border-border/80 bg-card flex flex-col gap-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-border/60">
+              <div>
+                <h3 className="text-base font-bold text-foreground">Directing Minds & Creative Roster</h3>
+                <p className="text-xs text-muted-foreground font-mono">
+                  Managed dynamically in Neon <code className="text-gold-400">team_members</code>. Renders on /about.
+                </p>
+              </div>
 
-          {isLoadingTeam ? (
-            <div className="py-16 flex flex-col items-center justify-center text-center">
-              <RefreshCw className="w-7 h-7 animate-spin text-gold-400 mb-3" />
-              <p className="text-xs font-mono uppercase text-muted-foreground">
-                Querying Neon team_members table...
-              </p>
-            </div>
-          ) : members.length === 0 ? (
-            <div className="p-12 rounded-3xl border border-dashed border-border text-center flex flex-col items-center justify-center">
-              <Users className="w-10 h-10 text-muted-foreground mb-4 opacity-50" />
-              <h3 className="text-base font-bold text-foreground mb-1">No Team Members Listed</h3>
-              <p className="text-xs text-muted-foreground max-w-sm mb-6">
-                Add directors, colorists, producers, or VFX leads to display on the About page.
-              </p>
               <button
                 onClick={handleOpenAddMember}
-                className="px-4 py-2 rounded-xl text-xs font-semibold uppercase tracking-wider bg-gold-500 text-black hover:bg-gold-400 transition-colors"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gold-500 text-black hover:bg-gold-400 text-xs font-semibold uppercase tracking-wider transition-colors shadow-sm w-fit"
               >
-                Add First Member
+                <Plus className="w-4 h-4" />
+                <span>Add Team Member</span>
               </button>
             </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {members.map((member) => (
-                <div
-                  key={member.id}
-                  className="rounded-2xl border border-border/80 bg-card overflow-hidden flex flex-col justify-between"
-                >
-                  <div>
-                    <div className="relative aspect-[4/5] w-full bg-black/40 border-b border-border/60">
-                      {member.headshotUrl ? (
-                        <Image
-                          src={member.headshotUrl}
-                          alt={member.name}
-                          fill
-                          sizes="(max-width: 768px) 100vw, 33vw"
-                          className="object-cover"
-                        />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center text-muted-foreground">
-                          <ImageIcon className="w-10 h-10 opacity-40" />
+
+            {isLoadingTeam ? (
+              <div className="py-16 flex flex-col items-center justify-center gap-3">
+                <RefreshCw className="w-6 h-6 animate-spin text-gold-400" />
+                <p className="text-xs font-mono text-muted-foreground">Loading team roster from Neon...</p>
+              </div>
+            ) : members.length === 0 ? (
+              <div className="py-12 text-center text-muted-foreground text-xs font-mono">
+                No team members found. Click "Add Team Member" above to create one.
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {members.map((member) => (
+                  <div
+                    key={member.id}
+                    className="p-5 rounded-2xl border border-border bg-background/50 flex flex-col justify-between gap-4 hover:border-gold-500/40 transition-colors"
+                  >
+                    <div className="flex items-start gap-4">
+                      <div className="relative w-16 h-20 rounded-xl overflow-hidden bg-muted border border-border shrink-0">
+                        {member.headshotUrl ? (
+                          <Image
+                            src={member.headshotUrl}
+                            alt={member.name}
+                            fill
+                            className="object-cover"
+                          />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center">
+                            <ImageIcon className="w-5 h-5 text-muted-foreground" />
+                          </div>
+                        )}
+                      </div>
+
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center justify-between gap-2 mb-1">
+                          <h4 className="text-sm font-bold text-foreground truncate">{member.name}</h4>
+                          <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-muted text-muted-foreground shrink-0">
+                            #{member.displayOrder}
+                          </span>
                         </div>
-                      )}
-                      <span className="absolute top-3 left-3 px-2.5 py-0.5 rounded-full text-[10px] font-mono uppercase bg-black/75 backdrop-blur-md text-gold-400 border border-white/10">
-                        Order #{member.displayOrder}
-                      </span>
+                        <p className="text-xs font-mono text-gold-700 dark:text-gold-400 mb-2 truncate">
+                          {member.role}
+                        </p>
+                        <p className="text-xs text-muted-foreground line-clamp-3 leading-relaxed">
+                          {member.bio}
+                        </p>
+                      </div>
                     </div>
 
-                    <div className="p-5">
-                      <h4 className="text-base font-bold text-foreground">{member.name}</h4>
-                      <p className="text-xs font-mono text-gold-400 mb-3">{member.role}</p>
-                      <p className="text-xs text-muted-foreground leading-relaxed line-clamp-4">
-                        {member.bio}
-                      </p>
+                    <div className="pt-3 border-t border-border/60 flex items-center justify-end gap-2">
+                      <button
+                        onClick={() => handleOpenEditMember(member)}
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-border hover:bg-muted text-xs font-mono text-foreground transition-colors"
+                      >
+                        <Edit3 className="w-3.5 h-3.5 text-gold-400" />
+                        <span>Edit</span>
+                      </button>
+
+                      <button
+                        onClick={() => handleDeleteMember(member)}
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-rose-500/30 hover:bg-rose-500/10 text-xs font-mono text-rose-400 transition-colors"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                        <span>Delete</span>
+                      </button>
                     </div>
                   </div>
-
-                  <div className="px-5 py-3.5 border-t border-border/60 bg-background/40 flex items-center justify-end gap-2">
-                    <button
-                      onClick={() => handleOpenEditMember(member)}
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-border/80 text-xs font-mono text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
-                    >
-                      <Edit3 className="w-3.5 h-3.5" />
-                      <span>Edit</span>
-                    </button>
-                    <button
-                      onClick={() => handleDeleteMember(member)}
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-border/80 text-xs font-mono text-muted-foreground hover:text-rose-400 hover:bg-rose-500/10 transition-colors"
-                    >
-                      <Trash2 className="w-3.5 h-3.5" />
-                      <span>Remove</span>
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       )}
 

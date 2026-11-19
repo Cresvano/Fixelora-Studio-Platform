@@ -115,7 +115,7 @@ export const studioSettings = pgTable("studio_settings", {
   tagline: varchar("tagline", { length: 255 }).default("Creative Ads. Powerful Stories.").notNull(),
   contactEmail: varchar("contact_email", { length: 255 }).default("production@fixelorastudio.com").notNull(),
   phone: varchar("phone", { length: 100 }).default("+1 (310) 902-8800"),
-  address: text("address").default("Century City Media District, Los Angeles, CA"),
+  address: text("address").default("International Commercial Video Production • Global Studio"),
   instagram: text("instagram").default("https://instagram.com/fixelorastudio"),
   vimeo: text("vimeo").default("https://vimeo.com/fixelorastudio"),
   youtube: text("youtube").default("https://youtube.com/@fixelorastudio"),
@@ -184,6 +184,37 @@ export const pageContent = pgTable("page_content", {
     .default(
       "Fixelora Studio combines tier-one cinematography, high-concept narrative direction, and algorithmic performance strategy. We direct broadcast-grade commercials and multi-platform visual campaigns that position brands at the summit of their industry."
     )
+    .notNull(),
+  blogHeroEyebrow: varchar("blog_hero_eyebrow", { length: 255 })
+    .default("Commercial Film & Creative Strategy")
+    .notNull(),
+  blogHeroHeadline: varchar("blog_hero_headline", { length: 255 })
+    .default("Insights &")
+    .notNull(),
+  blogHeroHeadlineAccent: varchar("blog_hero_headline_accent", { length: 255 })
+    .default("Field Notes.")
+    .notNull(),
+  blogHeroIntro: text("blog_hero_intro")
+    .default(
+      "Deep dives into high-impact commercial direction, cinematic storytelling, and visual advertising strategy for premium brands."
+    )
+    .notNull(),
+  contactHeroEyebrow: varchar("contact_hero_eyebrow", { length: 255 })
+    .default("Direct Studio Inquiries")
+    .notNull(),
+  contactHeroHeadline: varchar("contact_hero_headline", { length: 255 })
+    .default("Initiate a")
+    .notNull(),
+  contactHeroHeadlineAccent: varchar("contact_hero_headline_accent", { length: 255 })
+    .default("Commercial Brief.")
+    .notNull(),
+  contactHeroIntro: text("contact_hero_intro")
+    .default(
+      "Submit your project brief below or select a timeline to discuss your campaign with our executive production team."
+    )
+    .notNull(),
+  contactResponsePromise: varchar("contact_response_promise", { length: 255 })
+    .default("We review briefs within 24 hours. NDA provided upon initial submission.")
     .notNull(),
   globalCtaHeading: varchar("global_cta_heading", { length: 255 })
     .default("Let's Craft Something Unforgettable.")

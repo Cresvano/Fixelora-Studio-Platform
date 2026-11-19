@@ -5,7 +5,7 @@ export const MOCK_STUDIO_SETTINGS: StudioSettings = {
   tagline: "Creative Ads. Powerful Stories.",
   contactEmail: "production@fixelorastudio.com",
   phone: "+1 (310) 902-8800",
-  address: "Century City Media District, Los Angeles, CA / European Office: Soho, London",
+  address: "International Commercial Video Production • Global Studio",
   instagram: "https://instagram.com/fixelorastudio",
   vimeo: "https://vimeo.com/fixelorastudio",
   youtube: "https://youtube.com/@fixelorastudio",

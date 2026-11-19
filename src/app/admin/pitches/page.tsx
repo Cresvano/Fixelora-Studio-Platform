@@ -31,7 +31,7 @@ const EMPTY_PITCH: Omit<Pitch, "id" | "createdAt"> = {
   thumbnailUrl: "https://images.unsplash.com/photo-1617788138017-80ad40651399?q=80&w=1600&auto=format&fit=crop",
   keyTakeaways: [
     "Custom 60s broadcast master and vertical cutdowns.",
-    "Zero noise: bespoke spatial sound design in Dolby Atmos.",
+    "Zero noise: bespoke spatial sound design and master audio mix.",
     "Turnkey pipeline with 3-week turnaround from pre-light to final grade."
   ],
   recommendedTimeline: "4-Week Turnaround",
@@ -526,7 +526,7 @@ export default function AdminPitchesPage() {
                   rows={3}
                   value={keyTakeawaysText}
                   onChange={(e) => setKeyTakeawaysText(e.target.value)}
-                  placeholder="Custom 60s broadcast master&#10;Dolby Atmos spatial sound&#10;3-week delivery guarantee"
+                  placeholder="Custom 60s broadcast master&#10;Cinema-grade spatial sound&#10;3-week delivery guarantee"
                   className="px-3.5 py-2.5 rounded-xl bg-background border border-border text-foreground text-xs leading-relaxed focus:outline-none focus:border-gold-500 resize-none font-mono"
                 />
               </div>

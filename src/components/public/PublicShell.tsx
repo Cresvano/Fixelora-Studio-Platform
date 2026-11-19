@@ -9,6 +9,7 @@ import { ChatWidget } from "@/components/public/ChatWidget";
 import { Menu, X, ArrowUpRight } from "lucide-react";
 
 const NAV_LINKS = [
+  { label: "Home", href: "/" },
   { label: "Work", href: "/work" },
   { label: "Services", href: "/services" },
   { label: "About", href: "/about" },
@@ -239,18 +240,14 @@ export function PublicShell({ footerDescription, children }: PublicShellProps) {
               </Link>
             </div>
 
-            {/* Col 4: Studio Hubs */}
+            {/* Col 4: Global Reach */}
             <div className="md:col-span-3 flex flex-col gap-3">
               <p className="text-[11px] uppercase tracking-[0.2em] font-mono text-foreground font-semibold">
-                Production Hubs
+                Global Reach
               </p>
-              <div className="text-sm text-muted-foreground">
-                <p className="text-foreground font-medium">Los Angeles</p>
-                <p className="text-xs">Century City Media District</p>
-              </div>
-              <div className="text-sm text-muted-foreground">
-                <p className="text-foreground font-medium">London</p>
-                <p className="text-xs">Soho Creative Quarter</p>
+              <div className="text-sm text-muted-foreground space-y-1">
+                <p className="text-foreground font-medium">Operating Internationally</p>
+                <p className="text-xs">Available for borderless commercial deployment.</p>
               </div>
               <div className="pt-2">
                 <a

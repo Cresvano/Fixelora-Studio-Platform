@@ -28,7 +28,7 @@ export const MOCK_LEADS: Lead[] = [
     projectType: "Commercial & DTC Social Suite",
     estimatedBudget: "$45,000 – $75,000",
     timeline: "Within 60 Days",
-    description: "Launching our nocturnal fragrance line in London and Paris. Require 1x 30s broadcast and 4x vertical social cuts with high-speed macro liquid cinematography.",
+    description: "Launching our nocturnal fragrance line across European and North American markets. Require 1x 30s broadcast and 4x vertical social cuts with high-speed macro liquid cinematography.",
     track: "call",
     status: "in_discovery",
     notes: "Discovery call scheduled for Thursday 2pm CET. Moodboard reviewed.",

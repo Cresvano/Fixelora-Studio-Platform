@@ -234,12 +234,12 @@ export default async function ServiceDetailPage({ params }: ServiceDetailPagePro
 
               <div className="pt-4 border-t border-border/40 flex flex-col gap-3">
                 <div className="flex items-center justify-between text-xs">
-                  <span className="text-muted-foreground">Production Hub:</span>
-                  <span className="font-semibold text-foreground">Los Angeles / London</span>
+                  <span className="text-muted-foreground">Operations:</span>
+                  <span className="font-semibold text-foreground">Global Production Unit</span>
                 </div>
                 <div className="flex items-center justify-between text-xs">
                   <span className="text-muted-foreground">Audio Standard:</span>
-                  <span className="font-semibold text-foreground">Dolby Atmos Mixed</span>
+                  <span className="font-semibold text-foreground">Cinema-Grade Spatial Audio</span>
                 </div>
                 <div className="flex items-center justify-between text-xs">
                   <span className="text-muted-foreground">Color Grading:</span>

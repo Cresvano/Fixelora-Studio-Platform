@@ -25,6 +25,15 @@ function mapDbPageContent(row: typeof schema.pageContent.$inferSelect): PageCont
     servicesHeroHeadline: row.servicesHeroHeadline,
     servicesHeroHeadlineAccent: row.servicesHeroHeadlineAccent,
     servicesHeroSummary: row.servicesHeroSummary,
+    blogHeroEyebrow: row.blogHeroEyebrow || DEFAULT_PAGE_CONTENT.blogHeroEyebrow,
+    blogHeroHeadline: row.blogHeroHeadline || DEFAULT_PAGE_CONTENT.blogHeroHeadline,
+    blogHeroHeadlineAccent: row.blogHeroHeadlineAccent || DEFAULT_PAGE_CONTENT.blogHeroHeadlineAccent,
+    blogHeroIntro: row.blogHeroIntro || DEFAULT_PAGE_CONTENT.blogHeroIntro,
+    contactHeroEyebrow: row.contactHeroEyebrow || DEFAULT_PAGE_CONTENT.contactHeroEyebrow,
+    contactHeroHeadline: row.contactHeroHeadline || DEFAULT_PAGE_CONTENT.contactHeroHeadline,
+    contactHeroHeadlineAccent: row.contactHeroHeadlineAccent || DEFAULT_PAGE_CONTENT.contactHeroHeadlineAccent,
+    contactHeroIntro: row.contactHeroIntro || DEFAULT_PAGE_CONTENT.contactHeroIntro,
+    contactResponsePromise: row.contactResponsePromise || DEFAULT_PAGE_CONTENT.contactResponsePromise,
     globalCtaHeading: row.globalCtaHeading || DEFAULT_PAGE_CONTENT.globalCtaHeading,
     globalCtaSubtext: row.globalCtaSubtext || DEFAULT_PAGE_CONTENT.globalCtaSubtext,
     footerDescription: row.footerDescription || DEFAULT_PAGE_CONTENT.footerDescription,
@@ -98,6 +107,24 @@ export async function PUT(request: Request): Promise<NextResponse> {
         data.servicesHeroHeadlineAccent ?? DEFAULT_PAGE_CONTENT.servicesHeroHeadlineAccent,
       servicesHeroSummary:
         data.servicesHeroSummary ?? DEFAULT_PAGE_CONTENT.servicesHeroSummary,
+      blogHeroEyebrow:
+        data.blogHeroEyebrow ?? DEFAULT_PAGE_CONTENT.blogHeroEyebrow,
+      blogHeroHeadline:
+        data.blogHeroHeadline ?? DEFAULT_PAGE_CONTENT.blogHeroHeadline,
+      blogHeroHeadlineAccent:
+        data.blogHeroHeadlineAccent ?? DEFAULT_PAGE_CONTENT.blogHeroHeadlineAccent,
+      blogHeroIntro:
+        data.blogHeroIntro ?? DEFAULT_PAGE_CONTENT.blogHeroIntro,
+      contactHeroEyebrow:
+        data.contactHeroEyebrow ?? DEFAULT_PAGE_CONTENT.contactHeroEyebrow,
+      contactHeroHeadline:
+        data.contactHeroHeadline ?? DEFAULT_PAGE_CONTENT.contactHeroHeadline,
+      contactHeroHeadlineAccent:
+        data.contactHeroHeadlineAccent ?? DEFAULT_PAGE_CONTENT.contactHeroHeadlineAccent,
+      contactHeroIntro:
+        data.contactHeroIntro ?? DEFAULT_PAGE_CONTENT.contactHeroIntro,
+      contactResponsePromise:
+        data.contactResponsePromise ?? DEFAULT_PAGE_CONTENT.contactResponsePromise,
       globalCtaHeading:
         data.globalCtaHeading ?? DEFAULT_PAGE_CONTENT.globalCtaHeading,
       globalCtaSubtext:
@@ -130,6 +157,15 @@ export async function PUT(request: Request): Promise<NextResponse> {
             servicesHeroHeadline: record.servicesHeroHeadline,
             servicesHeroHeadlineAccent: record.servicesHeroHeadlineAccent,
             servicesHeroSummary: record.servicesHeroSummary,
+            blogHeroEyebrow: record.blogHeroEyebrow,
+            blogHeroHeadline: record.blogHeroHeadline,
+            blogHeroHeadlineAccent: record.blogHeroHeadlineAccent,
+            blogHeroIntro: record.blogHeroIntro,
+            contactHeroEyebrow: record.contactHeroEyebrow,
+            contactHeroHeadline: record.contactHeroHeadline,
+            contactHeroHeadlineAccent: record.contactHeroHeadlineAccent,
+            contactHeroIntro: record.contactHeroIntro,
+            contactResponsePromise: record.contactResponsePromise,
             globalCtaHeading: record.globalCtaHeading,
             globalCtaSubtext: record.globalCtaSubtext,
             footerDescription: record.footerDescription,
@@ -143,6 +179,8 @@ export async function PUT(request: Request): Promise<NextResponse> {
       revalidatePath("/");
       revalidatePath("/about");
       revalidatePath("/services");
+      revalidatePath("/blog");
+      revalidatePath("/contact");
       revalidatePath("/admin/pages");
     } catch {
       // dev cache notice

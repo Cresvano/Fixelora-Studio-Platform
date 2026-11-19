@@ -25,13 +25,6 @@ export const metadata: Metadata = {
   },
 };
 
-const TECHNICAL_GEAR = [
-  { item: "RED V-Raptor XL 8K VV & ARRI Alexa 35", desc: "Flagship cinema sensor packages with 17+ stops of dynamic range" },
-  { item: "Tribe7 Blackwing7 & Master Anamorphics", desc: "Tuned vintage glass with custom flare coatings and creamy highlight roll-off" },
-  { item: "Phantom Flex 4K High-Speed Rig", desc: "Up to 1000fps in full uncompressed 4K for macro liquids and kinetics" },
-  { item: "Dolby Atmos 7.1.4 Mixing Suite", desc: "Immersive spatial audio engineering for cinema and prestige streaming" }
-];
-
 export default async function AboutPage() {
   const [pageContent, teamMembers] = await Promise.all([
     pageContentRepository.getPageContent(),
@@ -84,7 +77,7 @@ export default async function AboutPage() {
             <div className="pt-6 mt-6 border-t border-border/40 flex items-center gap-6 text-xs text-muted-foreground font-mono">
               <span>EST. 2024</span>
               <span>•</span>
-              <span>LOS ANGELES / LONDON</span>
+              <span>GLOBAL PRODUCTION UNIT</span>
             </div>
           </div>
 
@@ -133,32 +126,6 @@ export default async function AboutPage() {
                     </p>
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Technical Standard / Camera Packages */}
-        <div className="p-8 sm:p-12 rounded-3xl border border-gold-500/30 bg-card mb-20">
-          <div className="max-w-2xl mb-8">
-            <p className="text-[11px] font-mono uppercase tracking-[0.25em] text-gold-700 dark:text-gold-400 font-semibold mb-2">
-              Production Infrastructure
-            </p>
-            <h2 className="text-2xl sm:text-3xl font-black uppercase text-foreground">
-              Production Standards
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            {TECHNICAL_GEAR.map((item, idx) => (
-              <div key={idx} className="p-5 rounded-xl border border-border/60 bg-background/50">
-                <p className="text-xs font-bold text-foreground mb-1 flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-gold-600 dark:bg-gold-400" />
-                  <span>{item.item}</span>
-                </p>
-                <p className="text-xs text-muted-foreground leading-relaxed pl-3.5">
-                  {item.desc}
-                </p>
               </div>
             ))}
           </div>

@@ -100,7 +100,7 @@ export default function TermsOfServicePage() {
             <ul className="list-disc pl-5 space-y-1.5 text-muted-foreground">
               <li>Master Deliverable: 4K ProRes 4444 XQ or ProRes 422 HQ with 10-bit/12-bit color fidelity.</li>
               <li>Digital Streaming Deliverable: Web-optimized MP4/WebM with fast-start MOOV atom placement for instant playback.</li>
-              <li>Spatial Audio: 24-bit/48kHz uncompressed stereo masters, with 5.1 and Dolby Atmos delivery available upon contract specification.</li>
+              <li>Spatial Audio: 24-bit/48kHz uncompressed stereo masters, with 5.1 and spatial audio delivery available upon contract specification.</li>
             </ul>
           </section>
 
@@ -109,7 +109,7 @@ export default function TermsOfServicePage() {
               5. Governing Law & Dispute Resolution
             </h2>
             <p>
-              These Terms and any commercial agreements arising hereunder shall be construed in accordance with the laws of the State of California, without regard to conflict of law principles. Any dispute arising under an engagement shall be submitted to binding arbitration in Los Angeles, California.
+              These Terms and any commercial agreements arising hereunder shall be construed in accordance with standard international commercial arbitration principles. Any dispute arising under an engagement shall be submitted to binding international commercial arbitration.
             </p>
           </section>
         </div>
